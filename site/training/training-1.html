@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Thomas Corcoral">
+        <title>Projet L3 - Training</title>
+        <link rel='stylesheet' type='text/css' href='../assets/css/style.css'>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">Training précédent</a>
+                </li>
+                |
+                <li>
+                    <a href="./training-2.html">Training suivant</a>
+                </li>
+            </ul>
+        </nav>
+        <script>
+            back = function(){
+                window.location = "training.html";
+            }
+        </script>
+        <button onclick="back()">Retour</button>
+        <h1>
+            Training 1
+        </h1>
+        <h2>
+            Découverte - Initialisation
+        </h2>
+        <div class="corps">
+            <h4>
+                1 - Installer python sur votre machine
+            </h4>
+            <p>
+                    La suite de l'explication se fera sous Linux (Ubuntu 18.04)<br>
+                    <code>
+                        sudo apt update<br>
+                        sudo apt -y update
+                    </code><br><br>
+                Vérifiez votre version de python <br><br>
+                <code>python3 -v</code><br><br>
+                Si aucun résultat, installez python
+            </p>
+            <h4>
+                2 - Installer pip
+            </h4>
+            <p>
+                <code>
+                    sudo apt install -y python3-pip<br>
+                    sudo apt install build-essential libssl-dev libffi-dev python3-dev
+                </code>
+            </p>
+            <h4>
+                3 - Installer PyCharm 
+            </h4>
+            <p>
+                    Ouvrez le logiciel GNU "Logiciels Ubuntu"<br>
+                    Cherchez PyCharm<br>
+                    Installez "Pycharm CE"
+            </p>
+            <h4>
+                4 - Configurez un nouveau projet 
+            </h4>
+            <p>
+                    Cliquez sur nouveau projet<br>
+                    Normalement la sélection est déjà bien faite laissez cocher "New emvironment using Virtualenv"<br>
+                    Cliquez sur create
+            </p>
+            <h4>
+                5 - Prise en main 
+            </h4>
+            <p>
+                    Prenez en main l'environnement<br>
+                    Faites un Run du main (Normalement il est pré-généré et va écrire un petit message)
+            </p>
+            <h4>
+                6 - Installation des dépendances
+            </h4>
+            <p>
+                    <span class="gras">Attention long et couteux en bande passante</span><br><br>
+
+                    Tapez les commandes suivantes<br>
+                    <code>
+                    pip install --upgrade tensorflow<br>
+                    pip install --upgrade numpy<br>
+                    pip install --upgrade matplotlib<br>
+                    sudo add-apt-repository ppa:graphics-drivers<br>
+                    sudo apt-key adv --fetch-keys  http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub<br>
+                    sudo bash -c 'echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list'<br>
+                    sudo bash -c 'echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda_learn.list'<br>
+                    sudo apt update
+                    </code><br><br>
+                    <span class="gras">/!\ La commande suivante déclenche une longue installation qui se compte en Go</span><br><br>
+                    <code>
+                    sudo apt install cuda-10-1
+                    </code><br><br>
+                    <code>
+                    sudo apt install libcudnn7<br>
+                    sudo apt-get install python3-tk<br>
+                    </code>
+            </p>
+            <h4>
+                7 - Début de la prise en main :
+            </h4>
+            <p>
+                    Rendez-vous à l'adresse suivante pour suivre le tuto : <a href="https://www.tensorflow.org/tutorials/keras/classification">tensorflow tuto</a>
+            </p>
+        </div>
+    </body>
+    <footer>
+        <p>Thomas Corcoral - 2020 ©</p>
+    </footer>
+</html>
