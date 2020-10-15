@@ -1,6 +1,10 @@
 # Outils d’apprentissage pour l’identification de faune sauvage
 
-## Accès au site
+## Organisation
+
+Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'un <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. S'en est suivi un site internet afin de pouvoir accéder facilement et à tout moment à bon nombre d'informations (voir ci-dessous).
+
+## Site
 
 <a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
 
