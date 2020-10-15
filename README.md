@@ -2,7 +2,7 @@
 
 ## Accès au site
 
-<a href="projet.xnh.fr/" title="Site">Accéder au site</a>
+<a href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
 
   Ce site internet contient :
   <ul>
