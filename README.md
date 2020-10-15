@@ -1,5 +1,12 @@
 # Outils d’apprentissage pour l’identification de faune sauvage
 
-## Training
+## Accès au site
 
-  Contient un site internet permettant d'apprendre les bases du deeplearning
+projet.xnh.fr/
+
+  Ce site internet contient :
+    - une section Training permettant d'apprendre les bases du deeplearning
+    - différentes ressources
+    - le rappel des liens vers le Trello et le Github
+  
+  
