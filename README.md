@@ -6,7 +6,7 @@ Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'
 
 ## Site
 
-<a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
+###<a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
 
   Ce site internet contient :
   <ul>
