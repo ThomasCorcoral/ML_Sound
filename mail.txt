@@ -1,0 +1,13 @@
+Bonjour,
+
+Nous vous écrivons ce mail suite à l'attribution des projets tutorés. Nous avons lu le sujet ainsi que les ressources fournies. 
+Nous souhaitons obtenir plus d'informations. Tout d'abord le langage de programmation. Nous pensions programmer en python étant donné que la pluspart des programmes en rapport avec le DeepLearning sont écris en Python.
+En ce qui concerne le site batdetective. Le site web mentionné est désormais archivé. 
+En lisant le texte sur les oiseaux. Nous avons appris que ses auteurs utilise Tensorflow avec Python et Ubuntu. Nous pensions partir sur les mêmes bases.
+
+Pensez vous que le projet est réalisable avec les outils cité ci-dessus ? 
+Pouvez-vous préciser vos attentes afin que l'on puisse établir un cachier des charges plus précis.
+
+Afin de nous organiser nous avons déjà créé un Github, un Trello et un site internet afin d'avoir à notre disposition toutes les ressources nécessaires.
+
+Bien cordialement
