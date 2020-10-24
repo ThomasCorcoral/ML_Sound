@@ -4,6 +4,13 @@
 
 Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'un <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. S'en est suivi un site internet afin de pouvoir accéder facilement et à tout moment à bon nombre d'informations (voir ci-dessous).
 
+## Application
+
+L'application développé en python utilise la bibliothèque tkinter afin de réaliser l'affichage suivant :
+
+![Preview](https://raw.githubusercontent.com/ThomasCorcoral/Projet_L3/main/ressources/app.png?token=ANY73E2NB4HICQ3PWIGKVO27SRFZC)
+
+
 ## Site
 
 ### <a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
