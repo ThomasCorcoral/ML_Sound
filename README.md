@@ -8,7 +8,7 @@ Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'
 
 L'application développé en python utilise la bibliothèque tkinter afin de réaliser l'affichage suivant :
 
-![Preview](https://raw.githubusercontent.com/ThomasCorcoral/Projet_L3/main/ressources/app.png?token=ANY73E2NB4HICQ3PWIGKVO27SRFZC)
+![Preview](https://github.com/ThomasCorcoral/Projet_L3/blob/main/ressources/app.png)
 
 
 ## Site
