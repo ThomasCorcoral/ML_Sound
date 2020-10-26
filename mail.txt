@@ -7,7 +7,7 @@ En lisant le texte sur les oiseaux. Nous avons appris que ses auteurs utilisent 
 
 Pensez vous que le projet est réalisable avec les outils cités ci-dessus ? 
 Pouvez-vous préciser vos attentes afin que l'on puisse établir un cachier des charges plus précis. Quel est le but final du programme ? 
-Si nous choisssons de partir sur le thème des oiseaux, la reconnaissance doit se faire via une photo, vidéo, audio où même un mélange de plusieurs?
+Si nous choissons de partir sur le thème des oiseaux, la reconnaissance doit se faire via une photo, vidéo, audio où même un mélange de plusieurs?
 
 Afin de nous organiser nous avons déjà créé un Github, un Trello et un site internet afin d'avoir à notre disposition toutes les ressources nécessaires.
 
