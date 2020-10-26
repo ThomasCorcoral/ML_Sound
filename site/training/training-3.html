@@ -40,9 +40,9 @@
 					La suite sera présentée sous une forme de TP. Si vous souhaitez le faire 
 					en même temps ouvrez pycharm, créez un nouveau fichier et une fois sur ce 
 					nouveau fichier pour le lancer faites «  clique droit > run …  » 
-					Avant tout nous allons réaliser les imports
+					Avant tout nous allons réaliser les imports<br>
 					<code>
-						# Cette ligne signifie que l’on souhaite importer l’entièreté des fonctions / classes de tkinter
+						# Cette ligne signifie que l’on souhaite importer l’entièreté des fonctions / classes de tkinter<br>
 						from tkinter import *
 					</code>
             </p>
@@ -51,12 +51,12 @@
             </h4>
             <p>
                 Pour commencer j’ai tendance à créer une fenêtre de taille fixe avec ses dimensions renseignées dans des variables globales. 
-				Disons que notre fenêtre va faire 1500x800. On enregistre donc ces valeurs :
+				Disons que notre fenêtre va faire 1500x800. On enregistre donc ces valeurs :<br>
 				<code>
-					WIDTH = 1500
+					WIDTH = 1500<br>
 					HEIGHT = 800
-				</code>
-				Ensuite on va préparer notre main :
+				</code><br><br>
+				Ensuite on va préparer notre main :<br>
 				<code>
 					if __name__ == "__main__":
 				</code>
@@ -65,16 +65,17 @@
                 3 - Début avec Tkinter 
             </h4>
             <p>
-                    Maintenant il va nous falloir une fenêtre. Nous allons l’initialiser et l’afficher (dans notre main bien sur) :
+                    Maintenant il va nous falloir une fenêtre. Nous allons l’initialiser et l’afficher (dans notre main bien sur) :<br>
 					<code>
-						window = Tk()
+						window = Tk()<br>
 						window.mainloop()
-					</code>
-					Nous avons désormais une fenêtre qui s’appelle window. Maintenant nous allons personnaliser notre fenêtre en lui donnait un titre, ses dimensions et en verrouillant ses dimensions :
+					</code><br><br>
+					Nous avons désormais une fenêtre qui s’appelle window. Maintenant nous allons personnaliser notre fenêtre en lui donnait un titre, 
+					ses dimensions et en verrouillant ses dimensions :<br>
 					<code>
-						window.title("Tuto Tkinter") # titre
-						window.geometry(str(WIDTH) + "x" + str(HEIGHT)) # taille initiale
-						window.minsize(WIDTH, HEIGHT) # Impossible de réduire la fenêtre
+						window.title("Tuto Tkinter") # titre<br>
+						window.geometry(str(WIDTH) + "x" + str(HEIGHT)) # taille initiale<br>
+						window.minsize(WIDTH, HEIGHT) # Impossible de réduire la fenêtre<br>
 						window.maxsize(WIDTH, HEIGHT) # Impossible d’agrandir la fenêtre
 					</code>
 			</p>
@@ -85,7 +86,7 @@
                     Désormais il va falloir placer des éléments sur cette fenêtre, nous 
 					allons commencer par un Canvas. Un canvas est une zone délimitée qui va 
 					par exemple nous permettre de dessiner dessus ou d’y afficher une image. 
-					Notre premier canvas aura une taille de 300x300 avec un fond gris
+					Notre premier canvas aura une taille de 300x300 avec un fond gris<br>
 					<code>
 						my_can = Canvas(window, width=300, height=300, bg="grey")
 					</code>
@@ -101,7 +102,7 @@
 					Le premier est assez violent car il permet uniquement de placer un 
 					élément qu’à gauche, droite, haut, bas. Le second se base sur un 
 					système de grille et le dernier permet de placer un élément à des coordonnées 
-					précises. Personnellement j’aime bien le place() pour une fenêtre de taille fixe.
+					précises. Personnellement j’aime bien le place() pour une fenêtre de taille fixe.<br>
 					<code>
 						my_can.place(x=50, y=50)
 					</code>
@@ -111,9 +112,9 @@
             </h4>
             <p>
 					Pour les images il est également possible d'utiliser la bibliothèque Pillow (PIL).
-                    Maintenant rajoutons une image à notre canvas que l’on va redimensionner en la rendant 6 fois plus petites
+                    Maintenant rajoutons une image à notre canvas que l’on va redimensionner en la rendant 6 fois plus petites<br>
 					<code>
-						my_img = PhotoImage(file=’image.png').subsample(6)
+						my_img = PhotoImage(file=’image.png').subsample(6)<br>
 						my_can.create_image(0, 0, anchor=NW, image=my_img, tags="IMG ")
 					</code>
             </p>
@@ -122,9 +123,9 @@
             </h4>
             <p>
 					Notre fenêtre est désormais décorée mais elle reste inutile. Nous 
-					allons donc voir comment créer un bouton :
+					allons donc voir comment créer un bouton :<br>
 					<code>
-						my_but = Button(window, text="OPEN", font=("Courrier", 21), fg=’black')
+						my_but = Button(window, text="OPEN", font=("Courrier", 21), fg=’black')<br>
 						my_but.pack(side=RIGHT)
 					</code>
             </p>
@@ -133,14 +134,14 @@
             </h4>
             <p>
 					Cependant il ne sert toujours à rien nous allons donc rajouter une petite fonction qui ouvre un lien spécifique passé en paramètre (il faut rajouter l’import suivant également)
-					<code>
-						import webbrowser
-						def open_website(link):
-							webbrowser.open_new(link)
-
+					<code><br>
+						import webbrowser<br>
+						def open_website(link):<br>
+							webbrowser.open_new(link)<br>
+<br>
 						my_but= Button(window, text="OPEN", font=("Courrier", 21), fg='white', command=lambda: open_website (“https://projet.xnh.fr/”))
-					</code>
-					Et voilà notre nouveau bouton est créé. Pour voir le code d’une fenêtre construite 
+					</code><br><br>
+					Et voilà notre nouveau bouton est créé. Pour voir le code d’une fenêtre construite <br>
 					avec des classes et des fonctions rendez-vous sur le <a href="https://github.com/ThomasCorcoral/Projet_L3/blob/main/pythonProject/application.py">GITHUB</a>
 
             </p>
