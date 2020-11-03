@@ -17,8 +17,8 @@ L'application développé en python utilise la bibliothèque tkinter afin de ré
 
   Ce site internet contient :
   <ul>
-  <li>- Une section Training permettant d'apprendre les bases du deeplearning</li>
-  <li>- Différentes ressources</li>
-  <li>- Le rappel des liens vers le <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a> et le Github</li>
+  <li>Une section Training permettant d'apprendre les bases du deeplearning</li>
+  <li>Différentes ressources</li>
+  <li>Le rappel des liens vers le <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a> et le Github</li>
   </ul>
   
