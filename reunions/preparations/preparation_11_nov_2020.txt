@@ -26,5 +26,6 @@ Ce que l'on veut faire la semaine prochaine :
 
 Questions :
 
-J'ai une erreur : ......
+J'ai une erreur : ImportError: Building module nms failed: ['CompileError: Command "gcc -pthread -B /home/thomas/anaconda3/envs/BatDetective/compiler_compat -Wl,--sysroot=/ -fno-strict-aliasing -g -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/thomas/anaconda3/envs/BatDetective/include/python2.7 -c /home/thomas/.pyxbld/temp.linux-x86_64-2.7/pyrex/nms.c -o /home/thomas/.pyxbld/temp.linux-x86_64-2.7/home/thomas/.pyxbld/temp.linux-x86_64-2.7/pyrex/nms.o" failed with exit status 1\n']
+
 Savez-vous d'ou cela peut-il venir ?
