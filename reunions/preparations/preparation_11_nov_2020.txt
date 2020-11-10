@@ -1,0 +1,30 @@
+Préparation pour la réunion du 11 novembre 2020
+
+Ce que l'on a fait :
+
+    Vidéos et documentation sur le deeplearning.
+    Installation d'un environnement de travail avec Pycharm
+    
+
+Ce que l'on a commencé à faire :
+    
+    Lancer le programme Batdetective
+    Apprendre les bases en python (via le site du projet et doc internet)
+    Comprendre les bases du deeplearning (modèle, entrainement, évaluation)
+
+
+Ce que l'on a pas réussi à faire :
+
+    Lancer la partie training de Batdetective
+
+
+Ce que l'on veut faire la semaine prochaine :
+
+    Faire marcher Batdetective
+    Commencer la rédaction d'un suivi de notre apprentissage sur le deeplearning
+
+
+Questions :
+
+J'ai une erreur : ......
+Savez-vous d'ou cela peut-il venir ?
