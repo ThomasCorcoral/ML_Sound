@@ -4,7 +4,7 @@ Ce que l'on a fait :
 
     Vidéos et documentation sur le deeplearning.
     Installation d'un environnement de travail avec Pycharm
-    
+    Detecter un ultrason de chauve souris grace à Batdetective
 
 Ce que l'on a commencé à faire :
     
@@ -22,6 +22,7 @@ Ce que l'on veut faire la semaine prochaine :
 
     Faire marcher Batdetective
     Commencer la rédaction d'un suivi de notre apprentissage sur le deeplearning
+    Mettre en place une fenêtre pour détecter un son de chauve souris
 
 
 Questions :
