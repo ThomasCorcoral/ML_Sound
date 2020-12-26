@@ -12,10 +12,13 @@ train_audio, train_labels = cd.conv_data()
 
 # num_labels = yy.shape[1]
 filter_size = 2
-
+#
 model = tf.keras.Sequential([
     tf.keras.layers.Dense(256, activation='relu'),
-    tf.keras.layers.Dense(25)
+    tf.keras.layers.Dense(128),
+    tf.keras.layers.Dense(128),
+    tf.keras.layers.Dense(64),
+    tf.keras.layers.Dense(32)
 ])
 
 model.compile(optimizer='adam',
@@ -24,9 +27,9 @@ model.compile(optimizer='adam',
 
 probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
 
-model.fit(train_audio, train_labels, epochs=100)
+model.fit(train_audio, train_labels, epochs=1000)
 
-# score = model.evaluate(x_test, test_labels, verbose=1)
-# accuracy = 100*score[1]
-#
-# print("Pre-training accuracy: %.4f%%" % accuracy)
+score = model.evaluate(train_audio, train_labels, verbose=1)
+accuracy = 100*score[1]
+
+print("Pre-training accuracy: %.4f%%" % accuracy)
