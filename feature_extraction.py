@@ -51,6 +51,7 @@ def feature_extraction(path, file_label):
     res = []
 
     for file_cnt, file_name in enumerate(audio_files):
+        print(file_name)
         data = extract_features_spec(file_name)
         res.append([data, file_label[file_cnt]])
 

@@ -1,3 +1,5 @@
 ./venv/*
 ./__pycache__/*
 ./.idea
+./UrbanSound8K.tar.gz
+./UrbanSound8K/*
