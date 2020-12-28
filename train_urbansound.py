@@ -4,7 +4,8 @@ import os
 import csv
 import numpy as np
 import librosa
-import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from numpy import save
 
 def get_audio_files(ip_dir):
     matches = []
@@ -18,11 +19,8 @@ def extract_features_mfcc(file_name):
 
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
-        # 128 est la taille max pour n_mfcc
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50)
-        # print("mfccs row : ", len(mfccs), " / col : ", len(mfccs[0]), " / mfccs.T : ", len(mfccs.T))
         mfccsscaled = np.mean(mfccs.T, axis=0)
-        # print("mfccsscaled size : ", len(mfccsscaled))
 
     except Exception as e:
         print("Error encountered while parsing file")
@@ -36,7 +34,6 @@ def extract_features_spec(file_name):
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
                                          fmax=11000, power=0.5)
-
         specsscaled = np.mean(spec.T, axis=0)
 
     except Exception as e:
@@ -56,19 +53,11 @@ def feature_extraction(path, file_label):
 
     for i in range(len(file_label)):
         file_path = path + "/fold" + str(file_label[i][1]) + "/" + str(file_label[i][0])
-        data = extract_features_spec(file_path)
+        data = extract_features_mfcc(file_path)
         res.append([data, file_label[i][2]])
         train_labels.append(file_label[i][2])
-        if i == SIZE/4:
-            print("25 %")
-        if i == SIZE/2:
-            print("50 %")
-        if i == SIZE/4 + SIZE/2:
-            print("75 %")
-
-    # for file_cnt, file_name in enumerate(audio_files):
-    #     data = extract_features_spec(file_name)
-    #     res.append([data, file_label[file_cnt]])
+        if i % 873 == 0 :
+            print(str(i/8730*100), " %")
 
     # Convert into a Panda dataframe
     featuresdf = pd.DataFrame(res, columns=['feature', 'class_label'])
@@ -78,13 +67,8 @@ def feature_extraction(path, file_label):
 
     return featuresdf, train_labels
 
-# PATH_CSV = "./Data/dataset.csv"
-# PATH_TRAIN = "./Data/train"
-# Fichiers d'entrainement sans les warning
 PATH_CSV = "./UrbanSound8K/metadata/UrbanSound8K.csv"
 PATH_TRAIN = "./UrbanSound8K/audio"
-
-# name, class_id, fold
 
 def get_infos():
     data = []
@@ -97,11 +81,9 @@ def get_infos():
                 to_add.append(row[0])
                 to_add.append(row[5])
                 to_add.append(row[6])
-                # print("taille to_add : ", len(to_add))
                 data.append(to_add)
             cmpt = cmpt + 1
             to_add = []
-        # print("taille element :", len(data[0]))
     return data
 
 def conv_data():
@@ -112,13 +94,6 @@ def conv_data():
     train_audio = np.array(featuresdf.feature.tolist())
     train_labels = np.asarray(train_labels).astype(np.float32)
 
-    # # Encode the classification labels
-    # le = LabelEncoder()
-    # yy = to_categorical(le.fit_transform(y))
-    #
-    # # split the dataset
-    from sklearn.model_selection import train_test_split
-
     train_audio, test_audio, train_labels, test_labels = train_test_split(train_audio, train_labels, test_size=0.2, random_state = 42)
 
     print(len(test_audio))
@@ -128,47 +103,7 @@ def conv_data():
 
 train_audio, train_labels, test_audio, test_labels = conv_data()
 
-corresp_labels = ["air_conditioner", "car_horn", "children_playing", "dog_bark", "drilling", "engine_idling",
-                    "gun_shot", "jackhammer", "siren", "street_music"]
-
-model = tf.keras.Sequential([
-    tf.keras.layers.Dense(256, activation='relu'),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Dense(64),
-    tf.keras.layers.Dense(32)
-])
-
-model.compile(optimizer='adam',
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['accuracy'])
-
-probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
-
-model.fit(train_audio, train_labels, epochs=100)
-
-score = model.evaluate(test_audio, test_labels, verbose=1)
-accuracy = 100*score[1]
-
-print("Pre-training accuracy: %.4f%%" % accuracy)
-
-model = tf.keras.Sequential([
-    tf.keras.layers.Dense(256, activation='relu'),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Dense(128),
-    tf.keras.layers.Dense(64),
-    tf.keras.layers.Dense(32)
-])
-
-model.compile(optimizer='adam',
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['accuracy'])
-
-# probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
-
-model.fit(train_audio, train_labels, epochs=10)
-
-score = model.evaluate(test_audio, test_labels, verbose=1)
-accuracy = 100*score[1]
-
-print("Pre-training accuracy: %.4f%%" % accuracy)
+save('./arrays/train_audio.npy', train_audio)
+save('./arrays/train_labels.npy', train_labels)
+save('./arrays/test_audio.npy', test_audio)
+save('./arrays/test_labels.npy', test_labels)
