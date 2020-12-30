@@ -1,0 +1,11 @@
+Data path : Selectionnez le dossier de votre dataset
+CSV path : Selectionnez votre fichier contenant les informations sur votre dataset.
+           Faites attention au contenu de votre fichier. Il doit contenir trois informations :
+                - Le nom du fichier (name)
+                - Le dossier du fichier dans votre dossier data, si aucun mettez '.' (folder)
+                - La classe de votre enregistrement (class) (exemple : 0,1,2)
+                - Les noms de la classe correspondante (class_name) (exemple: pipistrelle etc)
+Format data : Prepare les donnees et en extrait des fichiers .npy en fonction des options selectionnees
+Run Train : Lancez l entrainement du modele
+Test path : Lien vers votre fichier a tester
+Run test : Lancer la reconnaissance du modele
