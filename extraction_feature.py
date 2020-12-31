@@ -3,6 +3,17 @@ import os
 import numpy as np
 import librosa
 
+NMFCC_MFCC = 50
+NMELS_SPEC = 128
+
+
+def get_nmels_spec():
+    return NMELS_SPEC
+
+
+def get_nmfcc_mfcc():
+    return NMFCC_MFCC
+
 
 def get_audio_files(ip_dir):
     matches = []
@@ -13,10 +24,11 @@ def get_audio_files(ip_dir):
     return matches
 
 def extract_features_mfcc(file_name):
-
+    if not (os.path.isfile(file_name)):
+        return None
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
-        mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50)
+        mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=NMFCC_MFCC)
         mfccsscaled = np.mean(mfccs.T, axis=0)
 
     except Exception as e:
@@ -26,29 +38,31 @@ def extract_features_mfcc(file_name):
     return mfccsscaled
 
 def extract_features_spec(file_name):
-
+    if not (os.path.isfile(file_name)):
+        return None
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
-        spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
+        spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=NMELS_SPEC,
                                          fmax=11000, power=0.5)
         specsscaled = np.mean(spec.T, axis=0)
-
     except Exception as e:
         print("Error encountered while parsing file")
         return None
-
     return specsscaled
 
-def feature_extraction(path, file_label):
+def feature_extraction(path, file_label, spec):
     res = []
     train_labels = []
 
     for i in range(len(file_label)):
         file_path = path + "/" + str(file_label[i][1]) + "/" + str(file_label[i][0])
         # print(file_path)
-        data = extract_features_mfcc(file_path)
-        if not data.any():
-            return -1, -1
+        if spec:
+            data = extract_features_spec(file_path)
+        else:
+            data = extract_features_mfcc(file_path)
+        if data is None:
+            return -1, file_path
         res.append([data, file_label[i][2]])
         train_labels.append(file_label[i][2])
 

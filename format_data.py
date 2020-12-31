@@ -26,21 +26,22 @@ def get_infos(path_csv):
     return data
 
 
-def get_labels(path_csv):
+def get_labels(path_csv, path_txt='./local_npy_files/class_label.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
-        with open('./local_npy_files/class_label.txt', 'w') as filehandle:
+        with open(path_txt, 'w') as filehandle:
             for row in reader:
                 filehandle.write('%s\n' % row["class_name"])
                 class_label.append(row["class_name"])
 
 
-def conv_data(path_data, path_csv, ratio=0.2, rs=42):
+def conv_data(path_data, path_csv, ratio=0.1, rs=42, spec=False):
     infos = get_infos(path_csv)
-    featuresdf, train_labels = ef.feature_extraction(path_data, infos)
+    featuresdf, train_labels = ef.feature_extraction(path_data, infos, spec)
 
     if type(featuresdf) is int:
+        print("Erreur : fichier introuvé : " + train_labels)
         return -1
 
     # Conversion des tableaux en tableaux Numpy

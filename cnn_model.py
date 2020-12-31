@@ -18,10 +18,15 @@ def my_model():
     return model
 
 def run_model(epoch=10):
-    train_audio = load('./arrays/train_audio.npy')
-    train_labels = load('./arrays/train_labels.npy')
-    test_audio = load('./arrays/test_audio.npy')
-    test_labels = load('./arrays/test_labels.npy')
+    train_audio = load('./local_npy_files/train_audio.npy')
+    train_labels = load('./local_npy_files/train_labels.npy')
+    test_audio = load('./local_npy_files/test_audio.npy')
+    test_labels = load('./local_npy_files/test_labels.npy')
+
+    print("test audio size : " + str(len(test_audio)))
+    print("test labels size : " + str(len(test_labels)))
+    print("train audi size : " + str(len(train_audio)))
+    print("train labels size : " + str(len(train_labels)))
 
     model = my_model()
 

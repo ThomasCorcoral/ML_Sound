@@ -39,12 +39,20 @@ def read_labels():
 def print_prediction(file_name, model):
     prediction_feature = extract_feature(file_name)
     class_label = read_labels()
+    print("taille class_label : " + str(len(class_label)))
+    class_label = list(dict.fromkeys(class_label))
     le = LabelEncoder()
     yy = to_categorical(le.fit_transform(class_label))
-    class_label = list(dict.fromkeys(class_label))
+    print(list(le.classes_))
     predicted_vector = np.argmax(model.predict(prediction_feature), axis=-1)
+    print("predicted_vector : " + str(predicted_vector[0]))
     predicted_class = le.inverse_transform(predicted_vector)
     print("The predicted class is:", predicted_class[0], '\n')
-    predicted_proba_vector = model.predict(prediction_feature)
+    predicted_proba_vector = model.predict(prediction_feature, verbose=1, max_queue_size=len(class_label))
+    test = model.predict_on_batch(prediction_feature)
+    print("test len : " + str(test[0]))
     predicted_proba = predicted_proba_vector[0]
+    print("taille class_label : " + str(len(class_label)))
+    print("taille predicted_proba_vector : " + str(len(predicted_proba_vector)))
+    print("taille predicted_proba : " + str(len(predicted_proba)))
     return predicted_class[0], le, predicted_proba

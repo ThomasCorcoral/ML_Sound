@@ -68,9 +68,9 @@ class Menu:
         self.open_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.open_csv_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
-                             relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+                                 relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.format_data_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
-                             relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+                                    relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.quit_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.open_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
@@ -102,14 +102,24 @@ class Header:
         self.can.place(x=2, y=2)
 
 
-class Infos_Menu:
-    def __init__(self, can_menu, text, label, epoch, label_epoch, play_btn):
+class InfosMenu:
+    def __init__(self, can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice, ratio,
+                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio):
         self.can_menu = can_menu
         self.text = text
         self.label = label
         self.epoch = epoch
         self.label_epoch = label_epoch
         self.play_btn = play_btn
+        self.spec = spec
+        self.mfcc_choice = mfcc_choice
+        self.spec_choice = spec_choice
+        self.ratio = ratio
+        self.ratio_spinbox = ratio_spinbox
+        self.rs = rs
+        self.rs_spinbox = rs_spinbox
+        self.label_rs = label_rs
+        self.label_ratio = label_ratio
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -129,12 +139,27 @@ class Infos_Menu:
     def get_epochs(self):
         return self.epoch.get()
 
+    def get_spec(self):
+        return bool(self.spec.get())
+
+    def get_rs(self):
+        return self.rs.get()
+
+    def get_ratio(self):
+        return float(self.ratio.get())
+
     def display(self):
         self.can_menu.place(x=2, y=316)
         self.label.place(x=75, y=340)
         self.label_epoch.place(x=35, y=378)
         self.epoch.place(x=100, y=380)
-        self.play_btn.place(x=75, y=410)
+        self.play_btn.place(x=58, y=410)
+        self.mfcc_choice.place(x=35, y=450)
+        self.spec_choice.place(x=35, y=470)
+        self.label_ratio.place(x=35, y=500)
+        self.ratio_spinbox.place(x=100, y=500)
+        self.label_rs.place(x=35, y=530)
+        self.rs_spinbox.place(x=100, y=530)
 
 
 class Footer:
@@ -150,7 +175,7 @@ class Footer:
         self.can.place(x=WIDTH_BUT+5, y=HEIGHT - LENGTH_BUT - 2)
 
 
-class Affichage_son:
+class AffichageSon:
     def __init__(self, can, show_audio, show_spec, show_mfcc):
         self.can = can
         self.show_audio = show_audio
@@ -167,7 +192,7 @@ class Affichage_son:
         self.show_mfcc.place(x=1100, y=HEIGHT/2+200)
 
 
-class Affichage_res:
+class AffichageRes:
     def __init__(self, can, prediction_label, prediction, resultats, resultats_label):
         self.can = can
         self.prediction_label = prediction_label
@@ -183,8 +208,7 @@ class Affichage_res:
 
     def display(self):
         self.prediction_label.place(x=450, y=HEIGHT/2-300)
-        self.resultats_label.place(x=600, y=HEIGHT/2-250)
-
+        self.resultats_label.place(x=450, y=HEIGHT/2-250)
 
 
 ##########################################
@@ -198,7 +222,7 @@ def init_window():
     w.geometry(str(WIDTH) + "x" + str(HEIGHT))
     w.minsize(WIDTH, HEIGHT)
     w.maxsize(WIDTH, HEIGHT)
-    w.tk.call('wm', 'iconphoto', w._w, tk.PhotoImage(file="./img/logo.png"))
+    w.tk.call('wm', 'iconphoto', w.w, tk.PhotoImage(file="./img/logo.png"))
     return w
 
 
@@ -207,7 +231,7 @@ def test():
     print("path data : " + data_path)
 
 
-def init_menu(window):
+def init_menu():
     folder_img = tk.PhotoImage(file='./img/folder.png').subsample(14, 14)
     run_pic = tk.PhotoImage(file='./img/funnel.png').subsample(14, 14)
     csv_pic = tk.PhotoImage(file='./img/csv.png').subsample(14, 14)
@@ -220,9 +244,9 @@ def init_menu(window):
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
                                compound='left', command=choose_dir_data)
     open_csv_but = tk.Button(window, image=csv_pic, text="  CSV Path", font=("Courrier", 14), fg='black',
-                              compound='left', command=choose_path_csv)
+                             compound='left', command=choose_path_csv)
     format_data_but = tk.Button(window, image=format_pic, text="  Format data", font=("Courrier", 14), fg='black',
-                             compound='left', command=format_data)
+                                compound='left', command=format_data)
     run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", 14), fg='black',
                               compound='left', command=run_model)
     open_test_but = tk.Button(window, image=wav_pic, text="  Test Path", font=("Courrier", 14), fg='black',
@@ -230,58 +254,76 @@ def init_menu(window):
     run_test_but = tk.Button(window, image=process_pic, text="  Run Test", font=("Courrier", 14), fg='black',
                              compound='left', command=predict)
     quit_but = tk.Button(window, image=quit_pic, text="  Quitter", font=("Courrier", 14), fg='black', compound='left',
-                         command=lambda: leave(window))
+                         command=leave)
 
-    menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, open_test_but, run_test_but,
-                quit_but, wav_pic, process_pic, csv_pic, open_csv_but, format_data_but, format_pic)
+    win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, open_test_but, run_test_but,
+                    quit_but, wav_pic, process_pic, csv_pic, open_csv_but, format_data_but, format_pic)
 
-    return menu
+    return win_menu
 
 
-def init_header(window):
+def init_header():
     icon = tk.PhotoImage(file="./img/logo.png").subsample(12, 12)
-    can_head = tk.Canvas(window, width=WIDTH_BUT+4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge', bg=BACKGROUND_TITLE)
-    header = Header(can_head, icon)
-    return header
+    can_head = tk.Canvas(window, width=WIDTH_BUT+4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
+                         bg=BACKGROUND_TITLE)
+    win_header = Header(can_head, icon)
+    return win_header
 
 
-def init_infos_menu(window):
+def init_infos_menu():
     can_menu = tk.Canvas(window, width=179, height=380, bg=BACKGROUND_TITLE, bd=0, highlightthickness=0, relief='ridge')
     text = tk.StringVar()
     text.set("- %")
     label = tk.Label(window, textvariable=text, font=("Courrier", 14), bg=BACKGROUND_TITLE)
     label_epoch = tk.Label(window, text="Epochs ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
-    Valeur = tk.StringVar()
-    Valeur.set(10)
-    epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=Valeur, width=5)
-    play_btn = tk.Button(window, text='Play', command=lambda: PlaySound(test_path, SND_FILENAME))
-    infos_menu = Infos_Menu(can_menu, text, label, epoch, label_epoch, play_btn)
+    val = tk.StringVar()
+    val.set(10)
+    epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
+    play_btn = tk.Button(window, text='Play Test File', command=lambda: PlaySound(test_path, SND_FILENAME))
+
+    spec = tk.IntVar()
+    mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
+    mfcc_choice.select()
+    spec_choice = tk.Radiobutton(window, text="SPECTROGRAMME", variable=spec, value=1, bg=BACKGROUND_TITLE)
+
+    label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
+    ratio = tk.StringVar()
+    ratio.set(10)
+    ratio_spinbox = tk.Spinbox(window, from_=0, to=1, increment=.05, textvariable=ratio, width=5)
+
+    label_rs = tk.Label(window, text="RS ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
+    rs = tk.StringVar()
+    rs.set(10)
+    rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
+
+    infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice,
+                           ratio, ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio)
     return infos_menu
 
 
-def init_footer(window):
+def init_footer():
     can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
                            highlightthickness=0, relief='ridge')
     web_button = tk.Button(window, text="Aide", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
                            command=show_aide)
-    footer = Footer(can_footer, web_button)
-    return footer
+    foot = Footer(can_footer, web_button)
+    return foot
 
 
-def init_resultats(window):
+def init_resultats():
     can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT/2-50, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
-    prediction=tk.StringVar()
+    prediction = tk.StringVar()
     prediction.set("")
     prediction_label = tk.Label(window, textvariable=prediction, font=("Courrier", 16), bg=BACKGROUND_SOUND)
     resultats = tk.StringVar()
     resultats.set("")
     resultats_label = tk.Label(window, textvariable=resultats, font=("Courrier", 14), bg=BACKGROUND_SOUND)
-    res = Affichage_res(can, prediction_label, prediction, resultats, resultats_label)
-    return res
+    result = AffichageRes(can, prediction_label, prediction, resultats, resultats_label)
+    return result
 
 
-def init_sons(window):
+def init_sons():
     can = tk.Canvas(window, width=0, height=0, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
     show_audio = tk.Button(window, text="Voir audio", font=("Courrier", 14), fg='black',
@@ -290,15 +332,15 @@ def init_sons(window):
                           compound='left', command=show_spectrogramme)
     show_mfcc = tk.Button(window, text="Voir mfcc", font=("Courrier", 14), fg='black',
                           compound='left', command=show_mfccs)
-    son = Affichage_son(can, show_audio, show_spec, show_mfcc)
-    return son
+    show_son = AffichageSon(can, show_audio, show_spec, show_mfcc)
+    return show_son
 
 ##########################################
 # Fonctions internes
 ##########################################
 
 
-def leave(window):
+def leave():
     window.destroy()
 
 
@@ -308,19 +350,19 @@ def change(new):
 
 def choose_dir_data():
     global data_path
-    data_path = filedialog.askdirectory(initialdir="/", title="Selectionnez votre dataset")
+    data_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
 
 
 def choose_path_csv():
     global path_csv
-    path_csv = filedialog.askopenfilename(initialdir="/", title="Selectionnez votre fichier .csv",
+    path_csv = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
                                           filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
 
 
 def choose_test_path():
     global test_path
-    test_path = filedialog.askopenfilename(initialdir="/", title="Selectionnez votre fichier .wav",
-                                          filetypes=(("wav  files", "*.wav"), ("all files", "*.*")))
+    test_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .wav",
+                                           filetypes=(("wav  files", "*.wav"), ("all files", "*.*")))
 
 
 def clear_folder(folder):
@@ -347,7 +389,11 @@ def format_data():
     if clear_folder("./local_npy_files") == -1:
         print("Erreur : Le dossier ./local_npy_files n'a pas pu être nettoye")
         return
-    if fd.conv_data(data_path, path_csv) == -1:
+    print("Lancement pour le dossier : " + data_path)
+    print("Et le fichier CSV : " + path_csv)
+    # if fd.conv_data(data_path, path_csv, ratio=menu_infos.get_ratio(), rs=menu_infos.get_rs(),
+    #                 spec=menu_infos.get_spec()) == -1:
+    if fd.conv_data(data_path, path_csv, spec=menu_infos.get_spec()) == -1:
         print("Erreur : Un des fichier indiqué n'existe pas")
         return
 
@@ -389,6 +435,7 @@ def predict():
         prob = int(float(predicted_proba[i]) * 100)
         all_prob += current_classe + " : " + str(prob) + " %\n"
     res.new_res(all_prob)
+
 
 def show_spectrogramme():
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
@@ -441,9 +488,9 @@ class Aide:
         self.main_can.place(x=0, y=0)
 
 
-def init_aide(window):
-    main_can = tk.Canvas(window, width=WIDTH - 400, height=HEIGHT-150, bd=0,
-                           highlightthickness=0, relief='ridge')
+def init_aide(win):
+    main_can = tk.Canvas(win, width=WIDTH - 400, height=HEIGHT-150, bd=0,
+                         highlightthickness=0, relief='ridge')
     aide = Aide(main_can)
     return aide
 
@@ -456,7 +503,7 @@ def show_aide():
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
-    win.tk.call('wm', 'iconphoto', win._w, tk.PhotoImage(file="./img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win.w, tk.PhotoImage(file="./img/logo.png"))
     aide = init_aide(win)
     aide.creation()
     aide.display()
@@ -476,30 +523,30 @@ if __name__ == "__main__":
     background_label.place(x=0, y=0)
 
     # Création du menu
-    menu = init_menu(window)
+    menu = init_menu()
     menu.config()
     menu.display()
 
     # Création du Header
-    header = init_header(window)
+    header = init_header()
     header.creation()
     header.display()
 
     # Création de l'emplacement pour les options
-    menu_infos = init_infos_menu(window)
+    menu_infos = init_infos_menu()
     menu_infos.display()
 
     # Création du footer
-    footer = init_footer(window)
+    footer = init_footer()
     footer.creation()
     footer.display()
 
     # Création de l'affichage du résultat
-    res = init_resultats(window)
+    res = init_resultats()
     res.display()
 
     # Création de l'affichage du son
-    son = init_sons(window)
+    son = init_sons()
     son.display()
 
     data_path = ""
