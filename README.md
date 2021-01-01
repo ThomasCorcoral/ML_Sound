@@ -41,7 +41,7 @@ L'application développé en python utilise la bibliothèque tkinter afin de ré
   <li>Le rappel des liens vers le <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>, le Github et le <a target="_blank" href="https://docs.google.com/document/d/1nI-bLGr7N6MVG3OC4NAJBIDIE_Ea6VqnJSBD6i3UwQ4/edit" title="Site">Google Doc</a></li>
 </ul>
   
-### Dépendances
+### Dépendances `requirements.txt`
 
 `librosa~=0.8.0`<br>
 `matplotlib~=3.3.3`<br>
