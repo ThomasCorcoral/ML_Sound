@@ -3,3 +3,4 @@
 ./.idea
 ./UrbanSound8K.tar.gz
 ./UrbanSound8K/*
+./.pytest_cache/*
