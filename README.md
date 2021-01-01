@@ -29,12 +29,12 @@ L'application développé en python utilise la bibliothèque tkinter afin de ré
 ## Dépendances
 
 <code>
-librosa~=0.8.0
-matplotlib~=3.3.3
-numpy~=1.19.4
-scipy~=1.5.4
-tensorflow~=2.4.0
-scikit-learn~=0.23.2
-Keras~=2.4.3
-pandas~=1.1.5
+librosa~=0.8.0<br>
+matplotlib~=3.3.3<br>
+numpy~=1.19.4<br>
+scipy~=1.5.4<br>
+tensorflow~=2.4.0<br>
+scikit-learn~=0.23.2<br>
+Keras~=2.4.3<br>
+pandas~=1.1.5<br>
 </code>
