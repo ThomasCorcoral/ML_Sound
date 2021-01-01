@@ -4,6 +4,10 @@
 
 Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'un <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. S'en est suivi un site internet afin de pouvoir accéder facilement et à tout moment à bon nombre d'informations (voir ci-dessous).
 
+## Utilisation
+
+Afin de pouvoir utiliser l'application, installez python 3.8 et les dépendances présentes dans le fichier requirements.txt. Une fois cela fait, lancez le fichier app.py, pour plus d'informations cliquez sur le bouton "Aide" en bas à droite de l'application
+
 ## Application
 
 L'application développé en python utilise la bibliothèque tkinter afin de réaliser l'affichage suivant :
@@ -22,3 +26,15 @@ L'application développé en python utilise la bibliothèque tkinter afin de ré
   <li>Le rappel des liens vers le <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a> et le Github</li>
   </ul>
   
+## Dépendances
+
+<code>
+librosa~=0.8.0
+matplotlib~=3.3.3
+numpy~=1.19.4
+scipy~=1.5.4
+tensorflow~=2.4.0
+scikit-learn~=0.23.2
+Keras~=2.4.3
+pandas~=1.1.5
+</code>
