@@ -43,7 +43,7 @@ L'application développé en python utilise la bibliothèque tkinter afin de ré
   
 ### Dépendances
 
-`librosa~=0.8.0`
+`librosa~=0.8.0`<br>
 `matplotlib~=3.3.3`
 `numpy~=1.19.4`
 `scipy~=1.5.4`
