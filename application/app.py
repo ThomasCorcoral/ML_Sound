@@ -12,6 +12,7 @@ Created on Tue 29 Dec 2020
 import format_data as fd
 import cnn_model as cnn
 import prediction as pred
+import generate_csv as gc
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -21,6 +22,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io.wavfile import read
 from playsound import playsound
+from keras.models import model_from_json
+
 
 ##########################################
 # Variables globales
@@ -104,7 +107,7 @@ class Header:
 
 class InfosMenu:
     def __init__(self, can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice, ratio,
-                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio):
+                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, generate_csv_but):
         self.can_menu = can_menu
         self.text = text
         self.label = label
@@ -120,6 +123,8 @@ class InfosMenu:
         self.rs_spinbox = rs_spinbox
         self.label_rs = label_rs
         self.label_ratio = label_ratio
+        self.save_model_but = save_model_but
+        self.generate_csv_but = generate_csv_but
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -160,6 +165,8 @@ class InfosMenu:
         self.ratio_spinbox.place(x=100, y=500)
         self.label_rs.place(x=35, y=530)
         self.rs_spinbox.place(x=100, y=530)
+        self.save_model_but.place(x=27, y=620)
+        self.generate_csv_but.place(x=35, y=660)
 
 
 class Footer:
@@ -280,24 +287,27 @@ def init_infos_menu():
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
     play_btn = tk.Button(window, text='Play Test File', command=lambda: playsound(test_path))
-
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
     spec_choice = tk.Radiobutton(window, text="SPECTROGRAMME", variable=spec, value=1, bg=BACKGROUND_TITLE)
-
     label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     ratio = tk.StringVar()
     ratio.set(10)
     ratio_spinbox = tk.Spinbox(window, from_=0, to=1, increment=.05, textvariable=ratio, width=5)
-
     label_rs = tk.Label(window, text="RS ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     rs = tk.StringVar()
     rs.set(10)
     rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
 
+    save_model_but = tk.Button(window, text="Enregistrer sous", font=("Courrier", 11), fg='black',
+                               command=save_as)
+
+    generate_csv_but = tk.Button(window, text="Generer .CSV", font=("Courrier", 11), fg='black', command=generate_csv)
+
     infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice,
-                           ratio, ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio)
+                           ratio, ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but,
+                           generate_csv_but)
     return infos_menu
 
 
@@ -334,6 +344,27 @@ def init_sons():
                           compound='left', command=show_mfccs)
     show_son = AffichageSon(can, show_audio, show_spec, show_mfcc)
     return show_son
+
+
+def init_model():
+    try:
+        # load json and create model
+        file = open("../local_saves/model.json", 'r')
+        file_acc = open("../local_saves/accuracy.txt", 'r')
+    except IOError:
+        print("File not accessible")
+        return None
+    model_json = file.read()
+    acc_str = file_acc.read()
+    if acc_str != '':
+        accuracy = int(float(acc_str))
+        menu_infos.change_percent(accuracy)
+        model_local = model_from_json(model_json)
+        file.close()
+        # load weights
+        model_local.load_weights("../local_saves/model.h5")
+        return model_local
+    return None
 
 ##########################################
 # Fonctions internes
@@ -386,8 +417,8 @@ def format_data():
     if path_csv == "":
         print("Erreur : Vous devez renseigner le chemin de votre fichier csv")
         return
-    if clear_folder("../local_npy_files") == -1:
-        print("Erreur : Le dossier ../local_npy_files n'a pas pu être nettoye")
+    if clear_folder("../local_saves") == -1:
+        print("Erreur : Le dossier ../local_saves n'a pas pu être nettoye")
         return
     print("Lancement pour le dossier : " + data_path)
     print("Et le fichier CSV : " + path_csv)
@@ -400,16 +431,16 @@ def format_data():
 
 def run_model():
     global model
-    if not(os.path.isfile('../local_npy_files/test_audio.npy')):
+    if not(os.path.isfile('../local_saves/test_audio.npy')):
         print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_npy_files/train_audio.npy')):
+    if not(os.path.isfile('../local_saves/train_audio.npy')):
         print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_npy_files/test_labels.npy')):
+    if not(os.path.isfile('../local_saves/test_labels.npy')):
         print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_npy_files/train_labels.npy')):
+    if not(os.path.isfile('../local_saves/train_labels.npy')):
         print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
@@ -470,6 +501,24 @@ def show_audio_representation():
     plt.ylabel('Amplitude')
     plt.title('Représentation de l audio')
     plt.show()
+
+
+def save_as():
+    print("save as")
+    save_model_path = filedialog.askdirectory(initialdir="./",
+                                              title="Selectionnez le chemin pour enregistrer votre modèle")
+    print(save_model_path)
+    shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves")
+    print("Copie terminée")
+
+
+def generate_csv():
+    print("generate csv")
+    if data_path == "":
+        print("Erreur : Vous devez renseigner le chemin de votre dataset")
+        return
+    gc.generate(data_path)
+
 
 ##########################################
 # Aide
@@ -552,6 +601,6 @@ if __name__ == "__main__":
     data_path = ""
     path_csv = ""
     test_path = ""
-    model = None
+    model = init_model()
 
     window.mainloop()

@@ -26,7 +26,7 @@ def get_infos(path_csv):
     return data
 
 
-def get_labels(path_csv, path_txt='../local_npy_files/class_label.txt'):
+def get_labels(path_csv, path_txt='../local_saves/class_label.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
@@ -54,10 +54,10 @@ def conv_data(path_data, path_csv, ratio=0.1, rs=42, spec=False):
     # print(len(test_audio))
     # print(len(train_audio))
 
-    save('../local_npy_files/train_audio.npy', train_audio)
-    save('../local_npy_files/train_labels.npy', train_labels)
-    save('../local_npy_files/test_audio.npy', test_audio)
-    save('../local_npy_files/test_labels.npy', test_labels)
+    save('../local_saves/train_audio.npy', train_audio)
+    save('../local_saves/train_labels.npy', train_labels)
+    save('../local_saves/test_audio.npy', test_audio)
+    save('../local_saves/test_labels.npy', test_labels)
     get_labels(path_csv)
 
     return 0
