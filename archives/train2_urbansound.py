@@ -55,10 +55,10 @@ if __name__ == "__main__":
     corresp_labels = ["air_conditioner", "car_horn", "children_playing", "dog_bark", "drilling", "engine_idling",
                       "gun_shot", "jackhammer", "siren", "street_music"]
 
-    train_audio = load('./arrays/train_audio.npy')
-    train_labels = load('./arrays/train_labels.npy')
-    test_audio = load('./arrays/test_audio.npy')
-    test_labels = load('./arrays/test_labels.npy')
+    train_audio = load('../arrays/train_audio.npy')
+    train_labels = load('../arrays/train_labels.npy')
+    test_audio = load('../arrays/test_audio.npy')
+    test_labels = load('../arrays/test_labels.npy')
 
     first = 0
     second = 0

@@ -222,7 +222,7 @@ def init_window():
     w.geometry(str(WIDTH) + "x" + str(HEIGHT))
     w.minsize(WIDTH, HEIGHT)
     w.maxsize(WIDTH, HEIGHT)
-    w.tk.call('wm', 'iconphoto', w.w, tk.PhotoImage(file="./img/logo.png"))
+    w.tk.call('wm', 'iconphoto', w.w, tk.PhotoImage(file="../img/logo.png"))
     return w
 
 
@@ -232,13 +232,13 @@ def test():
 
 
 def init_menu():
-    folder_img = tk.PhotoImage(file='./img/folder.png').subsample(14, 14)
-    run_pic = tk.PhotoImage(file='./img/funnel.png').subsample(14, 14)
-    csv_pic = tk.PhotoImage(file='./img/csv.png').subsample(14, 14)
-    format_pic = tk.PhotoImage(file='./img/format.png').subsample(14, 14)
-    wav_pic = tk.PhotoImage(file='./img/wav.png').subsample(14, 14)
-    process_pic = tk.PhotoImage(file='./img/process.png').subsample(14, 14)
-    quit_pic = tk.PhotoImage(file='./img/leave.png').subsample(14, 14)
+    folder_img = tk.PhotoImage(file='../img/folder.png').subsample(14, 14)
+    run_pic = tk.PhotoImage(file='../img/funnel.png').subsample(14, 14)
+    csv_pic = tk.PhotoImage(file='../img/csv.png').subsample(14, 14)
+    format_pic = tk.PhotoImage(file='../img/format.png').subsample(14, 14)
+    wav_pic = tk.PhotoImage(file='../img/wav.png').subsample(14, 14)
+    process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
+    quit_pic = tk.PhotoImage(file='../img/leave.png').subsample(14, 14)
 
     can_menu = tk.Canvas(window, width=0, height=0)
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
@@ -263,7 +263,7 @@ def init_menu():
 
 
 def init_header():
-    icon = tk.PhotoImage(file="./img/logo.png").subsample(12, 12)
+    icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
     can_head = tk.Canvas(window, width=WIDTH_BUT+4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
                          bg=BACKGROUND_TITLE)
     win_header = Header(can_head, icon)
@@ -386,8 +386,8 @@ def format_data():
     if path_csv == "":
         print("Erreur : Vous devez renseigner le chemin de votre fichier csv")
         return
-    if clear_folder("./local_npy_files") == -1:
-        print("Erreur : Le dossier ./local_npy_files n'a pas pu être nettoye")
+    if clear_folder("../local_npy_files") == -1:
+        print("Erreur : Le dossier ../local_npy_files n'a pas pu être nettoye")
         return
     print("Lancement pour le dossier : " + data_path)
     print("Et le fichier CSV : " + path_csv)
@@ -400,16 +400,16 @@ def format_data():
 
 def run_model():
     global model
-    if not(os.path.isfile('./local_npy_files/test_audio.npy')):
+    if not(os.path.isfile('../local_npy_files/test_audio.npy')):
         print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('./local_npy_files/train_audio.npy')):
+    if not(os.path.isfile('../local_npy_files/train_audio.npy')):
         print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('./local_npy_files/test_labels.npy')):
+    if not(os.path.isfile('../local_npy_files/test_labels.npy')):
         print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('./local_npy_files/train_labels.npy')):
+    if not(os.path.isfile('../local_npy_files/train_labels.npy')):
         print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
@@ -481,7 +481,7 @@ class Aide:
         self.main_can = main_can
 
     def creation(self):
-        f = open("./aide.txt", "r")
+        f = open("../aide.txt", "r")
         self.main_can.create_text((WIDTH-400)/2, (HEIGHT-150)/2, font=("Courrier", 12), fill='black', text=f.read())
 
     def display(self):
@@ -503,7 +503,7 @@ def show_aide():
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
-    win.tk.call('wm', 'iconphoto', win.w, tk.PhotoImage(file="./img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win.w, tk.PhotoImage(file="../img/logo.png"))
     aide = init_aide(win)
     aide.creation()
     aide.display()
@@ -518,7 +518,7 @@ if __name__ == "__main__":
     window = init_window()
 
     # Initialisation du fond d'écran de l'application
-    background_image = tk.PhotoImage(file='./img/background.png')
+    background_image = tk.PhotoImage(file='../img/background.png')
     background_label = tk.Label(window, image=background_image)
     background_label.place(x=0, y=0)
 

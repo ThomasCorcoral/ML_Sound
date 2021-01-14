@@ -67,8 +67,8 @@ def feature_extraction(path, file_label):
 
     return featuresdf, train_labels
 
-PATH_CSV = "./UrbanSound8K/metadata/UrbanSound8K.csv"
-PATH_TRAIN = "./UrbanSound8K/audio"
+PATH_CSV = "../UrbanSound8K/metadata/UrbanSound8K.csv"
+PATH_TRAIN = "../UrbanSound8K/audio"
 
 def get_infos():
     data = []
@@ -103,7 +103,7 @@ def conv_data():
 
 train_audio, train_labels, test_audio, test_labels = conv_data()
 
-save('./arrays/train_audio.npy', train_audio)
-save('./arrays/train_labels.npy', train_labels)
-save('./arrays/test_audio.npy', test_audio)
-save('./arrays/test_labels.npy', test_labels)
+save('../arrays/train_audio.npy', train_audio)
+save('../arrays/train_labels.npy', train_labels)
+save('../arrays/test_audio.npy', test_audio)
+save('../arrays/test_labels.npy', test_labels)

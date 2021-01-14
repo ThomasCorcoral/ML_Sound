@@ -1,5 +1,3 @@
-from sklearn.preprocessing import LabelEncoder
-from keras.utils import to_categorical
 import numpy as np
 import csv
 import feature_extraction as fe
@@ -7,8 +5,8 @@ import feature_extraction as fe
 # PATH_CSV = "./Data/dataset.csv"
 # PATH_TRAIN = "./Data/train"
 # Fichiers d'entrainement sans les warning
-PATH_CSV = "./Data/dataset_bis.csv"
-PATH_TRAIN = "./Data/train_bis"
+PATH_CSV = "../Data/dataset_bis.csv"
+PATH_TRAIN = "../Data/train_bis"
 TRAIN_SIZE = 3
 
 def get_ids():

@@ -4,3 +4,6 @@
 ./UrbanSound8K.tar.gz
 ./UrbanSound8K/*
 ./.pytest_cache/*
+./test/*
+./Data/*
+./arrays/*
