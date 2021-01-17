@@ -24,7 +24,6 @@ from scipy.io.wavfile import read
 from playsound import playsound
 from keras.models import model_from_json
 
-
 ##########################################
 # Variables globales
 ##########################################
@@ -230,7 +229,7 @@ def init_window():
     w.geometry(str(WIDTH) + "x" + str(HEIGHT))
     w.minsize(WIDTH, HEIGHT)
     w.maxsize(WIDTH, HEIGHT)
-    w.tk.call('wm', 'iconphoto', w.w, tk.PhotoImage(file="../img/logo.png"))
+    w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="../img/logo.png"))
     return w
 
 
@@ -272,7 +271,8 @@ def init_menu():
 
 def init_header():
     icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
-    can_head = tk.Canvas(window, width=WIDTH_BUT+4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge', bg=BACKGROUND_TITLE)
+    can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
+                         bg=BACKGROUND_TITLE)
     win_header = Header(can_head, icon)
     return win_header
 
@@ -345,6 +345,7 @@ def init_sons():
     show_son = AffichageSon(can, show_audio, show_spec, show_mfcc)
     return show_son
 
+
 def init_model():
     try:
         # load json and create model
@@ -364,6 +365,7 @@ def init_model():
         model_local.load_weights("../local_saves/model.h5")
         return model_local
     return None
+
 
 ##########################################
 # Fonctions internes
@@ -430,16 +432,16 @@ def format_data():
 
 def run_model():
     global model
-    if not(os.path.isfile('../local_saves/test_audio.npy')):
+    if not (os.path.isfile('../local_saves/test_audio.npy')):
         print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/train_audio.npy')):
+    if not (os.path.isfile('../local_saves/train_audio.npy')):
         print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/test_labels.npy')):
+    if not (os.path.isfile('../local_saves/test_labels.npy')):
         print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/train_labels.npy')):
+    if not (os.path.isfile('../local_saves/train_labels.npy')):
         print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
@@ -501,6 +503,7 @@ def show_audio_representation():
     plt.title('Représentation de l audio')
     plt.show()
 
+
 def save_as():
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
@@ -516,6 +519,7 @@ def generate_csv():
         print("Erreur : Vous devez renseigner le chemin de votre dataset")
         return
     gc.generate(data_path)
+
 
 ##########################################
 # Aide
@@ -549,7 +553,7 @@ def show_aide():
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
-    win.tk.call('wm', 'iconphoto', win.w, tk.PhotoImage(file="../img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
     aide = init_aide(win)
     aide.creation()
     aide.display()
