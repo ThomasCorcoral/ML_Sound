@@ -1,11 +1,18 @@
-Data path : Selectionnez le dossier de votre dataset (Uniquement des fichiers .wav)
-CSV path : Selectionnez votre fichier contenant les informations sur votre dataset (.csv)
-           Faites attention au contenu de votre fichier. Il doit contenir 4 informations :
-                - name : Le nom du fichier
-                - folder : Le dossier du fichier dans votre dossier data, si aucun mettez '.'
-                - class : La classe de votre enregistrement (exemple : 0,1,2)
-                - class_name : Les noms de la classe correspondante (exemple: Pipistrelle, Rhinolophe etc)
-Format data : Prepare les donnees et en extrait des fichiers .npy en fonction des options selectionnees
-Run Train : Lancez l entrainement du modele. Vous pouvez selectionner le nombre d'epochs
-Test path : Lien vers votre fichier a tester. Il doit s'agir d'un fichier .wav
-Run test : Lancer la reconnaissance du modèle
+Data path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez le dossier contenant votre "dataset" (Dossier compose de fichiers .wav).
+
+CSV path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez votre fichier contenant les informations sur votre dataset (Un fichier tableur type Excel .csv).
+           Faites bien attention au contenu de votre fichier. Il doit contenir les 4 informations formatees dans cet ordre :
+                - name : Le nom du fichier sonore.
+                - folder : Le dossier dans lequel se trouve le fichier dans votre dossier "data", s'il n'y en a aucun, mettez '.'
+                - class : La classe de votre enregistrement, c'est-a-dire la separation entre dossiers / noms de chauves-souris dans notre cas (exemple : 0, 1, 2).
+                - class_name : Les noms de la classe correspondante (exemple: Pipistrelle, Rhinolophe, etc...).
+
+Format data : Prepare les donnees indiquees par les paths, et en extrait des fichiers .npy en fonction des options selectionnees.
+
+Run Train : Lancez l'entrainement du modele, ce qui va permettre d'obtenir des resultats plus precis en fonction du nombre d'epochs 
+(epochs = Repetitions de l'entrainement. Plus d'epochs signifie une meilleure precision, mais aussi un plus grand temps d'entrainement). 
+Vous pouvez selectionner le nombre d'epochs manuellement.
+
+Test path : Chemin vers votre fichier a tester en utilisant l'entrainement precedent. Il doit s'agir d'un fichier sonore .wav
+
+Run test : Permet de lancer la reconnaissance du modele.
