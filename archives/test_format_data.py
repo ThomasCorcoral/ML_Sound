@@ -1,8 +1,8 @@
-import format_data as fd
+from application import format_data as fd
 
 
 def test_get_infos():
-    csv_path = './test/test.csv'
+    csv_path = '../test/test.csv'
     infos = fd.get_infos(csv_path)
     assert len(infos) == 13
 
@@ -27,8 +27,8 @@ def read_labels(path):
 
 
 def test_get_labels():
-    csv_path = './test/test.csv'
-    file_txt = "./test/test.txt"
+    csv_path = '../test/test.csv'
+    file_txt = "../test/test.txt"
     infos = fd.get_labels(csv_path, file_txt)
     class_labels = read_labels(file_txt)
     assert len(class_labels) == 13

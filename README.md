@@ -13,6 +13,10 @@
 
 `app.py` L'application GUI vous permet une fois votre data préparé et votre modèle entrainé de classifier l'enregistrement audio
 
+## GUI application
+
+Dans le dossier `./application` vous trouverez le fichier `app.py` qui vous permettra de lancer l'application qui vous permettra de pouvoir préparer vos données et d'entrainer le modèle. Il est également possible de visualiser (audio, spectrogramme et mfcc) le fichier que vous voulez classifier.
+
 ## Misc
 
 ### Organisation

@@ -13,8 +13,8 @@ def get_audio_files(ip_dir):
                 matches.append(os.path.join(root, filename))
     return matches
 
-def extract_features_mfcc(file_name):
 
+def extract_features_mfcc(file_name):
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         # 128 est la taille max pour n_mfcc
@@ -29,12 +29,12 @@ def extract_features_mfcc(file_name):
 
     return mfccsscaled
 
-def extract_features_spec(file_name):
 
+def extract_features_spec(file_name):
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
-                                         fmax=11000, power=0.5)
+                                              fmax=11000, power=0.5)
 
         specsscaled = np.mean(spec.T, axis=0)
 
@@ -43,6 +43,7 @@ def extract_features_spec(file_name):
         return None
 
     return specsscaled
+
 
 def feature_extraction(path, file_label):
     # Iterate through each sound file and extract the features

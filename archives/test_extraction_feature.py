@@ -1,11 +1,11 @@
-import extraction_feature as ef
+from application import extraction_feature as ef
 import csv
 import numpy as np
 import warnings
 
 
 def test_extract_mfcc():
-    test_file = './test/gunshot.wav'
+    test_file = '../test/gunshot.wav'
     data = ef.extract_features_mfcc(test_file)
     size = ef.get_nmfcc_mfcc()
     # Tableau 1D
@@ -22,7 +22,7 @@ def test_extract_mfcc_bad():
 
 
 def test_extract_spec():
-    test_file = './test/gunshot.wav'
+    test_file = '../test/gunshot.wav'
     data = ef.extract_features_spec(test_file)
     size = ef.get_nmels_spec()
     # Tableau 1D
@@ -63,8 +63,8 @@ def get_infos(path_csv):
 
 
 def test_extract_multiple_files_mfcc():
-    folder_path = './test/extraction'
-    csv_path = 'test/test.csv'
+    folder_path = '../test/extraction'
+    csv_path = '../test/test.csv'
     infos = get_infos(csv_path)
     size = len(infos)
     featuresdf, train_labels = ef.feature_extraction(folder_path, infos, False)
@@ -75,8 +75,8 @@ def test_extract_multiple_files_mfcc():
 
 
 def test_extract_multiple_files_spec():
-    folder_path = './test/extraction'
-    csv_path = 'test/test.csv'
+    folder_path = '../test/extraction'
+    csv_path = '../test/test.csv'
     infos = get_infos(csv_path)
     size = len(infos)
     featuresdf, train_labels = ef.feature_extraction(folder_path, infos, True)
@@ -87,8 +87,8 @@ def test_extract_multiple_files_spec():
 
 
 def test_extract_class_label():
-    folder_path = './test/extraction'
-    csv_path = 'test/test.csv'
+    folder_path = '../test/extraction'
+    csv_path = '../test/test.csv'
     infos = get_infos(csv_path)
     name_class_one = infos[0][2]
     featuresdf, train_labels = ef.feature_extraction(folder_path, infos, True)

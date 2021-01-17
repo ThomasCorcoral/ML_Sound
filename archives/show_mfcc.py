@@ -1,7 +1,7 @@
 import librosa.display
 import matplotlib.pyplot as plt
 
-PATH = "./Data/train_bis/pipistrellus_pipistrellus/pipistr3.wav"
+PATH = "../Data/train_bis/pipistrellus_pipistrellus/pipistr3.wav"
 # PATH = "./Data/train_bis/pipistrellus_pipistrellus/Pipistrellus_pipistrellus_2.wav"
 
 
@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io.wavfile import read
 
-samplerate, data = read('./Data/train_bis/pipistrellus_pipistrellus/Pipistrellus_pipistrellus_2.wav')
+samplerate, data = read('../Data/train_bis/pipistrellus_pipistrellus/Pipistrellus_pipistrellus_2.wav')
 duration = len(data)/samplerate
 time = np.arange(0,duration,1/samplerate) #time vector
 
