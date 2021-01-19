@@ -286,7 +286,7 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-    play_btn = tk.Button(window, text='Play Test File', command=lambda: playsound(test_path))
+    play_btn = tk.Button(window, text='Play Test File', command=lambda: run_test_audio())
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
@@ -370,6 +370,9 @@ def init_model():
 ##########################################
 # Fonctions internes
 ##########################################
+
+def run_test_audio():
+    playsound(test_path)
 
 
 def leave():
