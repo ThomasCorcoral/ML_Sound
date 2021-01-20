@@ -7,6 +7,7 @@ import librosa
 from sklearn.model_selection import train_test_split
 from numpy import save
 
+
 def get_audio_files(ip_dir):
     matches = []
     for root, dirnames, filenames in os.walk(ip_dir):
@@ -15,8 +16,8 @@ def get_audio_files(ip_dir):
                 matches.append(os.path.join(root, filename))
     return matches
 
-def extract_features_mfcc(file_name):
 
+def extract_features_mfcc(file_name):
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50)
@@ -28,12 +29,12 @@ def extract_features_mfcc(file_name):
 
     return mfccsscaled
 
-def extract_features_spec(file_name):
 
+def extract_features_spec(file_name):
     try:
         audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
-                                         fmax=11000, power=0.5)
+                                              fmax=11000, power=0.5)
         specsscaled = np.mean(spec.T, axis=0)
 
     except Exception as e:
@@ -42,7 +43,9 @@ def extract_features_spec(file_name):
 
     return specsscaled
 
+
 SIZE = 8732
+
 
 def feature_extraction(path, file_label):
     # Iterate through each sound file and extract the features
@@ -56,8 +59,8 @@ def feature_extraction(path, file_label):
         data = extract_features_mfcc(file_path)
         res.append([data, file_label[i][2]])
         train_labels.append(file_label[i][2])
-        if i % 873 == 0 :
-            print(str(i/8730*100), " %")
+        if i % 873 == 0:
+            print(str(i / 8730 * 100), " %")
 
     # Convert into a Panda dataframe
     featuresdf = pd.DataFrame(res, columns=['feature', 'class_label'])
@@ -67,14 +70,16 @@ def feature_extraction(path, file_label):
 
     return featuresdf, train_labels
 
+
 PATH_CSV = "../UrbanSound8K/metadata/UrbanSound8K.csv"
 PATH_TRAIN = "../UrbanSound8K/audio"
+
 
 def get_infos():
     data = []
     with open(PATH_CSV) as csvDataFile:
         to_add = []
-        cmpt=0
+        cmpt = 0
         csv_reader = csv.reader(csvDataFile)
         for row in csv_reader:
             if cmpt != 0:
@@ -86,6 +91,7 @@ def get_infos():
             to_add = []
     return data
 
+
 def conv_data():
     infos = get_infos()
     featuresdf, train_labels = feature_extraction(PATH_TRAIN, infos)
@@ -94,12 +100,14 @@ def conv_data():
     train_audio = np.array(featuresdf.feature.tolist())
     train_labels = np.asarray(train_labels).astype(np.float32)
 
-    train_audio, test_audio, train_labels, test_labels = train_test_split(train_audio, train_labels, test_size=0.2, random_state = 42)
+    train_audio, test_audio, train_labels, test_labels = train_test_split(train_audio, train_labels, test_size=0.2,
+                                                                          random_state=42)
 
     print(len(test_audio))
     print(len(train_audio))
 
     return train_audio, train_labels, test_audio, test_labels
+
 
 train_audio, train_labels, test_audio, test_labels = conv_data()
 

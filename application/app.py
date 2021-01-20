@@ -24,7 +24,6 @@ from scipy.io.wavfile import read
 from playsound import playsound
 from keras.models import model_from_json
 
-
 ##########################################
 # Variables globales
 ##########################################
@@ -40,6 +39,7 @@ global data_path
 global path_csv
 global test_path
 global model
+
 
 ##########################################
 # Définition des classes
@@ -178,8 +178,8 @@ class Footer:
         self.can.create_text(20, 20, font=("Courrier", 12), fill='white', text="v 0.1")
 
     def display(self):
-        self.but.place(x=WIDTH-40, y=HEIGHT-33)
-        self.can.place(x=WIDTH_BUT+5, y=HEIGHT - LENGTH_BUT - 2)
+        self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
+        self.can.place(x=WIDTH_BUT + 5, y=HEIGHT - LENGTH_BUT - 2)
 
 
 class AffichageSon:
@@ -190,13 +190,13 @@ class AffichageSon:
         self.show_mfcc = show_mfcc
 
     def creation(self):
-        self.can.create_text(WIDTH_BUT+5, HEIGHT/2-50, font=("Courrier", 12), fill='white', text="v 0.1")
+        self.can.create_text(WIDTH_BUT + 5, HEIGHT / 2 - 50, font=("Courrier", 12), fill='white', text="v 0.1")
 
     def display(self):
-        self.can.place(x=WIDTH_BUT+5, y=HEIGHT/2+10)
-        self.show_audio.place(x=300, y=HEIGHT/2+200)
-        self.show_spec.place(x=650, y=HEIGHT/2+200)
-        self.show_mfcc.place(x=1100, y=HEIGHT/2+200)
+        self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
+        self.show_audio.place(x=300, y=HEIGHT / 2 + 200)
+        self.show_spec.place(x=650, y=HEIGHT / 2 + 200)
+        self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 200)
 
 
 class AffichageRes:
@@ -214,8 +214,8 @@ class AffichageRes:
         self.resultats.set(new)
 
     def display(self):
-        self.prediction_label.place(x=450, y=HEIGHT/2-300)
-        self.resultats_label.place(x=450, y=HEIGHT/2-250)
+        self.prediction_label.place(x=450, y=HEIGHT / 2 - 300)
+        self.resultats_label.place(x=450, y=HEIGHT / 2 - 250)
 
 
 ##########################################
@@ -229,7 +229,7 @@ def init_window():
     w.geometry(str(WIDTH) + "x" + str(HEIGHT))
     w.minsize(WIDTH, HEIGHT)
     w.maxsize(WIDTH, HEIGHT)
-    w.tk.call('wm', 'iconphoto', w.w, tk.PhotoImage(file="../img/logo.png"))
+    w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="../img/logo.png"))
     return w
 
 
@@ -271,7 +271,7 @@ def init_menu():
 
 def init_header():
     icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
-    can_head = tk.Canvas(window, width=WIDTH_BUT+4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
+    can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
                          bg=BACKGROUND_TITLE)
     win_header = Header(can_head, icon)
     return win_header
@@ -286,7 +286,7 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-    play_btn = tk.Button(window, text='Play Test File', command=lambda: playsound(test_path))
+    play_btn = tk.Button(window, text='Play Test File', command=lambda: run_test_audio())
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
@@ -321,7 +321,7 @@ def init_footer():
 
 
 def init_resultats():
-    can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT/2-50, bg=BACKGROUND_SOUND, bd=0,
+    can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
     prediction = tk.StringVar()
     prediction.set("")
@@ -366,9 +366,13 @@ def init_model():
         return model_local
     return None
 
+
 ##########################################
 # Fonctions internes
 ##########################################
+
+def run_test_audio():
+    playsound(test_path)
 
 
 def leave():
@@ -431,16 +435,16 @@ def format_data():
 
 def run_model():
     global model
-    if not(os.path.isfile('../local_saves/test_audio.npy')):
+    if not (os.path.isfile('../local_saves/test_audio.npy')):
         print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/train_audio.npy')):
+    if not (os.path.isfile('../local_saves/train_audio.npy')):
         print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/test_labels.npy')):
+    if not (os.path.isfile('../local_saves/test_labels.npy')):
         print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
         return
-    if not(os.path.isfile('../local_saves/train_labels.npy')):
+    if not (os.path.isfile('../local_saves/train_labels.npy')):
         print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
@@ -531,14 +535,14 @@ class Aide:
 
     def creation(self):
         f = open("../aide.txt", "r")
-        self.main_can.create_text((WIDTH-400)/2, (HEIGHT-150)/2, font=("Courrier", 12), fill='black', text=f.read())
+        self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 12), fill='black', text=f.read())
 
     def display(self):
         self.main_can.place(x=0, y=0)
 
 
 def init_aide(win):
-    main_can = tk.Canvas(win, width=WIDTH - 400, height=HEIGHT-150, bd=0,
+    main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT, bd=0,
                          highlightthickness=0, relief='ridge')
     aide = Aide(main_can)
     return aide
@@ -547,15 +551,16 @@ def init_aide(win):
 def show_aide():
     win = tk.Toplevel(window)
     win.title("Aide Projet L3")
-    local_width = WIDTH-400
-    local_height = HEIGHT-150
+    local_width = WIDTH
+    local_height = HEIGHT
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
-    win.tk.call('wm', 'iconphoto', win.w, tk.PhotoImage(file="../img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
     aide = init_aide(win)
     aide.creation()
     aide.display()
+
 
 ##########################################
 # Main

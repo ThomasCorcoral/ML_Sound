@@ -1,0 +1,96 @@
+Barbastella barbastellus
+Barbastella barbastellus
+Barbastella barbastellus
+Barbastella barbastellus
+Barbastella barbastellus
+Eptesicus serotinus
+Eptesicus serotinus
+Eptesicus serotinus
+Eptesicus serotinus
+Eptesicus serotinus
+miniopterus_schreibersii
+myotis_bechsteinii
+myotis_bechsteinii
+myotis_bechsteinii
+myotis_bechsteinii
+myotis_brandtii
+myotis_capaccinii
+myotis_dasycneme
+myotis_dasycneme
+myotis_daubentoni
+myotis_daubentoni
+myotis_daubentoni
+myotis_daubentoni
+myotis_daubentoni
+myotis_daubentoni
+myotis_daubentoni
+myotis_myotis
+myotis_myotis
+myotis_myotis
+myotis_mystacinus
+myotis_mystacinus
+myotis_nattereri
+myotis_nattereri
+myotis_nattereri
+nyctalus_leisleri
+nyctalus_leisleri
+nyctalus_leisleri
+nyctalus_leisleri
+nyctalus_leisleri
+nyctalus_leisleri
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+nyctalus_noctula
+pipistrellus_kuhlii
+pipistrellus_kuhlii
+pipistrellus_natusii
+pipistrellus_natusii
+pipistrellus_natusii
+pipistrellus_natusii
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pipistrellus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+pipistrellus_pygmaeus
+plecotus_auritus
+plecotus_auritus
+plecotus_auritus
+rhinolophus_blasii
+rhinolophus_blasii
+rhinolophus_euryale
+rhinolophus_euryale
+rhinolophus_ferrumequinum
+rhinolophus_ferrumequinum
+rhinolophus_ferrumequinum
+rhinolophus_hipposideros
+rhinolophus_hipposideros
+rhinolophus_hipposideros
+rhinolophus_hipposideros
+rhinolophus_mehelyi
+rhinolophus_mehelyi
+tadarida_brasiliensis
+tadarida_brasiliensis
+tadarida_brasiliensis
+vespertilio_murinus
+vespertilio_murinus

@@ -22,8 +22,8 @@ def read_labels():
     class_label = []
     with open('../local_saves/class_label.txt', 'r') as filehandle:
         for line in filehandle:
-            currentPlace = line[:-1]
-            class_label.append(currentPlace)
+            current_place = line[:-1]
+            class_label.append(current_place)
     return class_label
 
 
