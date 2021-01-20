@@ -1,6 +1,8 @@
 # Outils d’apprentissage pour l’identification de faune sauvage
 #### Classification d'enregistrement audio par deeplearning
 
+#### Lien pour télécharger UrbanSound8K pour tester le programme : https://goo.gl/8hY5ER
+
 ## Train
 
 `cnn.py` Ce fichier contient le modèle et va automatiquement réaliser l'entrainement avec les path renseigné dans le fichier `convert_data.py`
