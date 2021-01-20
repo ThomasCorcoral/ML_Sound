@@ -8,8 +8,6 @@ Created on Tue 29 Dec 2020
 ##########################################
 # Importation
 ##########################################
-import pathlib
-import sys
 
 import format_data as fd
 import cnn_model as cnn
@@ -397,21 +395,21 @@ def choose_dir_data():
     global data_path
     new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
     if new != '':
-        test_path = new
+        data_path = new
 
 
 def choose_path_csv():
     global path_csv
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
-                                          filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
+                                     filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
     if new != '':
-        test_path = new
+        path_csv = new
 
 
 def choose_test_path():
     global test_path
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
-                                           filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
+                                     filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
     if new != '':
         test_path = new
 

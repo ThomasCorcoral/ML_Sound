@@ -1,19 +1,8 @@
-# import extraction_feature as ef
-#
-#
-# def create_prediction(filename, model):
-#     data = ef.extract_features_mfcc(filename)
-#     predicted_vector = model.predict_classes(data)
-#
-
 import librosa
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from numpy import load
 from keras.utils import to_categorical
 from pydub import AudioSegment
-import csv
-
 
 NMFCC_MFCC = 50
 NMELS_SPEC = 128
@@ -30,10 +19,10 @@ def extract_feature(file_name, mfcc=True):
             result = np.mean(mfccs.T, axis=0)
         else:
             spec = librosa.feature.melspectrogram(y=audio_data, sr=sample_rate, n_mels=NMELS_SPEC,
-                                         fmax=11000, power=0.5)
+                                                  fmax=11000, power=0.5)
             result = np.mean(spec.T, axis=0)
 
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file: ", file_name)
         return None, None
 
@@ -44,8 +33,8 @@ def read_labels():
     class_label = []
     with open('../local_saves/class_label.txt', 'r') as filehandle:
         for line in filehandle:
-            currentPlace = line[:-1]
-            class_label.append(currentPlace)
+            current_place = line[:-1]
+            class_label.append(current_place)
     return class_label
 
 
@@ -63,7 +52,7 @@ def print_prediction(file_name, model, mfcc):
     print("taille class_label : " + str(len(class_label)))
     class_label = list(dict.fromkeys(class_label))
     le = LabelEncoder()
-    yy = to_categorical(le.fit_transform(class_label))
+    to_categorical(le.fit_transform(class_label))
     print(list(le.classes_))
     predicted_vector = np.argmax(model.predict(prediction_feature), axis=-1)
     print("predicted_vector : " + str(predicted_vector[0]))

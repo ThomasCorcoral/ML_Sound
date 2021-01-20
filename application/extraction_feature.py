@@ -2,9 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 import librosa
-from os import path
 from pydub import AudioSegment
-
 
 NMFCC_MFCC = 50
 NMELS_SPEC = 128
@@ -26,6 +24,7 @@ def get_audio_files(ip_dir):
                 matches.append(os.path.join(root, filename))
     return matches
 
+
 def extract_features_mfcc(file_name):
     if not (os.path.isfile(file_name)):
         return None
@@ -37,7 +36,7 @@ def extract_features_mfcc(file_name):
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=NMFCC_MFCC)
         mfccsscaled = np.mean(mfccs.T, axis=0)
 
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file")
         return None
 
@@ -53,9 +52,9 @@ def extract_features_spec(file_name):
         else:
             audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=NMELS_SPEC,
-                                         fmax=11000, power=0.5)
+                                              fmax=11000, power=0.5)
         specsscaled = np.mean(spec.T, axis=0)
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file")
         return None
     return specsscaled
@@ -93,7 +92,6 @@ def feature_extraction(path, file_label, spec):
     # print('Taille des extractions : ', len(featuresdf['feature'][0]))
 
     return featuresdf, train_labels
-
 
 #
 # def feature_extraction(path, file_label):
