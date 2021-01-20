@@ -5,6 +5,8 @@
 
 ## Train
 
+Pour utiliser des fichiers .mp3 veuillez à bien renseigner le chemin vers le dossier `absolute_path`/ffmpeg/bin dans la variable d'environnement PATH
+
 `cnn.py` Ce fichier contient le modèle et va automatiquement réaliser l'entrainement avec les path renseigné dans le fichier `convert_data.py`
 
 `app.py` Application GUI qui permet d'utiliser simplement et facilement le deeplearning afin de détecter un enregistrement inconnu à partir d'une base de données
