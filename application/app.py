@@ -8,6 +8,8 @@ Created on Tue 29 Dec 2020
 ##########################################
 # Importation
 ##########################################
+import pathlib
+import sys
 
 import format_data as fd
 import cnn_model as cnn
@@ -23,6 +25,8 @@ import numpy as np
 from scipy.io.wavfile import read
 from playsound import playsound
 from keras.models import model_from_json
+from pygame import mixer
+from pydub import AudioSegment
 
 ##########################################
 # Variables globales
@@ -372,7 +376,13 @@ def init_model():
 ##########################################
 
 def run_test_audio():
-    playsound(test_path)
+    if test_path != '':
+        if test_path.endswith('.mp3'):
+            mixer.init()
+            mixer.music.load(test_path)
+            mixer.music.play()
+        else:
+            playsound(test_path)
 
 
 def leave():
@@ -385,19 +395,25 @@ def change(new):
 
 def choose_dir_data():
     global data_path
-    data_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    if new != '':
+        test_path = new
 
 
 def choose_path_csv():
     global path_csv
-    path_csv = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
+    new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
                                           filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
+    if new != '':
+        test_path = new
 
 
 def choose_test_path():
     global test_path
-    test_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .wav",
-                                           filetypes=(("wav  files", "*.wav"), ("all files", "*.*")))
+    new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
+                                           filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
+    if new != '':
+        test_path = new
 
 
 def clear_folder(folder):
@@ -459,7 +475,13 @@ def predict():
     if not model:
         accuracy, model = cnn.run_model()
     # pred.create_prediction()
-    resultat, le, predicted_proba = pred.print_prediction(test_path, model)
+
+    mfcc = True
+
+    if menu_infos.get_spec() == 1:
+        mfcc = False
+
+    resultat, le, predicted_proba = pred.print_prediction(test_path, model, mfcc)
     res.new_prediction(resultat)
     all_prob = ""
     for i in range(len(predicted_proba)):
@@ -473,6 +495,8 @@ def predict():
 
 
 def show_spectrogramme():
+    if not (os.path.isfile(test_path)):
+        return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
     spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
                                           fmax=11000, power=0.5)
@@ -485,6 +509,8 @@ def show_spectrogramme():
 
 
 def show_mfccs():
+    if not (os.path.isfile(test_path)):
+        return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
     mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100, hop_length=1024, htk=True)
     plt.figure(figsize=(10, 4))
@@ -496,10 +522,17 @@ def show_mfccs():
 
 
 def show_audio_representation():
-    samplerate, data = read(test_path)
+    if not (os.path.isfile(test_path)):
+        return
+    if test_path.endswith('.mp3'):
+        sound = AudioSegment.from_mp3(test_path)
+        dst = '../local_saves/current.wav'
+        sound.export(dst, format="wav")
+    else:
+        dst = test_path
+    samplerate, data = read(dst)
     duration = len(data) / samplerate
     time = np.arange(0, duration, 1 / samplerate)  # time vector
-
     plt.plot(time, data)
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
@@ -508,6 +541,10 @@ def show_audio_representation():
 
 
 def save_as():
+    if not os.path.isdir("../local_saves"):
+        return
+    if not os.listdir('../local_saves') == 0:
+        return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Selectionnez le chemin pour enregistrer votre modèle")

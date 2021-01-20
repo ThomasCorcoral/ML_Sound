@@ -11,20 +11,33 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from numpy import load
 from keras.utils import to_categorical
+from pydub import AudioSegment
 import csv
 
 
-def extract_feature(file_name):
+NMFCC_MFCC = 50
+NMELS_SPEC = 128
+
+
+def extract_feature(file_name, mfcc=True):
     try:
-        audio_data, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
-        mfccs = librosa.feature.mfcc(y=audio_data, sr=sample_rate, n_mfcc=50)
-        mfccsscaled = np.mean(mfccs.T, axis=0)
+        if file_name.endswith('.mp3'):
+            audio_data, sample_rate = read_mp3(file_name)
+        else:
+            audio_data, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
+        if mfcc:
+            mfccs = librosa.feature.mfcc(y=audio_data, sr=sample_rate, n_mfcc=NMFCC_MFCC)
+            result = np.mean(mfccs.T, axis=0)
+        else:
+            spec = librosa.feature.melspectrogram(y=audio_data, sr=sample_rate, n_mels=NMELS_SPEC,
+                                         fmax=11000, power=0.5)
+            result = np.mean(spec.T, axis=0)
 
     except Exception as e:
         print("Error encountered while parsing file: ", file_name)
         return None, None
 
-    return np.array([mfccsscaled])
+    return np.array([result])
 
 
 def read_labels():
@@ -36,8 +49,16 @@ def read_labels():
     return class_label
 
 
-def print_prediction(file_name, model):
-    prediction_feature = extract_feature(file_name)
+def read_mp3(f):
+    sound = AudioSegment.from_mp3(f)
+    dst = '../local_saves/current.wav'
+    sound.export(dst, format="wav")
+    audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
+    return audio, sample_rate
+
+
+def print_prediction(file_name, model, mfcc):
+    prediction_feature = extract_feature(file_name, mfcc)
     class_label = read_labels()
     print("taille class_label : " + str(len(class_label)))
     class_label = list(dict.fromkeys(class_label))

@@ -31,10 +31,8 @@ def extract_features_mfcc(file_name):
         return None
     try:
         if file_name.endswith('.mp3'):
-            print("C'est un mp3 !!")
             audio, sample_rate = read_mp3(file_name)
         else:
-            print("C'est un wav !!")
             audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=NMFCC_MFCC)
         mfccsscaled = np.mean(mfccs.T, axis=0)
@@ -64,13 +62,10 @@ def extract_features_spec(file_name):
 
 
 def read_mp3(f):
-    # dirname = os.path.dirname(__file__)
-    # f = os.path.join(dirname, f)
-
     sound = AudioSegment.from_mp3(f)
-    new_file = os.path.splitext("test/test2/sample.txt")[0] + '.wav'
-    sound.export(new_file, format="wav")
-    audio, sample_rate = librosa.load(new_file, res_type='kaiser_fast')
+    dst = '../local_saves/current.wav'
+    sound.export(dst, format="wav")
+    audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
     return audio, sample_rate
 
 
