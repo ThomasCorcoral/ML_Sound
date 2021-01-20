@@ -5,7 +5,9 @@
 
 ## Train
 
-Pour utiliser des fichiers .mp3 veuillez à bien renseigner le chemin vers le dossier `absolute_path`/ffmpeg dans la variable d'environnement PATH
+Pour utiliser des fichiers .mp3 veuillez à : 
+  - bien renseigner le chemin vers le dossier `absolute_path`/ffmpeg dans la variable d'environnement PATH
+  - Décompresser le fichier ffmpeg.7z dans le dossier ffmpeg
 
 `cnn.py` Ce fichier contient le modèle et va automatiquement réaliser l'entrainement avec les path renseigné dans le fichier `convert_data.py`
 
