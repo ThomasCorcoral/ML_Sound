@@ -7,3 +7,5 @@
 ./test/*
 ./Data/*
 ./arrays/*
+./dataset/*
+./dataset.zip
