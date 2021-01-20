@@ -3,6 +3,8 @@
 
 #### Lien pour télécharger UrbanSound8K pour tester le programme : https://goo.gl/8hY5ER
 
+#### Lien pour télécharger le dataset sur les oiseaux (en construction) : https://mega.nz/file/ong2nBYY#FMvn2lxBZrS7bBD0sABSQ9z6Q5GOcYF0agXG_Y4t52Y
+
 ## Train
 
 Pour utiliser des fichiers .mp3 veuillez à : 
