@@ -10,8 +10,13 @@ CSV path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenet
 Format data : Prepare les donnees indiquees par les paths, et en extrait des fichiers .npy en fonction des options selectionnees.
 
 Run Train : Lancez l'entrainement du modele, ce qui va permettre d'obtenir des resultats plus precis en fonction du nombre d'epochs 
-(epochs = Repetitions de l'entrainement. Plus d'epochs signifie une meilleure precision, mais aussi un plus grand temps d'entrainement). 
+
+epochs = Repetitions de l'entrainement. Plus d'epochs signifie une meilleure precision, mais aussi un plus grand temps d'entrainement et surtout un risque de surapprentissage. 
+Surapprentissage = Une analyse trop précise sur un modèle, ce qui signifie que les futures analyses ne pourra pas s'adapter à des données supplémentaires / ne pas prévoir correctement les observations dans le futur.
+
 Vous pouvez selectionner le nombre d'epochs manuellement.
+
+Le pourcentage que vous verrez après est la précision estimée de l'entrainement.
 
 Test path : Chemin vers votre fichier a tester en utilisant l'entrainement precedent. Il doit s'agir d'un fichier sonore .wav
 

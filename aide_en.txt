@@ -1,0 +1,23 @@
+Data path : Pressing on this button will create a new window. From this window, select the folder containing your "dataset" (folder filled with .wav, or filled with folders of .wav).
+
+CSV path : Pressing on this button will create a new window. From this window, select the folder containing the informations on your dataset (A spreadsheet, for example, an Excel .csv).
+           Be careful that the content inside your folder contains these 4 informations in this order :
+                - name : The name of the sound file.
+                - folder : The folder in which is your file in the folder "data", if there is none, just put '.'
+                - class : The "class" of your recording, meaning the separation between folder / bat names in our case (example : 0, 1, 2).
+                - class_name : The names of the coressponding class (example: Pipistrelle, Rhinolophe, etc...).
+
+Format data : Will prepare the data indicated by the paths, and will extract the files .npy while respecting the selected options.
+
+Run Train : Will launch the training of the model. This will allow the model to get more accurate results dependding on the number of epochs.
+
+Epochs = Number of times the training is repeated. More epochs means more accuracy, but also a greater training time, and more importantly a risk of overfitting (overtraining). 
+Overfitting = When an analysis is too accurate, which means future analysis will not be able to adapt to any added data / will not be able to predict future analysis correctly.
+
+You can manually select the number of epochs.
+
+The percentage you will see afterward is the estimated accuracy of the training.
+
+Test path : Path to the file you want to test by using the tarined model. it must be a .wav file.
+
+Run test : Will launch the test on the selected file.
