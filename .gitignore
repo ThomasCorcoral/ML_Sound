@@ -10,3 +10,4 @@
 ./dataset/*
 ./dataset.zip
 ./application/__pycache/*
+./local_saves/current.wav
