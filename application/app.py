@@ -49,8 +49,9 @@ global model
 
 
 class Menu:
-    def __init__(self, can, quit_pic, run_pic, folder_pic, open_but, run_but, open_test_but, run_test_but, quit_but,
-                 wav_pic, process_pic, csv_pic, open_csv_but, format_data_but, format_pic):
+    def __init__(self, can, quit_pic, run_pic, folder_pic, open_but, run_but, quit_but, csv_pic, open_csv_but,
+                 format_data_but, format_pic, generate_csv_but,
+                 save_csv_img):
         self.can = can
         self.quit_pic = quit_pic
         self.run_pic = run_pic
@@ -58,18 +59,18 @@ class Menu:
         self.open_but = open_but
         self.run_but = run_but
         self.quit_but = quit_but
-        self.open_test_but = open_test_but
-        self.run_test_but = run_test_but
-        self.wav_pic = wav_pic
-        self.process_pic = process_pic
         self.csv_pic = csv_pic
         self.open_csv_but = open_csv_but
         self.format_data_but = format_data_but
         self.format_pic = format_pic
+        self.generate_csv_but = generate_csv_but
+        self.save_csv_img = save_csv_img
 
     def config(self):
         self.run_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                             relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+        self.generate_csv_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
+                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.open_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.open_csv_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
@@ -78,18 +79,13 @@ class Menu:
                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.quit_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
-        self.open_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
-                                  relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
-        self.run_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
-                                 relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
 
     def display(self):
         self.open_but.place(x=2, y=52)
-        self.open_csv_but.place(x=2, y=96)
-        self.format_data_but.place(x=2, y=140)
-        self.run_but.place(x=2, y=184)
-        self.open_test_but.place(x=2, y=228)
-        self.run_test_but.place(x=2, y=272)
+        self.generate_csv_but.place(x=2, y=96)
+        self.open_csv_but.place(x=2, y=140)
+        self.format_data_but.place(x=2, y=184)
+        self.run_but.place(x=2, y=228)
         self.quit_but.place(x=2, y=HEIGHT - 45)
         self.can.place(x=-1, y=0)
 
@@ -108,14 +104,13 @@ class Header:
 
 
 class InfosMenu:
-    def __init__(self, can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice, ratio,
-                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, generate_csv_but):
+    def __init__(self, can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
+                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry):
         self.can_menu = can_menu
         self.text = text
         self.label = label
         self.epoch = epoch
         self.label_epoch = label_epoch
-        self.play_btn = play_btn
         self.spec = spec
         self.mfcc_choice = mfcc_choice
         self.spec_choice = spec_choice
@@ -126,7 +121,8 @@ class InfosMenu:
         self.label_rs = label_rs
         self.label_ratio = label_ratio
         self.save_model_but = save_model_but
-        self.generate_csv_but = generate_csv_but
+        self.name_model = name_model
+        self.name_entry = name_entry
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -155,20 +151,22 @@ class InfosMenu:
     def get_ratio(self):
         return float(self.ratio.get())
 
+    def get_save_name(self):
+        return self.name_model.get()
+
     def display(self):
-        self.can_menu.place(x=2, y=316)
-        self.label.place(x=75, y=340)
-        self.label_epoch.place(x=35, y=378)
-        self.epoch.place(x=100, y=380)
-        self.play_btn.place(x=58, y=410)
-        self.mfcc_choice.place(x=35, y=450)
-        self.spec_choice.place(x=35, y=470)
-        self.label_ratio.place(x=35, y=500)
-        self.ratio_spinbox.place(x=100, y=500)
-        self.label_rs.place(x=35, y=530)
-        self.rs_spinbox.place(x=100, y=530)
-        self.save_model_but.place(x=27, y=620)
-        self.generate_csv_but.place(x=35, y=660)
+        self.can_menu.place(x=2, y=270)
+        self.label.place(x=75, y=280)
+        self.label_epoch.place(x=35, y=318)
+        self.epoch.place(x=100, y=320)
+        self.mfcc_choice.place(x=35, y=350)
+        self.spec_choice.place(x=35, y=375)
+        self.label_ratio.place(x=35, y=405)
+        self.ratio_spinbox.place(x=100, y=405)
+        self.label_rs.place(x=35, y=435)
+        self.rs_spinbox.place(x=100, y=435)
+        self.save_model_but.place(x=135, y=650)
+        self.name_entry.place(x=10, y=655)
 
 
 class Footer:
@@ -177,7 +175,7 @@ class Footer:
         self.but = but
 
     def creation(self):
-        self.can.create_text(20, 20, font=("Courrier", 12), fill='white', text="v 0.1")
+        self.can.create_text(20, 20, font=("Courrier", 12), fill='white', text="v 0.2")
 
     def display(self):
         self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
@@ -185,20 +183,36 @@ class Footer:
 
 
 class AffichageSon:
-    def __init__(self, can, show_audio, show_spec, show_mfcc):
+    def __init__(self, can, show_audio, show_spec, show_mfcc, play_btn, wav_pic, process_pic, open_test_but,
+                 run_test_but):
         self.can = can
         self.show_audio = show_audio
         self.show_spec = show_spec
         self.show_mfcc = show_mfcc
+        self.play_btn = play_btn
+        self.wav_pic = wav_pic
+        self.process_pic = process_pic
+        self.open_test_but = open_test_but
+        self.run_test_but = run_test_but
+
+
+    def config(self):
+        self.open_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bd=1, highlightthickness=0,
+                                  relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+        self.run_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bd=1, highlightthickness=0,
+                                 relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
 
     def creation(self):
         self.can.create_text(WIDTH_BUT + 5, HEIGHT / 2 - 50, font=("Courrier", 12), fill='white', text="v 0.1")
 
     def display(self):
         self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
-        self.show_audio.place(x=300, y=HEIGHT / 2 + 200)
-        self.show_spec.place(x=650, y=HEIGHT / 2 + 200)
-        self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 200)
+        self.show_audio.place(x=300, y=HEIGHT / 2 + 180)
+        self.show_spec.place(x=650, y=HEIGHT / 2 + 180)
+        self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 180)
+        self.play_btn.place(x=680, y=HEIGHT / 2 + 130)
+        self.open_test_but.place(x=435, y=HEIGHT / 2 + 210)
+        self.run_test_but.place(x=880, y=HEIGHT / 2 + 210)
 
 
 class AffichageRes:
@@ -218,6 +232,26 @@ class AffichageRes:
     def display(self):
         self.prediction_label.place(x=450, y=HEIGHT / 2 - 300)
         self.resultats_label.place(x=450, y=HEIGHT / 2 - 250)
+
+
+class RecapSelect:
+    def __init__(self, can, data_path_label, data_path_var, csv_path_label, csv_path_var):
+        self.can = can
+        self.data_path_label = data_path_label
+        self.data_path_var = data_path_var
+        self.csv_path_label = csv_path_label
+        self.csv_path_var = csv_path_var
+
+    def update_data_path(self, new):
+        self.data_path_var.set("Data path : " + new)
+
+    def update_csv_path(self, new):
+        self.csv_path_var.set("CSV path : " + new)
+
+    def display(self):
+        self.can.place(x=WIDTH_BUT+20, y=HEIGHT / 2 + 265)
+        self.data_path_label.place(x=WIDTH_BUT+40, y=HEIGHT / 2 + 270)
+        self.csv_path_label.place(x=WIDTH_BUT+40, y=HEIGHT / 2 + 295)
 
 
 ##########################################
@@ -242,32 +276,26 @@ def test():
 
 def init_menu():
     folder_img = tk.PhotoImage(file='../img/folder.png').subsample(14, 14)
+    save_csv_img = tk.PhotoImage(file='../img/save_csv.png').subsample(14, 14)
     run_pic = tk.PhotoImage(file='../img/funnel.png').subsample(14, 14)
     csv_pic = tk.PhotoImage(file='../img/csv.png').subsample(14, 14)
     format_pic = tk.PhotoImage(file='../img/format.png').subsample(14, 14)
-    wav_pic = tk.PhotoImage(file='../img/wav.png').subsample(14, 14)
-    process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
     quit_pic = tk.PhotoImage(file='../img/leave.png').subsample(14, 14)
-
     can_menu = tk.Canvas(window, width=0, height=0)
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
                                compound='left', command=choose_dir_data)
+    generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generer .CSV", font=("Courrier", 14), fg='black',
+                                 compound='left', command=generate_csv)
     open_csv_but = tk.Button(window, image=csv_pic, text="  CSV Path", font=("Courrier", 14), fg='black',
                              compound='left', command=choose_path_csv)
     format_data_but = tk.Button(window, image=format_pic, text="  Format data", font=("Courrier", 14), fg='black',
                                 compound='left', command=format_data)
     run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", 14), fg='black',
                               compound='left', command=run_model)
-    open_test_but = tk.Button(window, image=wav_pic, text="  Test Path", font=("Courrier", 14), fg='black',
-                              compound='left', command=choose_test_path)
-    run_test_but = tk.Button(window, image=process_pic, text="  Run Test", font=("Courrier", 14), fg='black',
-                             compound='left', command=predict)
     quit_but = tk.Button(window, image=quit_pic, text="  Quitter", font=("Courrier", 14), fg='black', compound='left',
                          command=leave)
-
-    win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, open_test_but, run_test_but,
-                    quit_but, wav_pic, process_pic, csv_pic, open_csv_but, format_data_but, format_pic)
-
+    win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, quit_but, csv_pic,
+                    open_csv_but, format_data_but, format_pic, generate_csv_but, save_csv_img)
     return win_menu
 
 
@@ -280,7 +308,7 @@ def init_header():
 
 
 def init_infos_menu():
-    can_menu = tk.Canvas(window, width=179, height=380, bg=BACKGROUND_TITLE, bd=0, highlightthickness=0, relief='ridge')
+    can_menu = tk.Canvas(window, width=179, height=425, bg=BACKGROUND_TITLE, bd=0, highlightthickness=0, relief='ridge')
     text = tk.StringVar()
     text.set("- %")
     label = tk.Label(window, textvariable=text, font=("Courrier", 14), bg=BACKGROUND_TITLE)
@@ -288,7 +316,6 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-    play_btn = tk.Button(window, text='Play Test File', command=lambda: run_test_audio())
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
@@ -301,15 +328,11 @@ def init_infos_menu():
     rs = tk.StringVar()
     rs.set(10)
     rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
-
-    save_model_but = tk.Button(window, text="Enregistrer sous", font=("Courrier", 11), fg='black',
-                               command=save_as)
-
-    generate_csv_but = tk.Button(window, text="Generer .CSV", font=("Courrier", 11), fg='black', command=generate_csv)
-
-    infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, play_btn, spec, mfcc_choice, spec_choice,
-                           ratio, ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but,
-                           generate_csv_but)
+    save_model_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as)
+    name_model = tk.StringVar(value='model')
+    name_entry = tk.Entry(window, textvariable=name_model)
+    infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
+                           ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry)
     return infos_menu
 
 
@@ -336,6 +359,8 @@ def init_resultats():
 
 
 def init_sons():
+    wav_pic = tk.PhotoImage(file='../img/wav.png').subsample(14, 14)
+    process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
     can = tk.Canvas(window, width=0, height=0, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
     show_audio = tk.Button(window, text="Voir audio", font=("Courrier", 14), fg='black',
@@ -344,14 +369,20 @@ def init_sons():
                           compound='left', command=show_spectrogramme)
     show_mfcc = tk.Button(window, text="Voir mfcc", font=("Courrier", 14), fg='black',
                           compound='left', command=show_mfccs)
-    show_son = AffichageSon(can, show_audio, show_spec, show_mfcc)
+    play_btn = tk.Button(window, text='Play Test File', font=("Courrier", 14), command=lambda: run_test_audio())
+    open_test_but = tk.Button(window, image=wav_pic, text="  Test Path", font=("Courrier", 14), fg='black',
+                              compound='left', command=choose_test_path)
+    run_test_but = tk.Button(window, image=process_pic, text="  Run Test", font=("Courrier", 14), fg='black',
+                             compound='left', command=predict)
+    show_son = AffichageSon(can, show_audio, show_spec, show_mfcc, play_btn, wav_pic, process_pic, open_test_but,
+                            run_test_but)
     return show_son
 
 
 def init_model():
     try:
         # load json and create model
-        file = open("../local_saves/model.json", 'r')
+        file = open("../local_saves/model/model.json", 'r')
         file_acc = open("../local_saves/accuracy.txt", 'r')
     except IOError:
         print("File not accessible")
@@ -364,10 +395,24 @@ def init_model():
         model_local = model_from_json(model_json)
         file.close()
         # load weights
-        model_local.load_weights("../local_saves/model.h5")
+        model_local.load_weights("../local_saves/model/model.h5")
         return model_local
     return None
 
+
+def init_recap_selec():
+    can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="white", bd=0, highlightthickness=0,
+                    relief='ridge')
+    data_path_var = tk.StringVar()
+    data_path_var.set("Data path :")
+    csv_path_var = tk.StringVar()
+    csv_path_var.set("CSV path :")
+
+    data_path_label = tk.Label(window, textvariable=data_path_var, font=("Courrier", 11))
+    csv_path_label = tk.Label(window, textvariable=csv_path_var, font=("Courrier", 11))
+
+    recap = RecapSelect(can, data_path_label, data_path_var, csv_path_label, csv_path_var)
+    return recap
 
 ##########################################
 # Fonctions internes
@@ -396,6 +441,8 @@ def choose_dir_data():
     new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
     if new != '':
         data_path = new
+        recap.update_data_path(data_path)
+
 
 
 def choose_path_csv():
@@ -404,6 +451,7 @@ def choose_path_csv():
                                      filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
     if new != '':
         path_csv = new
+        recap.update_csv_path(path_csv)
 
 
 def choose_test_path():
@@ -541,13 +589,17 @@ def show_audio_representation():
 def save_as():
     if not os.path.isdir("../local_saves"):
         return
-    if not os.listdir('../local_saves') == 0:
+    if os.listdir('../local_saves') == 0:
         return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Selectionnez le chemin pour enregistrer votre modèle")
     print(save_model_path)
-    shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves")
+    val_name = menu_infos.get_save_name()
+    if val_name == '':
+        shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves/model")
+    else :
+        shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/model")
     print("Copie terminée")
 
 
@@ -636,8 +688,14 @@ if __name__ == "__main__":
 
     # Création de l'affichage du son
     son = init_sons()
+    son.config()
     son.display()
 
+    # Création des informations concernant les chemins
+    recap = init_recap_selec()
+    recap.display()
+
+    # Initialisation des variables
     data_path = ""
     path_csv = ""
     test_path = ""

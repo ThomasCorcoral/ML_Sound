@@ -45,10 +45,10 @@ def run_model(epoch=10):
     score = model.evaluate(test_audio, test_labels, verbose=1)
     accuracy = 100 * score[1]
     json_file = model.to_json()
-    with open("../local_saves/model.json", "w") as file:
+    with open("../local_saves/model/model.json", "w") as file:
         file.write(json_file)
     with open("../local_saves/accuracy.txt", "w") as file:
         file.write(str(accuracy))
-    model.save_weights("../local_saves/model.h5")
+    model.save_weights("../local_saves/model/model.h5")
 
     return accuracy, model
