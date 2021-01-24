@@ -1,48 +1,58 @@
-# import extraction_feature as ef
-#
-#
-# def create_prediction(filename, model):
-#     data = ef.extract_features_mfcc(filename)
-#     predicted_vector = model.predict_classes(data)
-#
-
 import librosa
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from numpy import load
 from keras.utils import to_categorical
-import csv
+from pydub import AudioSegment
+
+NMFCC_MFCC = 50
+NMELS_SPEC = 128
 
 
-def extract_feature(file_name):
+def extract_feature(file_name, mfcc=True):
     try:
-        audio_data, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
-        mfccs = librosa.feature.mfcc(y=audio_data, sr=sample_rate, n_mfcc=50)
-        mfccsscaled = np.mean(mfccs.T, axis=0)
+        if file_name.endswith('.mp3'):
+            audio_data, sample_rate = read_mp3(file_name)
+        else:
+            audio_data, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
+        if mfcc:
+            mfccs = librosa.feature.mfcc(y=audio_data, sr=sample_rate, n_mfcc=NMFCC_MFCC)
+            result = np.mean(mfccs.T, axis=0)
+        else:
+            spec = librosa.feature.melspectrogram(y=audio_data, sr=sample_rate, n_mels=NMELS_SPEC,
+                                                  fmax=11000, power=0.5)
+            result = np.mean(spec.T, axis=0)
 
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file: ", file_name)
         return None, None
 
-    return np.array([mfccsscaled])
+    return np.array([result])
 
 
 def read_labels():
     class_label = []
     with open('../local_saves/class_label.txt', 'r') as filehandle:
         for line in filehandle:
-            currentPlace = line[:-1]
-            class_label.append(currentPlace)
+            current_place = line[:-1]
+            class_label.append(current_place)
     return class_label
 
 
-def print_prediction(file_name, model):
-    prediction_feature = extract_feature(file_name)
+def read_mp3(f):
+    sound = AudioSegment.from_mp3(f)
+    dst = '../local_saves/current.wav'
+    sound.export(dst, format="wav")
+    audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
+    return audio, sample_rate
+
+
+def print_prediction(file_name, model, mfcc):
+    prediction_feature = extract_feature(file_name, mfcc)
     class_label = read_labels()
     print("taille class_label : " + str(len(class_label)))
     class_label = list(dict.fromkeys(class_label))
     le = LabelEncoder()
-    yy = to_categorical(le.fit_transform(class_label))
+    to_categorical(le.fit_transform(class_label))
     print(list(le.classes_))
     predicted_vector = np.argmax(model.predict(prediction_feature), axis=-1)
     print("predicted_vector : " + str(predicted_vector[0]))

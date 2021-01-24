@@ -7,3 +7,6 @@
 ./test/*
 ./Data/*
 ./arrays/*
+./dataset/*
+./dataset.zip
+./application/__pycache/*

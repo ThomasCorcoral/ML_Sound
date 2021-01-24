@@ -21,10 +21,12 @@ def generate(path):
         # spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
         spamwriter.writerow(['name', 'folder', 'class', 'class_name'])
         list_of_dir = os.listdir(path)
+        id_current = 0
         for to_add_path in list_of_dir:
             if os.path.isdir(path + '/' + to_add_path):
                 to_add_rec = deep_search(path + '/' + to_add_path, to_add_path)
                 for name, path_rec in to_add_rec:
-                    spamwriter.writerow([name, path_rec])
+                    spamwriter.writerow([name, path_rec, id_current, path_rec])
             else:
                 spamwriter.writerow([to_add_path, '.'])
+            id_current = id_current + 1

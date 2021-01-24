@@ -23,6 +23,8 @@ import numpy as np
 from scipy.io.wavfile import read
 from playsound import playsound
 from keras.models import model_from_json
+from pygame import mixer
+from pydub import AudioSegment
 
 ##########################################
 # Variables globales
@@ -286,7 +288,7 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-    play_btn = tk.Button(window, text='Play Test File', command=lambda: playsound(test_path))
+    play_btn = tk.Button(window, text='Play Test File', command=lambda: run_test_audio())
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
@@ -371,6 +373,15 @@ def init_model():
 # Fonctions internes
 ##########################################
 
+def run_test_audio():
+    if test_path != '':
+        if test_path.endswith('.mp3'):
+            mixer.init()
+            mixer.music.load(test_path)
+            mixer.music.play()
+        else:
+            playsound(test_path)
+
 
 def leave():
     window.destroy()
@@ -382,19 +393,25 @@ def change(new):
 
 def choose_dir_data():
     global data_path
-    data_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    if new != '':
+        data_path = new
 
 
 def choose_path_csv():
     global path_csv
-    path_csv = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
-                                          filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
+    new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
+                                     filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
+    if new != '':
+        path_csv = new
 
 
 def choose_test_path():
     global test_path
-    test_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .wav",
-                                           filetypes=(("wav  files", "*.wav"), ("all files", "*.*")))
+    new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
+                                     filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
+    if new != '':
+        test_path = new
 
 
 def clear_folder(folder):
@@ -456,7 +473,13 @@ def predict():
     if not model:
         accuracy, model = cnn.run_model()
     # pred.create_prediction()
-    resultat, le, predicted_proba = pred.print_prediction(test_path, model)
+
+    mfcc = True
+
+    if menu_infos.get_spec() == 1:
+        mfcc = False
+
+    resultat, le, predicted_proba = pred.print_prediction(test_path, model, mfcc)
     res.new_prediction(resultat)
     all_prob = ""
     for i in range(len(predicted_proba)):
@@ -470,6 +493,8 @@ def predict():
 
 
 def show_spectrogramme():
+    if not (os.path.isfile(test_path)):
+        return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
     spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
                                           fmax=11000, power=0.5)
@@ -482,6 +507,8 @@ def show_spectrogramme():
 
 
 def show_mfccs():
+    if not (os.path.isfile(test_path)):
+        return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
     mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100, hop_length=1024, htk=True)
     plt.figure(figsize=(10, 4))
@@ -493,10 +520,17 @@ def show_mfccs():
 
 
 def show_audio_representation():
-    samplerate, data = read(test_path)
+    if not (os.path.isfile(test_path)):
+        return
+    if test_path.endswith('.mp3'):
+        sound = AudioSegment.from_mp3(test_path)
+        dst = '../local_saves/current.wav'
+        sound.export(dst, format="wav")
+    else:
+        dst = test_path
+    samplerate, data = read(dst)
     duration = len(data) / samplerate
     time = np.arange(0, duration, 1 / samplerate)  # time vector
-
     plt.plot(time, data)
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
@@ -505,6 +539,10 @@ def show_audio_representation():
 
 
 def save_as():
+    if not os.path.isdir("../local_saves"):
+        return
+    if not os.listdir('../local_saves') == 0:
+        return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Selectionnez le chemin pour enregistrer votre modèle")

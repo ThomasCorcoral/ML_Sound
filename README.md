@@ -1,7 +1,15 @@
 # Outils d’apprentissage pour l’identification de faune sauvage
 #### Classification d'enregistrement audio par deeplearning
 
+#### Lien pour télécharger UrbanSound8K pour tester le programme : https://goo.gl/8hY5ER
+
+#### Lien pour télécharger le dataset sur les oiseaux (en construction) : https://mega.nz/file/ong2nBYY#FMvn2lxBZrS7bBD0sABSQ9z6Q5GOcYF0agXG_Y4t52Y
+
 ## Train
+
+Pour utiliser des fichiers .mp3 veuillez à : 
+  - bien renseigner le chemin vers le dossier `absolute_path`/ffmpeg dans la variable d'environnement PATH
+  - Décompresser le fichier ffmpeg.7z dans le dossier ffmpeg
 
 `cnn.py` Ce fichier contient le modèle et va automatiquement réaliser l'entrainement avec les path renseigné dans le fichier `convert_data.py`
 

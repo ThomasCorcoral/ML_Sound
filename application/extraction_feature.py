@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 import librosa
+from pydub import AudioSegment
 
 NMFCC_MFCC = 50
 NMELS_SPEC = 128
@@ -28,11 +29,14 @@ def extract_features_mfcc(file_name):
     if not (os.path.isfile(file_name)):
         return None
     try:
-        audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
+        if file_name.endswith('.mp3'):
+            audio, sample_rate = read_mp3(file_name)
+        else:
+            audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=NMFCC_MFCC)
         mfccsscaled = np.mean(mfccs.T, axis=0)
 
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file")
         return None
 
@@ -43,14 +47,25 @@ def extract_features_spec(file_name):
     if not (os.path.isfile(file_name)):
         return None
     try:
-        audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
+        if file_name.lower().endswith('.mp3'):
+            audio, sample_rate = read_mp3(file_name)
+        else:
+            audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast')
         spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=NMELS_SPEC,
                                               fmax=11000, power=0.5)
         specsscaled = np.mean(spec.T, axis=0)
-    except Exception as e:
+    except Exception:
         print("Error encountered while parsing file")
         return None
     return specsscaled
+
+
+def read_mp3(f):
+    sound = AudioSegment.from_mp3(f)
+    dst = '../local_saves/current.wav'
+    sound.export(dst, format="wav")
+    audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
+    return audio, sample_rate
 
 
 def feature_extraction(path, file_label, spec):
@@ -59,6 +74,7 @@ def feature_extraction(path, file_label, spec):
 
     for i in range(len(file_label)):
         file_path = path + "/" + str(file_label[i][1]) + "/" + str(file_label[i][0])
+
         # print(file_path)
         if spec:
             data = extract_features_spec(file_path)

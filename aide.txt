@@ -1,10 +1,13 @@
-Data path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez le dossier contenant votre "dataset" (Dossier compose de fichiers .wav).
+Data path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez le dossier contenant
+votre "dataset" (Dossier compose de fichiers .wav).
 
-CSV path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez votre fichier contenant les informations sur votre dataset (Un fichier tableur type Excel .csv).
+CSV path : Appuyer sur ce bouton fera apparaitre une fenetre. Depuis cette fenetre, selectionnez votre fichier contenant
+les informations sur votre dataset (Un fichier tableur type Excel .csv).
            Faites bien attention au contenu de votre fichier. Il doit contenir les 4 informations formatees dans cet ordre :
                 - name : Le nom du fichier sonore.
                 - folder : Le dossier dans lequel se trouve le fichier dans votre dossier "data", s'il n'y en a aucun, mettez '.'
-                - class : La classe de votre enregistrement, c'est-a-dire la separation entre dossiers / noms de chauves-souris dans notre cas (exemple : 0, 1, 2).
+                - class : La classe de votre enregistrement, c'est-a-dire la separation entre dossiers / noms de
+                chauves-souris dans notre cas (exemple : 0, 1, 2).
                 - class_name : Les noms de la classe correspondante (exemple: Pipistrelle, Rhinolophe, etc...).
 
 Format data : Prepare les donnees indiquees par les paths, et en extrait des fichiers .npy en fonction des options selectionnees.
