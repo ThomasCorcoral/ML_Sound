@@ -20,7 +20,7 @@ def my_model(size):
 
 def read_labels():
     class_label = []
-    with open('../local_saves/class_label.txt', 'r') as filehandle:
+    with open('../local_saves/data_format/class_label.txt', 'r') as filehandle:
         for line in filehandle:
             current_place = line[:-1]
             class_label.append(current_place)
@@ -28,10 +28,10 @@ def read_labels():
 
 
 def run_model(epoch=10):
-    train_audio = load('../local_saves/train_audio.npy')
-    train_labels = load('../local_saves/train_labels.npy')
-    test_audio = load('../local_saves/test_audio.npy')
-    test_labels = load('../local_saves/test_labels.npy')
+    train_audio = load('../local_saves/data_format/train_audio.npy')
+    train_labels = load('../local_saves/data_format/train_labels.npy')
+    test_audio = load('../local_saves/data_format/test_audio.npy')
+    test_labels = load('../local_saves/data_format/test_labels.npy')
     print("test audio size : " + str(len(test_audio)))
     print("test labels size : " + str(len(test_labels)))
     print("train audi size : " + str(len(train_audio)))

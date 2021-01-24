@@ -105,7 +105,8 @@ class Header:
 
 class InfosMenu:
     def __init__(self, can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
-                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry):
+                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry,
+                 save_data_but, name_data, name_data_entry):
         self.can_menu = can_menu
         self.text = text
         self.label = label
@@ -123,6 +124,9 @@ class InfosMenu:
         self.save_model_but = save_model_but
         self.name_model = name_model
         self.name_entry = name_entry
+        self.save_data_but = save_data_but
+        self.name_data = name_data
+        self.name_data_entry = name_data_entry
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -154,6 +158,9 @@ class InfosMenu:
     def get_save_name(self):
         return self.name_model.get()
 
+    def get_data_name(self):
+        return self.name_data.get()
+
     def display(self):
         self.can_menu.place(x=2, y=270)
         self.label.place(x=75, y=280)
@@ -165,6 +172,8 @@ class InfosMenu:
         self.ratio_spinbox.place(x=100, y=405)
         self.label_rs.place(x=35, y=435)
         self.rs_spinbox.place(x=100, y=435)
+        self.save_data_but.place(x=135, y=615)
+        self.name_data_entry.place(x=10, y=620)
         self.save_model_but.place(x=135, y=650)
         self.name_entry.place(x=10, y=655)
 
@@ -194,7 +203,6 @@ class AffichageSon:
         self.process_pic = process_pic
         self.open_test_but = open_test_but
         self.run_test_but = run_test_but
-
 
     def config(self):
         self.open_test_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bd=1, highlightthickness=0,
@@ -328,11 +336,15 @@ def init_infos_menu():
     rs = tk.StringVar()
     rs.set(10)
     rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
-    save_model_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as)
+    save_data_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as_data_format)
+    name_data = tk.StringVar(value='data')
+    name_data_entry = tk.Entry(window, textvariable=name_data)
+    save_model_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as_model)
     name_model = tk.StringVar(value='model')
     name_entry = tk.Entry(window, textvariable=name_model)
     infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
-                           ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry)
+                           ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry,
+                           save_data_but, name_data, name_data_entry)
     return infos_menu
 
 
@@ -407,16 +419,15 @@ def init_recap_selec():
     data_path_var.set("Data path :")
     csv_path_var = tk.StringVar()
     csv_path_var.set("CSV path :")
-
     data_path_label = tk.Label(window, textvariable=data_path_var, font=("Courrier", 11))
     csv_path_label = tk.Label(window, textvariable=csv_path_var, font=("Courrier", 11))
-
-    recap = RecapSelect(can, data_path_label, data_path_var, csv_path_label, csv_path_var)
-    return recap
+    recapit = RecapSelect(can, data_path_label, data_path_var, csv_path_label, csv_path_var)
+    return recapit
 
 ##########################################
 # Fonctions internes
 ##########################################
+
 
 def run_test_audio():
     if test_path != '':
@@ -442,7 +453,6 @@ def choose_dir_data():
     if new != '':
         data_path = new
         recap.update_data_path(data_path)
-
 
 
 def choose_path_csv():
@@ -497,16 +507,16 @@ def format_data():
 
 def run_model():
     global model
-    if not (os.path.isfile('../local_saves/test_audio.npy')):
+    if not (os.path.isfile('../local_saves/data_format/test_audio.npy')):
         print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not (os.path.isfile('../local_saves/train_audio.npy')):
+    if not (os.path.isfile('../local_saves/data_format/train_audio.npy')):
         print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
         return
-    if not (os.path.isfile('../local_saves/test_labels.npy')):
+    if not (os.path.isfile('../local_saves/data_format/test_labels.npy')):
         print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
         return
-    if not (os.path.isfile('../local_saves/train_labels.npy')):
+    if not (os.path.isfile('../local_saves/data_format/train_labels.npy')):
         print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
@@ -586,21 +596,38 @@ def show_audio_representation():
     plt.show()
 
 
-def save_as():
-    if not os.path.isdir("../local_saves"):
+def save_as_model():
+    if not os.path.isdir("../local_saves/model"):
         return
-    if os.listdir('../local_saves') == 0:
+    if os.listdir('../local_saves/model') == 0:
         return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
-                                              title="Selectionnez le chemin pour enregistrer votre modèle")
+                                              title="Choose a path to save your model")
     print(save_model_path)
     val_name = menu_infos.get_save_name()
     if val_name == '':
         shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves/model")
-    else :
+    else:
         shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/model")
     print("Copie terminée")
+
+
+def save_as_data_format():
+    if not os.path.isdir("../local_saves/data_format"):
+        return
+    if os.listdir('../local_saves/data_format') == 0:
+        return
+    print("save as")
+    save_model_path = filedialog.askdirectory(initialdir="./",
+                                              title="Choose a path to save your data")
+    print(save_model_path)
+    val_name = menu_infos.get_data_name()
+    if val_name == '':
+        shutil.make_archive(save_model_path + "/my_data", "zip", "../local_saves/data_format")
+    else:
+        shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/data_format")
+    print("Copy finish")
 
 
 def generate_csv():

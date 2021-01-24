@@ -31,7 +31,7 @@ def extract_feature(file_name, mfcc=True):
 
 def read_labels():
     class_label = []
-    with open('../local_saves/class_label.txt', 'r') as filehandle:
+    with open('../local_saves/data_format/class_label.txt', 'r') as filehandle:
         for line in filehandle:
             current_place = line[:-1]
             class_label.append(current_place)
