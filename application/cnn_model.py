@@ -2,6 +2,7 @@ import tensorflow as tf
 from numpy import load
 
 
+# The neural network responsible for the data analysis
 def my_model(size):
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(256, activation='relu'),
@@ -18,6 +19,7 @@ def my_model(size):
     return model
 
 
+# Is used to get the names (labels) of the species in class_label.txt
 def read_labels():
     class_label = []
     with open('../local_saves/data_format/class_label.txt', 'r') as filehandle:
@@ -27,6 +29,7 @@ def read_labels():
     return class_label
 
 
+# Is used to run the model for the training
 def run_model(epoch=10):
     train_audio = load('../local_saves/data_format/train_audio.npy')
     train_labels = load('../local_saves/data_format/train_labels.npy')

@@ -5,6 +5,11 @@ Created on Tue 29 Dec 2020
 @author: Pierre Barbat Maximilien Cetre Thomas Corcoral
 """
 
+"""
+The purpose of this file is to create the window that will allow the user to use
+the project to identify, play, or see the different spectrograms of a sound 
+"""
+
 ##########################################
 # Importation
 ##########################################
@@ -42,10 +47,14 @@ global path_csv
 global test_path
 global model
 
-
 ##########################################
 # Définition des classes
 ##########################################
+
+"""
+This part is for the appearance of all the element inside the window, like the size of it, where the buttons are
+For instance, once the accuracy percentage reaches a certain threshold, it will change color to indicate ifyou should trust or not the prediction
+"""
 
 
 class Menu:
@@ -257,16 +266,16 @@ class RecapSelect:
         self.csv_path_var.set("CSV path : " + new)
 
     def display(self):
-        self.can.place(x=WIDTH_BUT+20, y=HEIGHT / 2 + 265)
-        self.data_path_label.place(x=WIDTH_BUT+40, y=HEIGHT / 2 + 270)
-        self.csv_path_label.place(x=WIDTH_BUT+40, y=HEIGHT / 2 + 295)
+        self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265)
+        self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
+        self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
 
 ##########################################
 # Fonctions graphique
 ##########################################
 
-
+# This function is used to initialize the window, and lock its size
 def init_window():
     w = tk.Tk()
     w.title("Projet L3")
@@ -277,11 +286,13 @@ def init_window():
     return w
 
 
+# This function prints the current paths to the csv and data for the test
 def test():
     print("path csv : " + path_csv)
     print("path data : " + data_path)
 
 
+# This function creates the buttons needed to indicate the paths of the different data needed / processing the data
 def init_menu():
     folder_img = tk.PhotoImage(file='../img/folder.png').subsample(14, 14)
     save_csv_img = tk.PhotoImage(file='../img/save_csv.png').subsample(14, 14)
@@ -307,6 +318,7 @@ def init_menu():
     return win_menu
 
 
+# This is used to initialize the header for the window
 def init_header():
     icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
     can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
@@ -315,6 +327,7 @@ def init_header():
     return win_header
 
 
+# This is used to indicate all the needed informations to write the text on the buttons
 def init_infos_menu():
     can_menu = tk.Canvas(window, width=179, height=425, bg=BACKGROUND_TITLE, bd=0, highlightthickness=0, relief='ridge')
     text = tk.StringVar()
@@ -348,6 +361,7 @@ def init_infos_menu():
     return infos_menu
 
 
+# This is used to initialize the footer for the window
 def init_footer():
     can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
                            highlightthickness=0, relief='ridge')
@@ -357,6 +371,7 @@ def init_footer():
     return foot
 
 
+# This is used to return the results of the prediction
 def init_resultats():
     can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
@@ -370,6 +385,7 @@ def init_resultats():
     return result
 
 
+# This is used to create the buttons used to see the graphic representations of a sound
 def init_sons():
     wav_pic = tk.PhotoImage(file='../img/wav.png').subsample(14, 14)
     process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
@@ -391,6 +407,7 @@ def init_sons():
     return show_son
 
 
+# This is used to initialize the model using model.json and the obtained accuracy
 def init_model():
     try:
         # load json and create model
@@ -424,11 +441,14 @@ def init_recap_selec():
     recapit = RecapSelect(can, data_path_label, data_path_var, csv_path_label, csv_path_var)
     return recapit
 
+
 ##########################################
 # Fonctions internes
 ##########################################
 
 
+# This is used to play the sound so you can hear it. If it's an mp3, it will use pygame to play it,
+# otherwise, it will use playsound
 def run_test_audio():
     if test_path != '':
         if test_path.endswith('.mp3'):
@@ -439,14 +459,17 @@ def run_test_audio():
             playsound(test_path)
 
 
+# This is used to quit the application
 def leave():
     window.destroy()
 
 
+# This allows the estimated accuracy to be changed using the value in parameters
 def change(new):
     menu_infos.change_percent(new)
 
 
+# This is used to indicate the path to the dataset
 def choose_dir_data():
     global data_path
     new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
@@ -455,6 +478,7 @@ def choose_dir_data():
         recap.update_data_path(data_path)
 
 
+# This is used to indicate the path to the .csv
 def choose_path_csv():
     global path_csv
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
@@ -464,6 +488,7 @@ def choose_path_csv():
         recap.update_csv_path(path_csv)
 
 
+# This is used to indicate the path to the tested file
 def choose_test_path():
     global test_path
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
@@ -472,6 +497,7 @@ def choose_test_path():
         test_path = new
 
 
+# This is used to clear the paths to the different
 def clear_folder(folder):
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
@@ -486,6 +512,7 @@ def clear_folder(folder):
     return 0
 
 
+# This is used to format the data using the different paths indicated
 def format_data():
     if data_path == "":
         print("Erreur : Vous devez renseigner le chemin de votre dataset")
@@ -505,6 +532,7 @@ def format_data():
         return
 
 
+# This is used to run the model using cnn_model.py after formatting the data
 def run_model():
     global model
     if not (os.path.isfile('../local_saves/data_format/test_audio.npy')):
@@ -523,6 +551,7 @@ def run_model():
     menu_infos.change_percent(accuracy)
 
 
+# This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it
 def predict():
     global model, path_csv
     if test_path == "":
@@ -550,6 +579,7 @@ def predict():
     res.new_res(all_prob)
 
 
+# This is used to show the spectrogram corresponding to the sound that is being tested
 def show_spectrogramme():
     if not (os.path.isfile(test_path)):
         return
@@ -564,6 +594,7 @@ def show_spectrogramme():
     plt.show()
 
 
+# This is used to show the mfcc corresponding to the sound that is being tested
 def show_mfccs():
     if not (os.path.isfile(test_path)):
         return
@@ -577,6 +608,7 @@ def show_mfccs():
     plt.show()
 
 
+# This is used to show the audio representation corresponding to the sound that is being tested
 def show_audio_representation():
     if not (os.path.isfile(test_path)):
         return
@@ -596,6 +628,8 @@ def show_audio_representation():
     plt.show()
 
 
+# This is used save the current model in the "local save" folder to be able to use it later without re-creating every
+# step
 def save_as_model():
     if not os.path.isdir("../local_saves/model"):
         return
@@ -613,6 +647,7 @@ def save_as_model():
     print("Copie terminée")
 
 
+# This is used to save the data for later
 def save_as_data_format():
     if not os.path.isdir("../local_saves/data_format"):
         return
@@ -630,6 +665,7 @@ def save_as_data_format():
     print("Copy finish")
 
 
+# This is used to generate a .csv (Spreadsheet) using the Data set indicated
 def generate_csv():
     print("generate csv")
     if data_path == "":
@@ -641,6 +677,10 @@ def generate_csv():
 ##########################################
 # Aide
 ##########################################
+
+"""
+This class is used to print the help / instructions should the user press the help button in the bottom right corner
+"""
 
 
 class Aide:
@@ -655,6 +695,7 @@ class Aide:
         self.main_can.place(x=0, y=0)
 
 
+# Is used to create the help window
 def init_aide(win):
     main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT, bd=0,
                          highlightthickness=0, relief='ridge')
@@ -662,6 +703,7 @@ def init_aide(win):
     return aide
 
 
+# Is used to show aide.txt
 def show_aide():
     win = tk.Toplevel(window)
     win.title("Aide Projet L3")

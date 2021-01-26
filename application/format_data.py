@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from numpy import save
 
 
+# Is used to get the informations contained in the .csv indicatedd by the user
 def get_infos(path_csv):
     data = []
     with open(path_csv, newline='') as f:
@@ -26,6 +27,7 @@ def get_infos(path_csv):
     return data
 
 
+# Is used to get the name (labels) of the bats : birds and store them in a .txt (used by the programm)
 def get_labels(path_csv, path_txt='../local_saves/class_label.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
@@ -36,6 +38,8 @@ def get_labels(path_csv, path_txt='../local_saves/class_label.txt'):
                 class_label.append(row["class_name"])
 
 
+# Is used to get the data in the .csv, get the sound data and names, transform them in .npy, then get train_audio,
+# train_label, test_audio and test_label and get the labels
 def conv_data(path_data, path_csv, ratio=0.1, rs=42, spec=False):
     infos = get_infos(path_csv)
     featuresdf, train_labels = ef.feature_extraction(path_data, infos, spec)

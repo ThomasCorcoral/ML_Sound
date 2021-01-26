@@ -8,6 +8,7 @@ NMFCC_MFCC = 50
 NMELS_SPEC = 128
 
 
+# Is used to get an array containing the results after they are compared (with mfcc or spectrogram)
 def extract_feature(file_name, mfcc=True):
     try:
         if file_name.endswith('.mp3'):
@@ -29,6 +30,7 @@ def extract_feature(file_name, mfcc=True):
     return np.array([result])
 
 
+# Is used to get the name of the animal in class_label.txt
 def read_labels():
     class_label = []
     with open('../local_saves/data_format/class_label.txt', 'r') as filehandle:
@@ -38,6 +40,7 @@ def read_labels():
     return class_label
 
 
+# Is used to transform a .mp3 into a.wav and get the needed data to have the mfcc or spectrogram
 def read_mp3(f):
     sound = AudioSegment.from_mp3(f)
     dst = '../local_saves/current.wav'
@@ -46,6 +49,7 @@ def read_mp3(f):
     return audio, sample_rate
 
 
+# Prints the estimated specie for the sound and the general percentages
 def print_prediction(file_name, model, mfcc):
     prediction_feature = extract_feature(file_name, mfcc)
     class_label = read_labels()

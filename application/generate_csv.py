@@ -2,6 +2,7 @@ import csv
 import os
 
 
+# Is used to get all the folders inside the indicated folder, to get the species of the animals
 def deep_search(full_path, local_path):
     res = []
     list_of_dir = os.listdir(full_path)
@@ -15,6 +16,8 @@ def deep_search(full_path, local_path):
     return res
 
 
+# Generates a .csv using a folder
+# Inside the folder, there must be other folders named after the species, and containing the sounds of said species
 def generate(path):
     with open('../local_saves/auto_generate.csv', 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile)

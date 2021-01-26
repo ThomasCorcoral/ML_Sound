@@ -24,3 +24,20 @@ Le pourcentage que vous verrez apres est la precision estimee de l'entrainement.
 Test path : Chemin vers votre fichier a tester en utilisant l'entrainement precedent. Il doit s'agir d'un fichier sonore .wav
 
 Run test : Permet de lancer la reconnaissance du modele.
+
+
+Parmis les autres boutons :
+
+Play Test File : Permet de jouer le son indiqué dans Test Path
+
+Enregistrer sous : Permet d'enregistrer le modèle actuel afin de pouvoir revenir dessus sans refaire toutes les manipulations
+
+Generer CSV : Permet de générer le .csv du dataset indiqué de manière automatique. N'oubliez pas de déplacer le .csv hors du fichier local_saves (Car clear après)
+ATTENTION : Pour générer le .csv, veuillez bien faire attention à ce que les sons de chaque oiseau / chauve-souris soit dans un fichier ayant pour nom l'espèce de l'animal
+(Par exemple, in fichier "data" avec un fichier pour chaque espèce, avec les sons de l'espèce dedans)
+
+Voir audio: Permet de visualiser la représentation graphique du son de Test Path
+
+Voir Spectrogramme : Permet de visualiser le spectrogramme du son de Test Path
+
+Voir MFCC: Permet de visualiser le mfcc du son de Test Path

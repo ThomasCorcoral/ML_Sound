@@ -7,15 +7,17 @@ from pydub import AudioSegment
 NMFCC_MFCC = 50
 NMELS_SPEC = 128
 
-
+# Returns NMELS_SPEC (128)
 def get_nmels_spec():
     return NMELS_SPEC
 
 
+# Returns NMFCC_MFCC (50)
 def get_nmfcc_mfcc():
     return NMFCC_MFCC
 
 
+# Is used to get the audio files in the folder indicated in the parameters
 def get_audio_files(ip_dir):
     matches = []
     for root, dirnames, filenames in os.walk(ip_dir):
@@ -25,6 +27,7 @@ def get_audio_files(ip_dir):
     return matches
 
 
+# Is used to get the mfcc of the sound file
 def extract_features_mfcc(file_name):
     if not (os.path.isfile(file_name)):
         return None
@@ -43,6 +46,7 @@ def extract_features_mfcc(file_name):
     return mfccsscaled
 
 
+# Is used to get the spectrogram of the sound file
 def extract_features_spec(file_name):
     if not (os.path.isfile(file_name)):
         return None
@@ -60,6 +64,7 @@ def extract_features_spec(file_name):
     return specsscaled
 
 
+# Is used to transform a .mp3 into a .wav
 def read_mp3(f):
     sound = AudioSegment.from_mp3(f)
     dst = '../local_saves/current.wav'
@@ -68,6 +73,7 @@ def read_mp3(f):
     return audio, sample_rate
 
 
+# Is used get the spectrogram or the mfcc of the indicated sound file
 def feature_extraction(path, file_label, spec):
     res = []
     train_labels = []
