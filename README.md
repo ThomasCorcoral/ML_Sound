@@ -48,7 +48,7 @@ The application developed in python uses the tkinter library to perform the foll
 
 #### <a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Visit it</a>
 
-  3000This website contains :
+  This website contains :
 <ul>
   <li>A training section to learn the basics to contribute to the project</li>
   <li>Different resources + meeting minutes</li>
