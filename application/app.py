@@ -24,7 +24,6 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io.wavfile import read
-from playsound import playsound
 from keras.models import model_from_json
 from pygame import mixer
 from pydub import AudioSegment
@@ -55,7 +54,8 @@ global model
 
 """
 This part is for the appearance of all the element inside the window, like the size of it, where the buttons are
-For instance, once the accuracy percentage reaches a certain threshold, it will change color to indicate ifyou should trust or not the prediction
+For instance, once the accuracy percentage reaches a certain threshold, it will change color to indicate ifyou should 
+trust or not the prediction
 """
 
 
@@ -111,7 +111,7 @@ class Header:
 
     def creation(self):
         self.can.create_image(30, 25, image=self.icon)
-        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="Projet L3")
+        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="   L3 project")
 
     def display(self):
         self.can.place(x=2, y=2)
@@ -209,9 +209,10 @@ class InfosMenu:
 
 
 class Footer:
-    def __init__(self, can, but):
+    def __init__(self, can, but, help_button):
         self.can = can
         self.but = but
+        self.help_button = help_button
 
     def creation(self):
         self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 0.3")
@@ -219,8 +220,10 @@ class Footer:
     def display(self):
         if sys.platform.startswith('linux'):
             self.but.place(x=WIDTH_LINUX - 75, y=HEIGHT_LINUX - 38)
+            self.help_button.place(x=WIDTH_LINUX - 150, y=HEIGHT_LINUX - 38)
         else:
             self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
+            self.help_button.place(x=WIDTH - 110, y=HEIGHT - 33)
         if sys.platform.startswith('linux'):
             self.can.place(x=WIDTH_BUT + 25, y=HEIGHT_LINUX - LENGTH_BUT - 10)
         else:
@@ -319,7 +322,7 @@ class RecapSelect:
 # This function is used to initialize the window, and lock its size
 def init_window():
     w = tk.Tk()
-    w.title("Projet L3")
+    w.title("L3 project")
     w.geometry(str(WIDTH_LINUX) + "x" + str(HEIGHT_LINUX))
     w.minsize(WIDTH_LINUX, HEIGHT_LINUX)
     w.maxsize(WIDTH_LINUX, HEIGHT_LINUX)
@@ -344,7 +347,7 @@ def init_menu():
     can_menu = tk.Canvas(window, width=0, height=0)
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
                                compound='left', command=choose_dir_data)
-    generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generer .CSV", font=("Courrier", 14), fg='black',
+    generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generate .CSV", font=("Courrier", 14), fg='black',
                                  compound='left', command=generate_csv)
     open_csv_but = tk.Button(window, image=csv_pic, text="  CSV Path", font=("Courrier", 14), fg='black',
                              compound='left', command=choose_path_csv)
@@ -352,7 +355,7 @@ def init_menu():
                                 compound='left', command=format_data)
     run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", 14), fg='black',
                               compound='left', command=run_model)
-    quit_but = tk.Button(window, image=quit_pic, text="  Quitter", font=("Courrier", 14), fg='black', compound='left',
+    quit_but = tk.Button(window, image=quit_pic, text="  Exit", font=("Courrier", 14), fg='black', compound='left',
                          command=leave)
     win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, quit_but, csv_pic,
                     open_csv_but, format_data_but, format_pic, generate_csv_but, save_csv_img)
@@ -390,7 +393,7 @@ def init_infos_menu():
     spec = tk.IntVar()
     mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
     mfcc_choice.select()
-    spec_choice = tk.Radiobutton(window, text="SPECTROGRAMME", variable=spec, value=1, bg=BACKGROUND_TITLE)
+    spec_choice = tk.Radiobutton(window, text="SPECTROGRAM", variable=spec, value=1, bg=BACKGROUND_TITLE)
     label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     ratio = tk.StringVar()
     ratio.set(10)
@@ -419,9 +422,13 @@ def init_footer():
     else:
         can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
                                highlightthickness=0, relief='ridge')
-    web_button = tk.Button(window, text="Aide", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
-                           command=show_aide)
-    foot = Footer(can_footer, web_button)
+    aide_button = tk.Button(window, text="Aide", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
+                            command=show_aide)
+
+    help_button = tk.Button(window, text="Help", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
+                            command=show_help)
+
+    foot = Footer(can_footer, aide_button, help_button)
     return foot
 
 
@@ -449,11 +456,11 @@ def init_sons():
     process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
     can = tk.Canvas(window, width=0, height=0, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
-    show_audio = tk.Button(window, text="Voir audio", font=("Courrier", 14), fg='black',
+    show_audio = tk.Button(window, text="Show audio", font=("Courrier", 14), fg='black',
                            compound='left', command=show_audio_representation)
-    show_spec = tk.Button(window, text="Voir spectrogramme", font=("Courrier", 14), fg='black',
+    show_spec = tk.Button(window, text="Show spectrogram", font=("Courrier", 14), fg='black',
                           compound='left', command=show_spectrogramme)
-    show_mfcc = tk.Button(window, text="Voir mfcc", font=("Courrier", 14), fg='black',
+    show_mfcc = tk.Button(window, text="Show mfcc", font=("Courrier", 14), fg='black',
                           compound='left', command=show_mfccs)
     play_btn = tk.Button(window, text='Play Test File', font=("Courrier", 14), command=lambda: run_test_audio())
     open_test_but = tk.Button(window, image=wav_pic, text="  Test Path", font=("Courrier", 14), fg='black',
@@ -577,22 +584,22 @@ def clear_folder(folder):
 # This is used to format the data using the different paths indicated
 def format_data():
     if data_path == "":
-        print("Erreur : Vous devez renseigner le chemin de votre dataset")
+        print("Error : You need to specify th path to your data")
         return
     if path_csv == "":
-        print("Erreur : Vous devez renseigner le chemin de votre fichier csv")
+        print("Error : You need to specify th path to your csv file")
         return
     if not os.path.exists('../local_saves/data_format'):
         os.mkdir('../local_saves/data_format')
     elif clear_folder("../local_saves/data_format") == -1:
-        print("Erreur : Le dossier ../local_saves n'a pas pu être nettoye")
+        print("Error : Le directory ../local_saves could not be cleaned")
         return
-    print("Lancement pour le dossier : " + data_path)
-    print("Et le fichier CSV : " + path_csv)
+    print("Start with data : " + data_path)
+    print("And csv file : " + path_csv)
     # if fd.conv_data(data_path, path_csv, ratio=menu_infos.get_ratio(), rs=menu_infos.get_rs(),
     #                 spec=menu_infos.get_spec()) == -1:
     if fd.conv_data(data_path, path_csv, spec=menu_infos.get_spec()) == -1:
-        print("Erreur : Un des fichier indiqué n'existe pas")
+        print("Error : One of the file doesn't exists or is corrupt")
         return
 
 
@@ -600,16 +607,16 @@ def format_data():
 def run_model():
     global model
     if not (os.path.isfile('../local_saves/data_format/test_audio.npy')):
-        print("Il manque le fichier test_audio.npy essayez de relancer le formatage des fichiers")
+        print("The file test_audio.npy is missing try to format again")
         return
     if not (os.path.isfile('../local_saves/data_format/train_audio.npy')):
-        print("Il manque le fichier train_audio.npy essayez de relancer le formatage des fichiers")
+        print("The file fichier train_audio.npy is missing try to format again")
         return
     if not (os.path.isfile('../local_saves/data_format/test_labels.npy')):
-        print("Il manque le fichier test_labels.npy essayez de relancer le formatage des fichiers")
+        print("The file fichier test_labels.npy is missing try to format again")
         return
     if not (os.path.isfile('../local_saves/data_format/train_labels.npy')):
-        print("Il manque le fichier train_labels.npy essayez de relancer le formatage des fichiers")
+        print("The file fichier train_labels.npy is missing try to format again")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
     menu_infos.change_percent(accuracy)
@@ -619,7 +626,7 @@ def run_model():
 def predict():
     global model, path_csv
     if test_path == "":
-        print("Erreur : Vous devez selectionner un fichier audio .wav en cliquant sur le bouton Test Path")
+        print("Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
         return
     if not model:
         accuracy, model = cnn.run_model()
@@ -711,7 +718,7 @@ def save_as_model():
         shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves/model")
     else:
         shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/model")
-    print("Copie terminée")
+    print("Copy completed")
 
 
 # This is used to save the data for later
@@ -729,14 +736,14 @@ def save_as_data_format():
         shutil.make_archive(save_model_path + "/my_data", "zip", "../local_saves/data_format")
     else:
         shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/data_format")
-    print("Copy finish")
+    print("Copy completed")
 
 
 # This is used to generate a .csv (Spreadsheet) using the Data set indicated
 def generate_csv():
     print("generate csv")
     if data_path == "":
-        print("Erreur : Vous devez renseigner le chemin de votre dataset")
+        print("Error : You have to enter your data path")
         return
     gc.generate(data_path)
 
@@ -754,10 +761,11 @@ class Aide:
     def __init__(self, main_can):
         self.main_can = main_can
 
-    def creation(self):
-        f = open("../aide.txt", "r")
+    def creation(self, path_help):
+        f = open(path_help, "r")
         if sys.platform.startswith('linux'):
-            self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 12), fill='black', text=f.read())
+            self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 12), fill='black',
+                                      text=f.read())
         else:
             self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 12), fill='black', text=f.read())
 
@@ -775,10 +783,9 @@ def init_aide(win):
     return aide
 
 
-# Is used to show aide.txt
-def show_aide():
+def create_help(path_help):
     win = tk.Toplevel(window)
-    win.title("Aide Projet L3")
+    win.title("Help L3 project")
     if sys.platform.startswith('linux'):
         local_width = WIDTH_LINUX
         local_height = HEIGHT_LINUX
@@ -790,8 +797,17 @@ def show_aide():
     win.maxsize(local_width, local_height)
     win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
     aide = init_aide(win)
-    aide.creation()
+    aide.creation(path_help)
     aide.display()
+
+
+# Is used to show aide.txt
+def show_aide():
+    create_help("../aide.txt")
+
+
+def show_help():
+    create_help("../aide_en.txt")
 
 
 ##########################################
@@ -848,6 +864,5 @@ if __name__ == "__main__":
     path_csv = ""
     test_path = ""
     model = init_model()
-
 
     window.mainloop()
