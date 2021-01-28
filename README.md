@@ -19,10 +19,10 @@ WINDOWS :
 <ul>
   <li>Install ffmpeg throught sudo apt install ffmpeg </li>
 </ul>
-<br>
-`cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file<br>
-<br>
-`app.py` GUI application that makes it easy and easy to use deeplearning to detect an unknown record from a database<br>
+
+`cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file
+
+`app.py` GUI application that makes it easy and easy to use deeplearning to detect an unknown record from a database
 
 ## Test
 
