@@ -8,10 +8,12 @@
 ## Train
 
 To use .mp3 please: <br>
-  WINDOWS : - fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable <br>
-            - Unzip the ffmpeg.7z file in the ffmpeg<br>
+  WINDOWS : <br>
+    *- fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable <br>
+    *- Unzip the ffmpeg.7z file in the ffmpeg<br>
   <br>
-  LINUX :   - Install ffmpeg throught `sudo apt install ffmpeg` <br>
+  LINUX : <br>
+    *- Install ffmpeg throught `sudo apt install ffmpeg` <br>
  <br>
 `cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file<br>
 <br>
