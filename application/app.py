@@ -3,9 +3,7 @@
 Created on Tue 29 Dec 2020
 
 @author: Pierre Barbat Maximilien Cetre Thomas Corcoral
-"""
 
-"""
 The purpose of this file is to create the window that will allow the user to use
 the project to identify, play, or see the different spectrograms of a sound 
 """
@@ -30,13 +28,16 @@ from playsound import playsound
 from keras.models import model_from_json
 from pygame import mixer
 from pydub import AudioSegment
+import sys
 
 ##########################################
 # Variables globales
 ##########################################
 
 WIDTH = 1300
+WIDTH_LINUX = 1500
 HEIGHT = 740
+HEIGHT_LINUX = 850
 BACKGROUND_MENU = '#445976'
 BACKGROUND_TITLE = '#2f3d51'
 BACKGROUND_SOUND = '#59759c'
@@ -46,6 +47,7 @@ global data_path
 global path_csv
 global test_path
 global model
+
 
 ##########################################
 # Définition des classes
@@ -95,7 +97,10 @@ class Menu:
         self.open_csv_but.place(x=2, y=140)
         self.format_data_but.place(x=2, y=184)
         self.run_but.place(x=2, y=228)
-        self.quit_but.place(x=2, y=HEIGHT - 45)
+        if sys.platform.startswith('linux'):
+            self.quit_but.place(x=0, y=HEIGHT_LINUX - 50)
+        else:
+            self.quit_but.place(x=2, y=HEIGHT - 45)
         self.can.place(x=-1, y=0)
 
 
@@ -171,20 +176,36 @@ class InfosMenu:
         return self.name_data.get()
 
     def display(self):
-        self.can_menu.place(x=2, y=270)
-        self.label.place(x=75, y=280)
-        self.label_epoch.place(x=35, y=318)
-        self.epoch.place(x=100, y=320)
-        self.mfcc_choice.place(x=35, y=350)
-        self.spec_choice.place(x=35, y=375)
-        self.label_ratio.place(x=35, y=405)
-        self.ratio_spinbox.place(x=100, y=405)
-        self.label_rs.place(x=35, y=435)
-        self.rs_spinbox.place(x=100, y=435)
-        self.save_data_but.place(x=135, y=615)
-        self.name_data_entry.place(x=10, y=620)
-        self.save_model_but.place(x=135, y=650)
-        self.name_entry.place(x=10, y=655)
+        if sys.platform.startswith('linux'):
+            self.can_menu.place(x=0, y=280)
+            self.label.place(x=75, y=290)
+            self.label_epoch.place(x=35, y=328)
+            self.epoch.place(x=100, y=330)
+            self.mfcc_choice.place(x=35, y=360)
+            self.spec_choice.place(x=35, y=385)
+            self.label_ratio.place(x=35, y=415)
+            self.ratio_spinbox.place(x=100, y=415)
+            self.label_rs.place(x=35, y=445)
+            self.rs_spinbox.place(x=100, y=445)
+            self.name_entry.place(x=16, y=650)
+            self.save_model_but.place(x=68, y=680)
+            self.save_data_but.place(x=68, y=760)
+            self.name_data_entry.place(x=16, y=730)
+        else:
+            self.can_menu.place(x=2, y=270)
+            self.label.place(x=75, y=280)
+            self.label_epoch.place(x=35, y=318)
+            self.epoch.place(x=100, y=320)
+            self.mfcc_choice.place(x=35, y=350)
+            self.spec_choice.place(x=35, y=375)
+            self.label_ratio.place(x=35, y=405)
+            self.ratio_spinbox.place(x=100, y=405)
+            self.label_rs.place(x=35, y=435)
+            self.rs_spinbox.place(x=100, y=435)
+            self.save_data_but.place(x=135, y=615)
+            self.name_data_entry.place(x=10, y=620)
+            self.save_model_but.place(x=135, y=650)
+            self.name_entry.place(x=10, y=655)
 
 
 class Footer:
@@ -193,11 +214,17 @@ class Footer:
         self.but = but
 
     def creation(self):
-        self.can.create_text(20, 20, font=("Courrier", 12), fill='white', text="v 0.2")
+        self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 0.3")
 
     def display(self):
-        self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
-        self.can.place(x=WIDTH_BUT + 5, y=HEIGHT - LENGTH_BUT - 2)
+        if sys.platform.startswith('linux'):
+            self.but.place(x=WIDTH_LINUX - 75, y=HEIGHT_LINUX - 38)
+        else:
+            self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
+        if sys.platform.startswith('linux'):
+            self.can.place(x=WIDTH_BUT + 25, y=HEIGHT_LINUX - LENGTH_BUT - 10)
+        else:
+            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT - LENGTH_BUT - 2)
 
 
 class AffichageSon:
@@ -223,13 +250,22 @@ class AffichageSon:
         self.can.create_text(WIDTH_BUT + 5, HEIGHT / 2 - 50, font=("Courrier", 12), fill='white', text="v 0.1")
 
     def display(self):
-        self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
-        self.show_audio.place(x=300, y=HEIGHT / 2 + 180)
-        self.show_spec.place(x=650, y=HEIGHT / 2 + 180)
-        self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 180)
-        self.play_btn.place(x=680, y=HEIGHT / 2 + 130)
-        self.open_test_but.place(x=435, y=HEIGHT / 2 + 210)
-        self.run_test_but.place(x=880, y=HEIGHT / 2 + 210)
+        if sys.platform.startswith('linux'):
+            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT_LINUX / 2 - 40)
+            self.show_audio.place(x=300, y=HEIGHT_LINUX / 2 + 130)
+            self.show_spec.place(x=740, y=HEIGHT_LINUX / 2 + 130)
+            self.show_mfcc.place(x=1280, y=HEIGHT_LINUX / 2 + 130)
+            self.play_btn.place(x=770, y=HEIGHT_LINUX / 2 + 220)
+            self.open_test_but.place(x=440, y=HEIGHT_LINUX / 2 + 210)
+            self.run_test_but.place(x=1050, y=HEIGHT_LINUX / 2 + 210)
+        else:
+            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
+            self.show_audio.place(x=300, y=HEIGHT / 2 + 180)
+            self.show_spec.place(x=650, y=HEIGHT / 2 + 180)
+            self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 180)
+            self.play_btn.place(x=680, y=HEIGHT / 2 + 130)
+            self.open_test_but.place(x=435, y=HEIGHT / 2 + 210)
+            self.run_test_but.place(x=880, y=HEIGHT / 2 + 210)
 
 
 class AffichageRes:
@@ -266,9 +302,14 @@ class RecapSelect:
         self.csv_path_var.set("CSV path : " + new)
 
     def display(self):
-        self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265)
-        self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
-        self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
+        if sys.platform.startswith('linux'):
+            self.can.place(x=WIDTH_BUT + 50, y=HEIGHT_LINUX / 2 + 300)
+            self.data_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 305)
+            self.csv_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 332)
+        else:
+            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265-500)
+            self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
+            self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
 
 ##########################################
@@ -279,9 +320,9 @@ class RecapSelect:
 def init_window():
     w = tk.Tk()
     w.title("Projet L3")
-    w.geometry(str(WIDTH) + "x" + str(HEIGHT))
-    w.minsize(WIDTH, HEIGHT)
-    w.maxsize(WIDTH, HEIGHT)
+    w.geometry(str(WIDTH_LINUX) + "x" + str(HEIGHT_LINUX))
+    w.minsize(WIDTH_LINUX, HEIGHT_LINUX)
+    w.maxsize(WIDTH_LINUX, HEIGHT_LINUX)
     w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="../img/logo.png"))
     return w
 
@@ -321,15 +362,24 @@ def init_menu():
 # This is used to initialize the header for the window
 def init_header():
     icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
-    can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0, relief='ridge',
-                         bg=BACKGROUND_TITLE)
+    if sys.platform.startswith('linux'):
+        can_head = tk.Canvas(window, width=WIDTH_BUT + 26, height=HEIGHT / 15 + 2, bd=0, highlightthickness=0,
+                             relief='ridge', bg=BACKGROUND_TITLE)
+    else:
+        can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0,
+                             relief='ridge', bg=BACKGROUND_TITLE)
     win_header = Header(can_head, icon)
     return win_header
 
 
 # This is used to indicate all the needed informations to write the text on the buttons
 def init_infos_menu():
-    can_menu = tk.Canvas(window, width=179, height=425, bg=BACKGROUND_TITLE, bd=0, highlightthickness=0, relief='ridge')
+    if sys.platform.startswith('linux'):
+        can_menu = tk.Canvas(window, width=200, height=520, bg=BACKGROUND_TITLE, bd=0,
+                             highlightthickness=0, relief='ridge')
+    else:
+        can_menu = tk.Canvas(window, width=179, height=425, bg=BACKGROUND_TITLE, bd=0,
+                             highlightthickness=0, relief='ridge')
     text = tk.StringVar()
     text.set("- %")
     label = tk.Label(window, textvariable=text, font=("Courrier", 14), bg=BACKGROUND_TITLE)
@@ -363,8 +413,12 @@ def init_infos_menu():
 
 # This is used to initialize the footer for the window
 def init_footer():
-    can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
-                           highlightthickness=0, relief='ridge')
+    if sys.platform.startswith('linux'):
+        can_footer = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=LENGTH_BUT+15, bg=BACKGROUND_TITLE,
+                               bd=0, highlightthickness=0, relief='ridge')
+    else:
+        can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
+                               highlightthickness=0, relief='ridge')
     web_button = tk.Button(window, text="Aide", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
                            command=show_aide)
     foot = Footer(can_footer, web_button)
@@ -373,8 +427,12 @@ def init_footer():
 
 # This is used to return the results of the prediction
 def init_resultats():
-    can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
-                    highlightthickness=0, relief='ridge')
+    if sys.platform.startswith('linux'):
+        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
+                        highlightthickness=0, relief='ridge')
+    else:
+        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
+                        highlightthickness=0, relief='ridge')
     prediction = tk.StringVar()
     prediction.set("")
     prediction_label = tk.Label(window, textvariable=prediction, font=("Courrier", 16), bg=BACKGROUND_SOUND)
@@ -430,8 +488,12 @@ def init_model():
 
 
 def init_recap_selec():
-    can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="white", bd=0, highlightthickness=0,
-                    relief='ridge')
+    if sys.platform.startswith('linux'):
+        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 80, height=60, bg="white", bd=0, highlightthickness=0,
+                        relief='ridge')
+    else:
+        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="white", bd=0, highlightthickness=0,
+                        relief='ridge')
     data_path_var = tk.StringVar()
     data_path_var.set("Data path :")
     csv_path_var = tk.StringVar()
@@ -451,12 +513,12 @@ def init_recap_selec():
 # otherwise, it will use playsound
 def run_test_audio():
     if test_path != '':
-        if test_path.endswith('.mp3'):
-            mixer.init()
-            mixer.music.load(test_path)
-            mixer.music.play()
-        else:
-            playsound(test_path)
+        # if test_path.endswith('.mp3'):
+        mixer.init()
+        mixer.music.load(test_path)
+        mixer.music.play()
+        # else:
+        #     playsound(test_path)
 
 
 # This is used to quit the application
@@ -520,7 +582,9 @@ def format_data():
     if path_csv == "":
         print("Erreur : Vous devez renseigner le chemin de votre fichier csv")
         return
-    if clear_folder("../local_saves") == -1:
+    if not os.path.exists('../local_saves/data_format'):
+        os.mkdir('../local_saves/data_format')
+    elif clear_folder("../local_saves/data_format") == -1:
         print("Erreur : Le dossier ../local_saves n'a pas pu être nettoye")
         return
     print("Lancement pour le dossier : " + data_path)
@@ -618,14 +682,17 @@ def show_audio_representation():
         sound.export(dst, format="wav")
     else:
         dst = test_path
-    samplerate, data = read(dst)
-    duration = len(data) / samplerate
-    time = np.arange(0, duration, 1 / samplerate)  # time vector
-    plt.plot(time, data)
-    plt.xlabel('Time [s]')
-    plt.ylabel('Amplitude')
-    plt.title('Représentation de l audio')
-    plt.show()
+    try:
+        samplerate, data = read(dst)
+        duration = len(data) / samplerate
+        time = np.arange(0, duration, 1 / samplerate)  # time vector
+        plt.plot(time, data)
+        plt.xlabel('Time [s]')
+        plt.ylabel('Amplitude')
+        plt.title('Audio representation')
+        plt.show()
+    except ValueError:
+        print("Error : x and y must have same first dimension")
 
 
 # This is used save the current model in the "local save" folder to be able to use it later without re-creating every
@@ -689,7 +756,10 @@ class Aide:
 
     def creation(self):
         f = open("../aide.txt", "r")
-        self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 12), fill='black', text=f.read())
+        if sys.platform.startswith('linux'):
+            self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 12), fill='black', text=f.read())
+        else:
+            self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 12), fill='black', text=f.read())
 
     def display(self):
         self.main_can.place(x=0, y=0)
@@ -697,8 +767,10 @@ class Aide:
 
 # Is used to create the help window
 def init_aide(win):
-    main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT, bd=0,
-                         highlightthickness=0, relief='ridge')
+    if sys.platform.startswith('linux'):
+        main_can = tk.Canvas(win, width=WIDTH_LINUX, height=HEIGHT_LINUX, bd=0, highlightthickness=0, relief='ridge')
+    else:
+        main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT, bd=0, highlightthickness=0, relief='ridge')
     aide = Aide(main_can)
     return aide
 
@@ -707,8 +779,12 @@ def init_aide(win):
 def show_aide():
     win = tk.Toplevel(window)
     win.title("Aide Projet L3")
-    local_width = WIDTH
-    local_height = HEIGHT
+    if sys.platform.startswith('linux'):
+        local_width = WIDTH_LINUX
+        local_height = HEIGHT_LINUX
+    else:
+        local_width = WIDTH
+        local_height = HEIGHT
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
@@ -728,7 +804,10 @@ if __name__ == "__main__":
     window = init_window()
 
     # Initialisation du fond d'écran de l'application
-    background_image = tk.PhotoImage(file='../img/background.png')
+    if sys.platform.startswith('linux'):
+        background_image = tk.PhotoImage(file='../img/background_linux.png')
+    else:
+        background_image = tk.PhotoImage(file='../img/background.png')
     background_label = tk.Label(window, image=background_image)
     background_label.place(x=0, y=0)
 
@@ -769,5 +848,6 @@ if __name__ == "__main__":
     path_csv = ""
     test_path = ""
     model = init_model()
+
 
     window.mainloop()

@@ -1,5 +1,6 @@
 import tensorflow as tf
 from numpy import load
+import os as os
 
 
 # The neural network responsible for the data analysis
@@ -48,6 +49,8 @@ def run_model(epoch=10):
     score = model.evaluate(test_audio, test_labels, verbose=1)
     accuracy = 100 * score[1]
     json_file = model.to_json()
+    if not os.path.exists('../local_saves/model'):
+        os.mkdir('../local_saves/model')
     with open("../local_saves/model/model.json", "w") as file:
         file.write(json_file)
     with open("../local_saves/accuracy.txt", "w") as file:
