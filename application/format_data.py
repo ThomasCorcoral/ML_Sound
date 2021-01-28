@@ -28,7 +28,7 @@ def get_infos(path_csv):
 
 
 # Is used to get the name (labels) of the bats : birds and store them in a .txt (used by the programm)
-def get_labels(path_csv, path_txt='../local_saves/class_label.txt'):
+def get_labels(path_csv, path_txt='../local_saves/data_format/class_label.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
