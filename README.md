@@ -1,59 +1,61 @@
-# Outils d’apprentissage pour l’identification de faune sauvage
-#### Classification d'enregistrement audio par deeplearning
+# Wildlife Identification Learning Tools
+#### Audio Recording Classification by Machine Learning
 
-#### Lien pour télécharger UrbanSound8K pour tester le programme : https://goo.gl/8hY5ER
+#### Link to download UrbanSound8K to test the program : https://goo.gl/8hY5ER
 
-#### Lien pour télécharger le dataset sur les oiseaux (en construction) : https://mega.nz/file/ong2nBYY#FMvn2lxBZrS7bBD0sABSQ9z6Q5GOcYF0agXG_Y4t52Y
+#### Link to download bird dataset (under construction) : https://mega.nz/file/ong2nBYY#FMvn2lxBZrS7bBD0sABSQ9z6Q5GOcYF0agXG_Y4t52Y
 
 ## Train
 
-Pour utiliser des fichiers .mp3 veuillez à : 
-  - bien renseigner le chemin vers le dossier `absolute_path`/ffmpeg dans la variable d'environnement PATH
-  - Décompresser le fichier ffmpeg.7z dans le dossier ffmpeg
+To use .mp3 please: 
+  WINDOWS : - fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable 
+            - Unzip the ffmpeg.7z file in the ffmpeg
+  
+  LINUX :   - Install ffmpeg throught `sudo apt install ffmpeg` 
+ 
+`cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file
 
-`cnn.py` Ce fichier contient le modèle et va automatiquement réaliser l'entrainement avec les path renseigné dans le fichier `convert_data.py`
-
-`app.py` Application GUI qui permet d'utiliser simplement et facilement le deeplearning afin de détecter un enregistrement inconnu à partir d'une base de données
+`app.py` GUI application that makes it easy and easy to use deeplearning to detect an unknown record from a database
 
 ## Test
 
-`prediction.py` Ce fichier permet de réaliser une prédiction à l'aide d'un modèle pré-entrainé
+`prediction.py` This file allows you to make a prediction using a pre-trained model
 
-`app.py` L'application GUI vous permet une fois votre data préparé et votre modèle entrainé de classifier l'enregistrement audio
+`app.py` The GUI app allows you once your data is prepared and your model is trained to classify audio recording
 
 ## GUI application
 
-Dans le dossier `./application` vous trouverez le fichier `app.py` qui vous permettra de lancer l'application qui vous permettra de pouvoir préparer vos données et d'entrainer le modèle. Il est également possible de visualiser (audio, spectrogramme et mfcc) le fichier que vous voulez classifier.
+In the directory `./application` you'll find `app.py` which will allow you to launch the application that will allow you to prepare your data and train the model. It is also possible to view (audio, spectrogram and mfcc) the file you want to classify.
 
 ## Misc
 
 ### Organisation
 
-Afin d'organiser notre projet nous avons tout d'abord créé ce github ainsi qu'un <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. S'en est suivi un site internet afin de pouvoir accéder facilement et à tout moment à bon nombre d'informations (voir ci-dessous).
+In order to organize our project we first created this github as well as a <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. A website followed in order to be able to access easily and at any time a lot of information (see below).
 
-### Utilisation
+### Usage
 
-Afin de pouvoir utiliser l'application, installez python 3.8 et les dépendances présentes dans le fichier requirements.txt. Une fois cela fait, lancez le fichier app.py, pour plus d'informations cliquez sur le bouton "Aide" en bas à droite de l'application
+To be able to use the application, install python 3.8 and the dependencies present in the file requirements.txt. Once this is done, launch the app.py file, for more information click on the "Help" button at the bottom right of the application
 
 ### Application
 
-L'application développé en python utilise la bibliothèque tkinter afin de réaliser l'affichage suivant :
+The application developed in python uses the tkinter library to perform the following display:
 
 ![Preview](https://github.com/ThomasCorcoral/Projet_L3/blob/main/img/screen_application.png)
 
 
-### Site
+### Website
 
-#### <a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Accéder au site</a>
+#### <a target="_blank" href="https://projet.xnh.fr/index.html" title="Site">Visit it</a>
 
-  Ce site internet contient :
+  3000This website contains :
 <ul>
-  <li>Une section Training permettant d'apprendre les bases pour contribuer au projet</li>
-  <li>Différentes ressources + comptes rendues de réunion</li>
-  <li>Le rappel des liens vers le <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>, le Github et le <a target="_blank" href="https://docs.google.com/document/d/1nI-bLGr7N6MVG3OC4NAJBIDIE_Ea6VqnJSBD6i3UwQ4/edit" title="Site">Google Doc</a></li>
+  <li>A training section to learn the basics to contribute to the project</li>
+  <li>Different resources + meeting minutes</li>
+  <li>Reminder of links to <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>, Github and <a target="_blank" href="https://docs.google.com/document/d/1nI-bLGr7N6MVG3OC4NAJBIDIE_Ea6VqnJSBD6i3UwQ4/edit" title="Site">Google Doc</a></li>
 </ul>
   
-### Dépendances 
+### Dependencies 
 ##### `requirements.txt`
 
 `librosa~=0.8.0`<br>
