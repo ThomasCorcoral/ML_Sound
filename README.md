@@ -8,13 +8,13 @@
 ## Train
 
 To use .mp3 please: <br>
-WINDOWS : <br>
+WINDOWS :
 <ul>
-  <li>Fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable </li>
+  <li>Fill in the path to the absolute path /ffmpeg folder in the PATH environment variable </li>
   <li>Unzip the ffmpeg.7z file in the ffmpeg</li>
 </ul>
 <br>
-  LINUX : <br>
+  LINUX :
 <ul>
   <li>Install ffmpeg throught `sudo apt install ffmpeg` </li>
 </ul>
