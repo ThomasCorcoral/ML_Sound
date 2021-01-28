@@ -17,7 +17,7 @@ WINDOWS :
 <br>
   LINUX :<br>
 <ul>
-  <li>Install ffmpeg throught `sudo apt install ffmpeg` </li>
+  <li>Install ffmpeg throught sudo apt install ffmpeg </li>
 </ul>
 <br>
 `cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file<br>
