@@ -8,13 +8,17 @@
 ## Train
 
 To use .mp3 please: <br>
-  WINDOWS : <br>
-    *- fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable <br>
-    *- Unzip the ffmpeg.7z file in the ffmpeg<br>
-  <br>
+WINDOWS : <br>
+<ul>
+  <li>Fill in the path to the `absolute path` /ffmpeg folder in the PATH environment variable </li>
+  <li>Unzip the ffmpeg.7z file in the ffmpeg</li>
+</ul>
+<br>
   LINUX : <br>
-    *- Install ffmpeg throught `sudo apt install ffmpeg` <br>
- <br>
+<ul>
+  <li>Install ffmpeg throught `sudo apt install ffmpeg` </li>
+</ul>
+<br>
 `cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file<br>
 <br>
 `app.py` GUI application that makes it easy and easy to use deeplearning to detect an unknown record from a database<br>
