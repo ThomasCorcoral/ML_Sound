@@ -277,7 +277,6 @@ if __name__ == "__main__":
     c_path = "../UrbanSound8K/metadata/UrbanSound8K.csv"
     lt_path = "./label_txt.txt"
     # data, lab = get_the_data(d_path, c_path, lt_path, ratio=0.1, rs=42)
-
     # prep = process_the_audio("./erreur_2.wav")
 
     # train_audio = load('./data_format/train_audio.npy', allow_pickle=True)
@@ -312,7 +311,7 @@ if __name__ == "__main__":
     print(X.shape)
 
     # split the dataset
-    # x_train, x_test, y_train, y_test = train_test_split(X, yy, test_size=0.2, random_state=42)
+    x_train, x_test, y_train, y_test = train_test_split(data, lab, test_size=0.2, random_state=42)
 
     num_rows = 50
     num_columns = 43
@@ -320,22 +319,47 @@ if __name__ == "__main__":
 
     class_label = read_labels()
     class_label = list(dict.fromkeys(class_label))
-    epoch = 50
+    epoch = 10
     model = my_model(len(class_label))
-    model.fit(data, lab, epochs=epoch)
+    model.fit(x_train, y_train, epochs=epoch)
 
-    # print("test audio size : " + str(len(test_audio)))
-    # print("test labels size : " + str(len(test_labels)))
-    # print("train audi size : " + str(len(train_audio)))
-    # print("train labels size : " + str(len(train_labels)))
+    score = model.evaluate(x_test, y_test, verbose=1)
+    accuracy = 100 * score[1]
 
-    # class_label = read_labels()
-    # class_label = list(dict.fromkeys(class_label))
-    #
-    # epoch = 10
-    #
-    # model = my_model(len(class_label))
-    # model.fit(X, y, epochs=epoch, verbose=0)
-    # score = model.evaluate(test_audio, test_labels, verbose=1)
-    # accuracy = 100 * score[1]
-    # print(accuracy)
+    print("accuracy is : " + str(accuracy))
+
+    prediction_feature = process_the_audio("./marteau_piqueur.mp3")
+    class_label = read_labels()
+
+    prediction_feature = np.array(prediction_feature)
+
+    print("taille class_label : " + str(len(class_label)))
+
+    class_label = list(dict.fromkeys(class_label))
+
+    print(prediction_feature.shape)
+
+    res = model.predict(prediction_feature, verbose=1, max_queue_size=len(class_label))
+
+    res_for_each = []
+
+    le = LabelEncoder()
+    to_categorical(le.fit_transform(class_label))
+    the_classes = list(le.classes_)
+    print(the_classes)
+
+    # for i in range(len(res[0])):
+    #     s = 0
+    #     for j in range(len(res)):
+    #         s = s + res[j][i]
+    #     s = s / len(res)
+    #     res_for_each.append(s)
+
+    for i in range(len(res[0])):
+        s = []
+        for j in range(len(res)):
+            s.append(res[j][i])
+        res_for_each.append(max(s))
+
+    for i in range(len(res_for_each)):
+        print("Prediction for class " + str(the_classes[i]) + " is " + str(floor(res_for_each[i] * 100)) + "%")
