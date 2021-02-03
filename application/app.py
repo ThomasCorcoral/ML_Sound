@@ -561,7 +561,7 @@ def choose_path_csv():
 def choose_test_path():
     global test_path
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
-                                     filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
+                                     filetypes=[(".mp3", ".mp3"), (".wav", ".wav"), ("all files", ".*")])
     if new != '':
         test_path = new
 
