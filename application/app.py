@@ -9,7 +9,7 @@ the project to identify, play, or see the different spectrograms of a sound
 """
 
 ##########################################
-# Importation
+# Imports
 ##########################################
 
 import format_data as fd
@@ -30,7 +30,7 @@ from pydub import AudioSegment
 import sys
 
 ##########################################
-# Variables globales
+# Globals variables
 ##########################################
 
 WIDTH = 1300
@@ -49,7 +49,7 @@ global model
 
 
 ##########################################
-# Définition des classes
+# Classes definition
 ##########################################
 
 """
@@ -310,22 +310,27 @@ class RecapSelect:
             self.data_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 305)
             self.csv_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 332)
         else:
-            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265-500)
+            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265)
             self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
             self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
 
 ##########################################
-# Fonctions graphique
+# Graphics functions
 ##########################################
 
 # This function is used to initialize the window, and lock its size
 def init_window():
     w = tk.Tk()
     w.title("L3 project")
-    w.geometry(str(WIDTH_LINUX) + "x" + str(HEIGHT_LINUX))
-    w.minsize(WIDTH_LINUX, HEIGHT_LINUX)
-    w.maxsize(WIDTH_LINUX, HEIGHT_LINUX)
+    if sys.platform.startswith('linux'):
+        w.geometry(str(WIDTH_LINUX) + "x" + str(HEIGHT_LINUX))
+        w.minsize(WIDTH_LINUX, HEIGHT_LINUX)
+        w.maxsize(WIDTH_LINUX, HEIGHT_LINUX)
+    else:
+        w.geometry(str(WIDTH) + "x" + str(HEIGHT))
+        w.minsize(WIDTH, HEIGHT)
+        w.maxsize(WIDTH, HEIGHT)
     w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="../img/logo.png"))
     return w
 
@@ -512,7 +517,7 @@ def init_recap_selec():
 
 
 ##########################################
-# Fonctions internes
+# Intern functions
 ##########################################
 
 
@@ -749,7 +754,7 @@ def generate_csv():
 
 
 ##########################################
-# Aide
+# Help
 ##########################################
 
 """

@@ -7,8 +7,6 @@ import csv
 from sklearn.model_selection import train_test_split
 from numpy import save
 import tensorflow as tf
-from keras.layers import Dense, Dropout
-from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from numpy import load
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -319,9 +317,16 @@ if __name__ == "__main__":
 
     class_label = read_labels()
     class_label = list(dict.fromkeys(class_label))
-    epoch = 10
+    epoch = 20
     model = my_model(len(class_label))
     model.fit(x_train, y_train, epochs=epoch)
+
+    json_file = model.to_json()
+    if not os.path.exists('./model'):
+        os.mkdir('./model')
+    with open("./model/model.json", "w") as file:
+        file.write(json_file)
+    model.save_weights("./model/model.h5")
 
     score = model.evaluate(x_test, y_test, verbose=1)
     accuracy = 100 * score[1]
