@@ -7,8 +7,9 @@ import csv
 from sklearn.model_selection import train_test_split
 from numpy import save
 import tensorflow as tf
-from numpy import load
 import pandas as pd
+from numpy import load
+from keras.models import model_from_json
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import to_categorical
 
@@ -113,15 +114,9 @@ def process_the_audio(audio_path):
     # Initialisation of the results array
     prepared_audio = []
     # Add an initialise array for all
-    if audio_sec < 1:
+    for i in range(int(ceil(audio_sec)+loss)):
+        # print(i)
         prepared_audio.append([])
-    # elif audio_sec == ceil(audio_sec):
-    #     for i in range(int(audio_sec)):
-    #         prepared_audio.append([])
-    else:
-        for i in range(int(ceil(audio_sec)+loss)):
-            # print(i)
-            prepared_audio.append([])
     # Change the NMFCC_MFCC if uses spectrogram
     for i in range(NMFCC_MFCC):
         for num, value in enumerate(extr[i], start=1):
@@ -175,7 +170,7 @@ def get_infos(path_csv):
     return data
 
 
-def generate_labels(path_csv, path_txt='../local_saves/data_format/class_label.txt'):
+def generate_labels(path_csv, path_txt='./class_label.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
@@ -203,8 +198,8 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
     # Conversion into numpy arrays
     labels = np.asarray(labels).astype(np.float32)
     generate_labels(csv_path, label_text_path)
-    train_audio, test_audio, train_labels, test_labels = train_test_split(res, labels,
-                                                                          test_size=ratio, random_state=rs)
+    # train_audio, test_audio, train_labels, test_labels = train_test_split(res, labels,
+    #                                                                      test_size=ratio, random_state=rs)
     # save('./data_format/train_audio.npy', train_audio)
     # save('./data_format/train_labels.npy', train_labels)
     # save('./data_format/test_audio.npy', test_audio)
@@ -233,47 +228,20 @@ def my_model(size):
     return model
 
 
-def read_labels():
+def read_labels(file_path):
     class_label = []
-    with open('./label_txt.txt', 'r') as filehandle:
+    with open(file_path, 'r') as filehandle:
         for line in filehandle:
             current_place = line[:-1]
             class_label.append(current_place)
     return class_label
 
 
-def run_model(epoch=10):
-    train_audio = load('../local_saves/data_format/train_audio.npy')
-    train_labels = load('../local_saves/data_format/train_labels.npy')
-    test_audio = load('../local_saves/data_format/test_audio.npy')
-    test_labels = load('../local_saves/data_format/test_labels.npy')
-    print("test audio size : " + str(len(test_audio)))
-    print("test labels size : " + str(len(test_labels)))
-    print("train audi size : " + str(len(train_audio)))
-    print("train labels size : " + str(len(train_labels)))
-
-    class_label = read_labels()
-    class_label = list(dict.fromkeys(class_label))
-
-    model = my_model(len(class_label))
-    model.fit(train_audio, train_labels, epochs=epoch, verbose=0)
-    score = model.evaluate(test_audio, test_labels, verbose=1)
-    accuracy = 100 * score[1]
-    json_file = model.to_json()
-    with open("../local_saves/model/model.json", "w") as file:
-        file.write(json_file)
-    with open("../local_saves/accuracy.txt", "w") as file:
-        file.write(str(accuracy))
-    model.save_weights("../local_saves/model/model.h5")
-
-    return accuracy, model
-
-
 # ValueError: Failed to convert a NumPy array to a Tensor (Unsupported object type list).
 if __name__ == "__main__":
-    d_path = "../UrbanSound8K/audio"
-    c_path = "../UrbanSound8K/metadata/UrbanSound8K.csv"
-    lt_path = "./label_txt.txt"
+    d_path = "../dataset/audio"
+    c_path = "../dataset/metadata/auto_generate.csv"
+    lt_path = "./class_label.txt"
     # data, lab = get_the_data(d_path, c_path, lt_path, ratio=0.1, rs=42)
     # prep = process_the_audio("./erreur_2.wav")
 
@@ -309,17 +277,18 @@ if __name__ == "__main__":
     print(X.shape)
 
     # split the dataset
-    x_train, x_test, y_train, y_test = train_test_split(data, lab, test_size=0.2, random_state=42)
+    # x_train, x_test, y_train, y_test = train_test_split(data, lab, test_size=0.2, random_state=42)
 
     num_rows = 50
     num_columns = 43
     num_channels = 1
 
-    class_label = read_labels()
+    class_label = read_labels(lt_path)
     class_label = list(dict.fromkeys(class_label))
-    epoch = 20
+    epoch = 8
     model = my_model(len(class_label))
-    model.fit(x_train, y_train, epochs=epoch)
+    print("START FIT")
+    model.fit(X, y, epochs=epoch)
 
     json_file = model.to_json()
     if not os.path.exists('./model'):
@@ -328,13 +297,22 @@ if __name__ == "__main__":
         file.write(json_file)
     model.save_weights("./model/model.h5")
 
-    score = model.evaluate(x_test, y_test, verbose=1)
-    accuracy = 100 * score[1]
+    # score = model.evaluate(x_test, y_test, verbose=1)
+    # accuracy = 100 * score[1]
 
-    print("accuracy is : " + str(accuracy))
+    path_json = "./model/model.json"
+    path_h5 = "./model/model.h5"
+
+    file = open(path_json, 'r')
+    model_json = file.read()
+    model = model_from_json(model_json)
+    file.close()
+    model.load_weights(path_h5)
+
+    # print("accuracy is : " + str(accuracy))
 
     prediction_feature = process_the_audio("./marteau_piqueur.mp3")
-    class_label = read_labels()
+    class_label = read_labels(lt_path)
 
     prediction_feature = np.array(prediction_feature)
 
@@ -365,6 +343,7 @@ if __name__ == "__main__":
         for j in range(len(res)):
             s.append(res[j][i])
         res_for_each.append(max(s))
+        # res_for_each.append(sum(s) / len(s))
 
     for i in range(len(res_for_each)):
         print("Prediction for class " + str(the_classes[i]) + " is " + str(floor(res_for_each[i] * 100)) + "%")

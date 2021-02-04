@@ -67,9 +67,9 @@ def soundanalyse(stream, a_stream):
     return res
 
 
-def read_labels():
+def read_labels(path_lab):
     class_label = []
-    with open('./label_txt.txt', 'r') as filehandle:
+    with open(path_lab, 'r') as filehandle:
         for line in filehandle:
             current_place = line[:-1]
             class_label.append(current_place)
@@ -80,13 +80,15 @@ if __name__=="__main__":
     p = pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32, channels=1, rate=RATE, input=True, frames_per_buffer=CHUNK)
     # Load model
-    file = open("../local_saves/model/model.json", 'r')
+    file = open("./model/model.json", 'r')
     model_json = file.read()
     model = model_from_json(model_json)
     file.close()
-    model.load_weights("../local_saves/model/model.h5")
+    model.load_weights("./model/model.h5")
 
-    class_label = read_labels()
+    path_lt = 'class_label.txt'
+
+    class_label = read_labels(path_lt)
     class_label = list(dict.fromkeys(class_label))
 
     i = 0
