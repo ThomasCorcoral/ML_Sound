@@ -25,9 +25,6 @@ Test path : Chemin vers votre fichier a tester en utilisant l'entrainement prece
 
 Run test : Permet de lancer la reconnaissance du modele.
 
-
-Parmis les autres boutons :
-
 Play Test File : Permet de jouer le son indique dans Test Path
 
 Enregistrer sous : Permet d'enregistrer le modele actuel afin de pouvoir revenir dessus sans refaire toutes les manipulations
