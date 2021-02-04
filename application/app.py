@@ -16,6 +16,7 @@ import format_data as fd
 import cnn_model as cnn
 import prediction as pred
 import generate_csv as gc
+import get_model as gm
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -46,7 +47,6 @@ global data_path
 global path_csv
 global test_path
 global model
-
 
 ##########################################
 # Classes definition
@@ -422,7 +422,7 @@ def init_infos_menu():
 # This is used to initialize the footer for the window
 def init_footer():
     if sys.platform.startswith('linux'):
-        can_footer = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=LENGTH_BUT+15, bg=BACKGROUND_TITLE,
+        can_footer = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=LENGTH_BUT + 15, bg=BACKGROUND_TITLE,
                                bd=0, highlightthickness=0, relief='ridge')
     else:
         can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
@@ -566,7 +566,7 @@ def choose_path_csv():
 def choose_test_path():
     global test_path
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
-                                     filetypes=((".wav, .mp3", "*.wav, *.mp3"), ("all files", "*.*")))
+                                     filetypes=[(".mp3", ".mp3"), (".wav", ".wav"), ("all files", ".*")])
     if new != '':
         test_path = new
 
@@ -813,6 +813,17 @@ def show_aide():
 
 def show_help():
     create_help("../aide_en.txt")
+
+
+##########################################
+# Tests
+##########################################
+
+
+# this is used to load a pre-existing model into the application
+def load_model():
+    full_path = "../model.zip"
+    return gm.get_model(full_path)
 
 
 ##########################################

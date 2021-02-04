@@ -25,18 +25,15 @@ Test path : Chemin vers votre fichier a tester en utilisant l'entrainement prece
 
 Run test : Permet de lancer la reconnaissance du modele.
 
+Play Test File : Permet de jouer le son indique dans Test Path
 
-Parmis les autres boutons :
+Enregistrer sous : Permet d'enregistrer le modele actuel afin de pouvoir revenir dessus sans refaire toutes les manipulations
 
-Play Test File : Permet de jouer le son indiqué dans Test Path
+Generer CSV : Permet de generer le .csv du dataset indique de maniere automatique. N'oubliez pas de deplacer le .csv hors du fichier local_saves (Car clear apres)
+ATTENTION : Pour generer le .csv, veuillez bien faire attention a ce que les sons de chaque oiseau / chauve-souris soit dans un fichier ayant pour nom l'espece de l'animal
+(Par exemple, in fichier "data" avec un fichier pour chaque espece, avec les sons de l'espece dedans)
 
-Enregistrer sous : Permet d'enregistrer le modèle actuel afin de pouvoir revenir dessus sans refaire toutes les manipulations
-
-Generer CSV : Permet de générer le .csv du dataset indiqué de manière automatique. N'oubliez pas de déplacer le .csv hors du fichier local_saves (Car clear après)
-ATTENTION : Pour générer le .csv, veuillez bien faire attention à ce que les sons de chaque oiseau / chauve-souris soit dans un fichier ayant pour nom l'espèce de l'animal
-(Par exemple, in fichier "data" avec un fichier pour chaque espèce, avec les sons de l'espèce dedans)
-
-Voir audio: Permet de visualiser la représentation graphique du son de Test Path
+Voir audio: Permet de visualiser la representation graphique du son de Test Path
 
 Voir Spectrogramme : Permet de visualiser le spectrogramme du son de Test Path
 

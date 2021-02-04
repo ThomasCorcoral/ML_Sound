@@ -22,9 +22,6 @@ Test path : Path to the file you want to test by using the tarined model. it mus
 
 Run test : Will launch the test on the selected file.
 
-
-As for the otehr buttons :
-
 Play Test File : Will play the sound indicated in Test Path
 
 Enregistrer sous : Allows the user to save the current model to be able to come back to it without doing all the steps again
