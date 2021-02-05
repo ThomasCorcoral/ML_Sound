@@ -45,7 +45,7 @@ def conv_data(path_data, path_csv, ratio=0.1, rs=42, spec=False):
     featuresdf, train_labels = ef.feature_extraction(path_data, infos, spec)
 
     if type(featuresdf) is int:
-        print("Erreur : fichier introuvé : " + train_labels)
+        print("Error : file not found : " + train_labels)
         return -1
 
     # Conversion des tableaux en tableaux Numpy

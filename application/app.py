@@ -17,6 +17,7 @@ import cnn_model as cnn
 import prediction as pred
 import generate_csv as gc
 import get_model as gm
+from tkinter import ttk
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -603,6 +604,7 @@ def format_data():
     print("And csv file : " + path_csv)
     # if fd.conv_data(data_path, path_csv, ratio=menu_infos.get_ratio(), rs=menu_infos.get_rs(),
     #                 spec=menu_infos.get_spec()) == -1:
+
     if fd.conv_data(data_path, path_csv, spec=menu_infos.get_spec()) == -1:
         print("Error : One of the file doesn't exists or is corrupt")
         return

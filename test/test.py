@@ -250,9 +250,9 @@ if __name__ == "__main__":
     # test_audio = load('./data_format/test_audio.npy', allow_pickle=True)
     # test_labels = load('./data_format/test_labels.npy', allow_pickle=True)
 
-    data = load('./data_format/res.npy')
-    lab = load('./data_format/labels.npy')
 
+    lab = load('./data_format/labels.npy')
+    data = load('./data_format/res.npy')
     features = []
 
     print(len(lab))
@@ -285,7 +285,7 @@ if __name__ == "__main__":
 
     class_label = read_labels(lt_path)
     class_label = list(dict.fromkeys(class_label))
-    epoch = 8
+    epoch = 10
     model = my_model(len(class_label))
     print("START FIT")
     model.fit(X, y, epochs=epoch)
@@ -311,7 +311,7 @@ if __name__ == "__main__":
 
     # print("accuracy is : " + str(accuracy))
 
-    prediction_feature = process_the_audio("./marteau_piqueur.mp3")
+    prediction_feature = process_the_audio("./Chouette hulotte.mp3")
     class_label = read_labels(lt_path)
 
     prediction_feature = np.array(prediction_feature)

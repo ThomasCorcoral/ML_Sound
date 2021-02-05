@@ -3,6 +3,7 @@ import os
 import numpy as np
 import librosa
 from pydub import AudioSegment
+import matplotlib.pyplot as plt
 
 NMFCC_MFCC = 50
 NMELS_SPEC = 128
@@ -77,11 +78,31 @@ def read_mp3(f):
 def feature_extraction(path, file_label, spec):
     res = []
     train_labels = []
+    plt.ion()
+    fig = plt.figure(num=None, figsize=(7, 2), dpi=80, facecolor='w', edgecolor='k')
+    fig.canvas.set_window_title('Loading')
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(left=0.2)
+    name = ["Loading"]
+    ax.barh(name, [0], align='center', color='orange')
+    ax.set_xlim([0, 100])
+    ax.set_yticks(name)
+    ax.set_yticklabels(name)
+    plt.draw()
 
     for i in range(len(file_label)):
-        file_path = path + "/" + str(file_label[i][1]) + "/" + str(file_label[i][0])
 
-        # print(file_path)
+        file_path = path + "/" + str(file_label[i][1]) + "/" + str(file_label[i][0])
+        percent = i / len(file_label) * 100
+        actual = [percent]
+        ax.clear()
+        ax.barh(name, actual, align='center', color='orange')
+        ax.set_xlim([0, 100])
+        ax.set_yticks(name)
+        ax.set_yticklabels(name)
+        plt.draw()
+        plt.pause(0.1)  # is necessary for the plot to update for some reason
+
         if spec:
             data = extract_features_spec(file_path)
         else:
@@ -95,29 +116,7 @@ def feature_extraction(path, file_label, spec):
     featuresdf = pd.DataFrame(res, columns=['feature', 'class_label'])
 
     print('Extraction terminé de ', len(featuresdf), ' fichiers')
+    plt.close()
     # print('Taille des extractions : ', len(featuresdf['feature'][0]))
 
     return featuresdf, train_labels
-
-#
-# def feature_extraction(path, file_label):
-#     res = []
-#     train_labels = []
-#
-#     with open(file_label) as f:
-#         reader = csv.DictReader(f, delimiter=';')
-#         for row in reader:
-#             name = row['name']
-#             fd = row['folder']
-#             classe = row['class']
-#             file_path = path + "/" + fd + "/" + name
-#             data = extract_features_mfcc(file_path)
-#             res.append([data, classe])
-#             train_labels.append(classe)
-#
-#     # Convert into a Panda dataframe
-#     featuresdf = pd.DataFrame(res, columns=['feature', 'class_label'])
-#
-#     print('Extraction terminé de ', len(featuresdf), ' fichiers')
-#
-#     return featuresdf, train_labels

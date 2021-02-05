@@ -20,6 +20,7 @@ from sklearn.preprocessing import LabelEncoder
 from keras.utils import to_categorical
 import numpy as np
 from math import *
+import matplotlib.pyplot as plt
 import pyaudio
 import new_audio_process as nap
 import give_prediction_arr as gpa
