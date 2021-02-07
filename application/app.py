@@ -17,7 +17,6 @@ import cnn_model as cnn
 import prediction as pred
 import generate_csv as gc
 import get_model as gm
-from tkinter import ttk
 import tkinter as tk
 from tkinter import filedialog
 import os

@@ -74,10 +74,7 @@ def read_mp3(f):
     return audio, sample_rate
 
 
-# Is used get the spectrogram or the mfcc of the indicated sound file
-def feature_extraction(path, file_label, spec):
-    res = []
-    train_labels = []
+def create_loading():
     plt.ion()
     fig = plt.figure(num=None, figsize=(7, 2), dpi=80, facecolor='w', edgecolor='k')
     fig.canvas.set_window_title('Loading')
@@ -89,20 +86,29 @@ def feature_extraction(path, file_label, spec):
     ax.set_yticks(name)
     ax.set_yticklabels(name)
     plt.draw()
+    return ax, name
 
+
+def update_loading(ax, name, percent):
+    actual = [percent]
+    ax.clear()
+    ax.barh(name, actual, align='center', color='orange')
+    ax.set_xlim([0, 100])
+    ax.set_yticks(name)
+    ax.set_yticklabels(name)
+    plt.draw()
+    plt.pause(0.1)  # is necessary for the plot to update for some reason
+
+
+# Is used get the spectrogram or the mfcc of the indicated sound file
+def feature_extraction(path, file_label, spec):
+    res = []
+    train_labels = []
+    ax, name = create_loading()
     for i in range(len(file_label)):
-
         file_path = path + "/" + str(file_label[i][1]) + "/" + str(file_label[i][0])
         percent = i / len(file_label) * 100
-        actual = [percent]
-        ax.clear()
-        ax.barh(name, actual, align='center', color='orange')
-        ax.set_xlim([0, 100])
-        ax.set_yticks(name)
-        ax.set_yticklabels(name)
-        plt.draw()
-        plt.pause(0.1)  # is necessary for the plot to update for some reason
-
+        update_loading(ax, name, percent)
         if spec:
             data = extract_features_spec(file_path)
         else:
