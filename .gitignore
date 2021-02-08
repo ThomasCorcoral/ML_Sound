@@ -9,8 +9,8 @@
 ./arrays/*
 ./dataset/*
 ./dataset.zip
-./application/__pycache
-./application/__pycache/*
+./application/__pycache__
+./application/__pycache__/*
 ./local_saves/current.wav
 /test/data_format/
 ./SECU/*
