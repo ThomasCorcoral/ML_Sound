@@ -68,7 +68,7 @@ def extract_features_spec(file_name):
 # Is used to transform a .mp3 into a .wav
 def read_mp3(f):
     sound = AudioSegment.from_mp3(f)
-    dst = '../local_saves/current.wav'
+    dst = '../../local_saves/current.wav'
     sound.export(dst, format="wav")
     audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
     return audio, sample_rate

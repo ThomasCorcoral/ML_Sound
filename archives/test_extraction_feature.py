@@ -1,4 +1,4 @@
-from application import extraction_feature as ef
+from application.preparation_v1 import extraction_feature as ef
 import csv
 import numpy as np
 import warnings

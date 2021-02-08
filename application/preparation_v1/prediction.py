@@ -33,7 +33,7 @@ def extract_feature(file_name, mfcc=True):
 # Is used to get the name of the animal in class_label.txt
 def read_labels():
     class_label = []
-    with open('../local_saves/data_format/class_label.txt', 'r') as filehandle:
+    with open('../../local_saves/data_format/class_label.txt', 'r') as filehandle:
         for line in filehandle:
             current_place = line[:-1]
             class_label.append(current_place)
@@ -43,7 +43,7 @@ def read_labels():
 # Is used to transform a .mp3 into a.wav and get the needed data to have the mfcc or spectrogram
 def read_mp3(f):
     sound = AudioSegment.from_mp3(f)
-    dst = '../local_saves/current.wav'
+    dst = '../../local_saves/current.wav'
     sound.export(dst, format="wav")
     audio, sample_rate = librosa.load(dst, res_type='kaiser_fast')
     return audio, sample_rate

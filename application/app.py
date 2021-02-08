@@ -12,9 +12,8 @@ the project to identify, play, or see the different spectrograms of a sound
 # Imports
 ##########################################
 
-import format_data as fd
-import cnn_model as cnn
-import prediction as pred
+# from application.preparation_v1 import format_data as fd, prediction as pred
+from application.preparation_v2 import format_data as fd, prediction as pred, cnn_model as cnn, find_best_epoch as fbe
 import generate_csv as gc
 import get_model as gm
 import tkinter as tk
@@ -29,6 +28,8 @@ from keras.models import model_from_json
 from pygame import mixer
 from pydub import AudioSegment
 import sys
+from shutil import copyfile
+
 
 ##########################################
 # Globals variables
@@ -46,6 +47,9 @@ WIDTH_BUT = 175
 global data_path
 global path_csv
 global test_path
+global model_path
+global zip_data
+global zip_model
 global model
 
 ##########################################
@@ -61,8 +65,8 @@ trust or not the prediction
 
 class Menu:
     def __init__(self, can, quit_pic, run_pic, folder_pic, open_but, run_but, quit_but, csv_pic, open_csv_but,
-                 format_data_but, format_pic, generate_csv_but,
-                 save_csv_img):
+                 format_data_but, format_pic, generate_csv_but, save_csv_img, import_pic, import_model_but,
+                 import_data_pic, import_data_but):
         self.can = can
         self.quit_pic = quit_pic
         self.run_pic = run_pic
@@ -76,6 +80,10 @@ class Menu:
         self.format_pic = format_pic
         self.generate_csv_but = generate_csv_but
         self.save_csv_img = save_csv_img
+        self.import_pic = import_pic
+        self.import_model_but = import_model_but
+        self.import_data_pic = import_data_pic
+        self.import_data_but = import_data_but
 
     def config(self):
         self.run_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
@@ -90,13 +98,19 @@ class Menu:
                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.quit_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+        self.import_model_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
+                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
+        self.import_data_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
+                                    relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
 
     def display(self):
         self.open_but.place(x=2, y=52)
         self.generate_csv_but.place(x=2, y=96)
         self.open_csv_but.place(x=2, y=140)
         self.format_data_but.place(x=2, y=184)
-        self.run_but.place(x=2, y=228)
+        self.import_data_but.place(x=2, y=228)
+        self.run_but.place(x=2, y=272)
+        self.import_model_but.place(x=2, y=316)
         if sys.platform.startswith('linux'):
             self.quit_but.place(x=0, y=HEIGHT_LINUX - 50)
         else:
@@ -118,17 +132,14 @@ class Header:
 
 
 class InfosMenu:
-    def __init__(self, can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
-                 ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry,
-                 save_data_but, name_data, name_data_entry):
+    def __init__(self, can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
+                 label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data, name_data_entry,
+                 best_epoch_but, val):
         self.can_menu = can_menu
         self.text = text
         self.label = label
         self.epoch = epoch
         self.label_epoch = label_epoch
-        self.spec = spec
-        self.mfcc_choice = mfcc_choice
-        self.spec_choice = spec_choice
         self.ratio = ratio
         self.ratio_spinbox = ratio_spinbox
         self.rs = rs
@@ -141,6 +152,8 @@ class InfosMenu:
         self.save_data_but = save_data_but
         self.name_data = name_data
         self.name_data_entry = name_data_entry
+        self.best_epoch_but = best_epoch_but
+        self.val = val
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -160,8 +173,8 @@ class InfosMenu:
     def get_epochs(self):
         return self.epoch.get()
 
-    def get_spec(self):
-        return bool(self.spec.get())
+    def define_epochs(self, new_val):
+        self.val.set(new_val)
 
     def get_rs(self):
         return self.rs.get()
@@ -177,35 +190,33 @@ class InfosMenu:
 
     def display(self):
         if sys.platform.startswith('linux'):
-            self.can_menu.place(x=0, y=280)
-            self.label.place(x=75, y=290)
-            self.label_epoch.place(x=35, y=328)
-            self.epoch.place(x=100, y=330)
-            self.mfcc_choice.place(x=35, y=360)
-            self.spec_choice.place(x=35, y=385)
-            self.label_ratio.place(x=35, y=415)
-            self.ratio_spinbox.place(x=100, y=415)
-            self.label_rs.place(x=35, y=445)
-            self.rs_spinbox.place(x=100, y=445)
+            self.can_menu.place(x=0, y=360)
+            self.label.place(x=75, y=370)
+            self.label_epoch.place(x=35, y=408)
+            self.epoch.place(x=100, y=410)
+            self.best_epoch_but.place(x=30, y=435)
+            self.label_ratio.place(x=35, y=495)
+            self.ratio_spinbox.place(x=100, y=495)
+            self.label_rs.place(x=35, y=525)
+            self.rs_spinbox.place(x=100, y=525)
             self.name_entry.place(x=16, y=650)
             self.save_model_but.place(x=68, y=680)
             self.save_data_but.place(x=68, y=760)
             self.name_data_entry.place(x=16, y=730)
         else:
-            self.can_menu.place(x=2, y=270)
-            self.label.place(x=75, y=280)
-            self.label_epoch.place(x=35, y=318)
-            self.epoch.place(x=100, y=320)
-            self.mfcc_choice.place(x=35, y=350)
-            self.spec_choice.place(x=35, y=375)
-            self.label_ratio.place(x=35, y=405)
-            self.ratio_spinbox.place(x=100, y=405)
-            self.label_rs.place(x=35, y=435)
-            self.rs_spinbox.place(x=100, y=435)
-            self.save_data_but.place(x=135, y=615)
-            self.name_data_entry.place(x=10, y=620)
-            self.save_model_but.place(x=135, y=650)
-            self.name_entry.place(x=10, y=655)
+            self.can_menu.place(x=2, y=355)
+            self.label.place(x=75, y=360)
+            self.label_epoch.place(x=35, y=398)
+            self.epoch.place(x=100, y=400)
+            self.best_epoch_but.place(x=20, y=435)
+            self.label_ratio.place(x=35, y=495)
+            self.ratio_spinbox.place(x=100, y=495)
+            self.label_rs.place(x=35, y=515)
+            self.rs_spinbox.place(x=100, y=515)
+            self.save_data_but.place(x=52, y=590)
+            self.name_data_entry.place(x=30, y=565)
+            self.save_model_but.place(x=45, y=655)
+            self.name_entry.place(x=30, y=630)
 
 
 class Footer:
@@ -215,7 +226,7 @@ class Footer:
         self.help_button = help_button
 
     def creation(self):
-        self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 0.3")
+        self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 0.4")
 
     def display(self):
         if sys.platform.startswith('linux'):
@@ -255,20 +266,20 @@ class AffichageSon:
     def display(self):
         if sys.platform.startswith('linux'):
             self.can.place(x=WIDTH_BUT + 5, y=HEIGHT_LINUX / 2 - 40)
-            self.show_audio.place(x=300, y=HEIGHT_LINUX / 2 + 130)
-            self.show_spec.place(x=740, y=HEIGHT_LINUX / 2 + 130)
-            self.show_mfcc.place(x=1280, y=HEIGHT_LINUX / 2 + 130)
-            self.play_btn.place(x=770, y=HEIGHT_LINUX / 2 + 220)
-            self.open_test_but.place(x=440, y=HEIGHT_LINUX / 2 + 210)
-            self.run_test_but.place(x=1050, y=HEIGHT_LINUX / 2 + 210)
+            self.show_audio.place(x=300, y=HEIGHT_LINUX / 2 + 210)
+            self.show_spec.place(x=740, y=HEIGHT_LINUX / 2 + 210)
+            self.show_mfcc.place(x=1280, y=HEIGHT_LINUX / 2 + 210)
+            self.play_btn.place(x=770, y=HEIGHT_LINUX / 2 + 140)
+            self.open_test_but.place(x=440, y=HEIGHT_LINUX / 2 + 130)
+            self.run_test_but.place(x=1050, y=HEIGHT_LINUX / 2 + 130)
         else:
             self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
-            self.show_audio.place(x=300, y=HEIGHT / 2 + 180)
-            self.show_spec.place(x=650, y=HEIGHT / 2 + 180)
-            self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 180)
-            self.play_btn.place(x=680, y=HEIGHT / 2 + 130)
-            self.open_test_but.place(x=435, y=HEIGHT / 2 + 210)
-            self.run_test_but.place(x=880, y=HEIGHT / 2 + 210)
+            self.show_audio.place(x=300, y=HEIGHT / 2 + 210)
+            self.show_spec.place(x=650, y=HEIGHT / 2 + 210)
+            self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 210)
+            self.play_btn.place(x=675, y=HEIGHT / 2 + 160)
+            self.open_test_but.place(x=440, y=HEIGHT / 2 + 130)
+            self.run_test_but.place(x=875, y=HEIGHT / 2 + 130)
 
 
 class AffichageRes:
@@ -348,6 +359,8 @@ def init_menu():
     run_pic = tk.PhotoImage(file='../img/funnel.png').subsample(14, 14)
     csv_pic = tk.PhotoImage(file='../img/csv.png').subsample(14, 14)
     format_pic = tk.PhotoImage(file='../img/format.png').subsample(14, 14)
+    import_data_pic = tk.PhotoImage(file='../img/import_data.png').subsample(14, 14)
+    import_pic = tk.PhotoImage(file='../img/import.png').subsample(14, 14)
     quit_pic = tk.PhotoImage(file='../img/leave.png').subsample(14, 14)
     can_menu = tk.Canvas(window, width=0, height=0)
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
@@ -360,10 +373,15 @@ def init_menu():
                                 compound='left', command=format_data)
     run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", 14), fg='black',
                               compound='left', command=run_model)
+    import_data_but = tk.Button(window, image=import_data_pic, text="  Import Data", font=("Courrier", 14), fg='black',
+                                compound='left', command=import_data)
+    import_model_but = tk.Button(window, image=import_pic, text="  Import Model", font=("Courrier", 14), fg='black',
+                                 compound='left', command=import_model)
     quit_but = tk.Button(window, image=quit_pic, text="  Exit", font=("Courrier", 14), fg='black', compound='left',
                          command=leave)
     win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, quit_but, csv_pic,
-                    open_csv_but, format_data_but, format_pic, generate_csv_but, save_csv_img)
+                    open_csv_but, format_data_but, format_pic, generate_csv_but, save_csv_img, import_pic,
+                    import_model_but, import_data_pic, import_data_but)
     return win_menu
 
 
@@ -383,10 +401,10 @@ def init_header():
 # This is used to indicate all the needed informations to write the text on the buttons
 def init_infos_menu():
     if sys.platform.startswith('linux'):
-        can_menu = tk.Canvas(window, width=200, height=520, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=200, height=400, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     else:
-        can_menu = tk.Canvas(window, width=179, height=425, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=179, height=340, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     text = tk.StringVar()
     text.set("- %")
@@ -395,10 +413,10 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-    spec = tk.IntVar()
-    mfcc_choice = tk.Radiobutton(window, text="MFCC", variable=spec, value=0, bg=BACKGROUND_TITLE)
-    mfcc_choice.select()
-    spec_choice = tk.Radiobutton(window, text="SPECTROGRAM", variable=spec, value=1, bg=BACKGROUND_TITLE)
+
+    best_epoch_but = tk.Button(window, text="Find best Epoch", font=("Courrier", 11), fg='black',
+                               command=find_best_epoch)
+
     label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     ratio = tk.StringVar()
     ratio.set(10)
@@ -407,15 +425,15 @@ def init_infos_menu():
     rs = tk.StringVar()
     rs.set(10)
     rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
-    save_data_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as_data_format)
+    save_data_but = tk.Button(window, text="save data", font=("Courrier", 11), fg='black', command=save_as_data_format)
     name_data = tk.StringVar(value='data')
     name_data_entry = tk.Entry(window, textvariable=name_data)
-    save_model_but = tk.Button(window, text="save", font=("Courrier", 11), fg='black', command=save_as_model)
+    save_model_but = tk.Button(window, text="save model", font=("Courrier", 11), fg='black', command=save_as_model)
     name_model = tk.StringVar(value='model')
     name_entry = tk.Entry(window, textvariable=name_model)
-    infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, spec, mfcc_choice, spec_choice, ratio,
-                           ratio_spinbox, rs, rs_spinbox, label_rs, label_ratio, save_model_but, name_model, name_entry,
-                           save_data_but, name_data, name_data_entry)
+    infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
+                           label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data,
+                           name_data_entry, best_epoch_but, val)
     return infos_menu
 
 
@@ -586,6 +604,17 @@ def clear_folder(folder):
     return 0
 
 
+def copy_floder_content(origin, dest):
+    for filename in os.listdir(origin):
+        file_path = os.path.join(origin, filename)
+        try:
+            copyfile(file_path, dest)
+        except Exception as e:
+            print('Failed to copy %s. Reason: %s' % (file_path, e))
+            return -1
+    return 0
+
+
 # This is used to format the data using the different paths indicated
 def format_data():
     if data_path == "":
@@ -601,12 +630,7 @@ def format_data():
         return
     print("Start with data : " + data_path)
     print("And csv file : " + path_csv)
-    # if fd.conv_data(data_path, path_csv, ratio=menu_infos.get_ratio(), rs=menu_infos.get_rs(),
-    #                 spec=menu_infos.get_spec()) == -1:
-
-    if fd.conv_data(data_path, path_csv, spec=menu_infos.get_spec()) == -1:
-        print("Error : One of the file doesn't exists or is corrupt")
-        return
+    fd.get_the_data(data_path, path_csv, "../local_saves/class_label.txt")
 
 
 # This is used to run the model using cnn_model.py after formatting the data
@@ -638,12 +662,11 @@ def predict():
         accuracy, model = cnn.run_model()
     # pred.create_prediction()
 
-    mfcc = True
+    # mfcc = True
+    # if menu_infos.get_spec() == 1:
+    #     mfcc = False
 
-    if menu_infos.get_spec() == 1:
-        mfcc = False
-
-    resultat, le, predicted_proba = pred.print_prediction(test_path, model, mfcc)
+    resultat, le, predicted_proba = pred.print_prediction(test_path, model)
     res.new_prediction(resultat)
     all_prob = ""
     for i in range(len(predicted_proba)):
@@ -752,6 +775,84 @@ def generate_csv():
         print("Error : You have to enter your data path")
         return
     gc.generate(data_path)
+
+
+def set_zip_data(win):
+    win.destroy()
+    global model_path, model
+    zip_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .zip",
+                                          filetypes=(("zip  files", "*.zip"), ("all files", "*.*")))
+    if zip_path != '':
+        clear_folder("../local_saves/data_format")
+        os.mkdir("../local_unzip")
+        tmp_path = "../local_unzip"
+        gm.local_unzip(zip_path, tmp_path)
+        copy_floder_content("../local_unzip", "../local_saves/data_format")
+        shutil.rmtree(tmp_path)
+
+
+def set_rep_data(win):
+    win.destroy()
+    rep_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    if rep_path != '':
+        clear_folder("../local_saves/data_format")
+        copy_floder_content(rep_path, "../local_saves/data_format")
+
+
+def import_data():
+    win = tk.Toplevel(window)
+    win.title("Zip or Rep ?")
+    win.geometry(str(150) + "x" + str(75))
+    win.minsize(150, 75)
+    win.maxsize(150, 75)
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
+    zip_but = tk.Button(win, text="ZIP", font=("Courrier", 14), fg='black', compound='left',
+                        command=lambda: set_zip_data(win))
+    rep_but = tk.Button(win, text="REP", font=("Courrier", 14), fg='black', compound='left',
+                        command=lambda: set_rep_data(win))
+    zip_but.pack(side='left')
+    rep_but.pack(side='right')
+
+
+def set_zip(win):
+    global model_path, model
+    win.destroy()
+    zip_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .zip",
+                                          filetypes=(("zip  files", "*.zip"), ("all files", "*.*")))
+    if zip_path != '':
+        model_path = zip_path
+        model = gm.get_model(model_path)
+        change(-1)
+
+
+def set_rep(win):
+    global model_path, model
+    win.destroy()
+    rep_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
+    if rep_path != '':
+        model_path = rep_path
+        model = gm.get_model(model_path)
+        change(-1)
+
+
+def import_model():
+    win = tk.Toplevel(window)
+    win.title("Zip or Rep ?")
+    win.geometry(str(150) + "x" + str(75))
+    win.minsize(150, 75)
+    win.maxsize(150, 75)
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
+    zip_but = tk.Button(win, text="ZIP", font=("Courrier", 14), fg='black', compound='left',
+                        command=lambda: set_zip(win))
+    rep_but = tk.Button(win, text="REP", font=("Courrier", 14), fg='black', compound='left',
+                        command=lambda: set_rep(win))
+    zip_but.pack(side='left')
+    rep_but.pack(side='right')
+
+
+def find_best_epoch():
+    best = fbe.get_best()
+    menu_infos.define_epochs(best)
 
 
 ##########################################
@@ -880,6 +981,8 @@ if __name__ == "__main__":
     data_path = ""
     path_csv = ""
     test_path = ""
+    model_path = ""
+    zip_model = False
     model = init_model()
 
     window.mainloop()

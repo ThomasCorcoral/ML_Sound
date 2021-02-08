@@ -1,4 +1,4 @@
-from application import format_data as fd
+from application.preparation_v1 import format_data as fd
 
 
 def test_get_infos():

@@ -14,6 +14,7 @@ from keras.layers import Conv1D, AveragePooling1D, Conv2D, AveragePooling2D, Max
     Dropout, GlobalAveragePooling2D
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import to_categorical
+from keras.models import model_from_json
 
 
 NMFCC_MFCC = 50
@@ -118,7 +119,7 @@ def get_infos(path_csv):
 
 
 # Generate the class_label file with all the labels
-def generate_labels(path_csv, path_txt='./class_label.txt'):
+def generate_labels(path_csv, path_txt='./class_label_u8.txt'):
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
@@ -247,9 +248,9 @@ def update_loading(ax, name, percent):
 
 # ValueError: Failed to convert a NumPy array to a Tensor (Unsupported object type list).
 if __name__ == "__main__":
-    d_path = "../dataset/audio"
-    c_path = "../dataset/metadata/auto_generate.csv"
-    lt_path = "./class_label.txt"
+    d_path = "../UrbanSound8K/audio"
+    c_path = "../UrbanSound8K/metadata/UrbanSound8K.csv"
+    lt_path = "./class_label_u8.txt"
     # test line to only check the audio processing
     # process_audio("./Rougegorge familier.mp3")
 
@@ -280,6 +281,15 @@ if __name__ == "__main__":
     accuracy = 100 * score[1]
     print(accuracy)
 
+    path_json = "./model/model.json"
+    path_h5 = "./model/model.h5"
+
+    file = open(path_json, 'r')
+    model_json = file.read()
+    model = model_from_json(model_json)
+    file.close()
+    model.load_weights(path_h5)
+
     # prev = 0
     # prev_of_prev = 0
     # cmpt = 0
@@ -298,7 +308,7 @@ if __name__ == "__main__":
     #
     # print("Final accuracy : " + str(accuracy) + " / With " + str(epoch) + " epochs")
 
-    prediction_feature = process_audio("./Grive musicienne.mp3")
+    prediction_feature = process_audio("./marteau_piqueur.mp3")
 
     le = LabelEncoder()
     to_categorical(le.fit_transform(class_label))
