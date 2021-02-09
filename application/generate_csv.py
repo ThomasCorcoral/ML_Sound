@@ -2,8 +2,8 @@ import csv
 import os
 
 
-# Is used to get all the folders inside the indicated folder, to get the species of the animals
 def deep_search(full_path, local_path):
+    """Is used to get all the folders inside the indicated folder, to get the species of the animals"""
     res = []
     list_of_dir = os.listdir(full_path)
     for to_add_path in list_of_dir:
@@ -16,10 +16,12 @@ def deep_search(full_path, local_path):
     return res
 
 
-# Generates a .csv using a folder
-# Inside the folder, there must be other folders named after the species, and containing the sounds of said species
 def generate(path):
-    with open('../local_saves/auto_generate.csv', 'w', newline='') as csvfile:
+    """Generates a .csv using a folder. Inside the folder, there must be other folders named after the species,
+    and containing the sounds of said species"""
+    if not os.path.exists('./local_saves'):
+        os.mkdir('./local_saves')
+    with open('./local_saves/auto_generate.csv', 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile)
         # spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
         spamwriter.writerow(['name', 'folder', 'class', 'class_name'])

@@ -1,8 +1,8 @@
 import csv
 
 
-# Generate the class_label file with all the labels
 def generate_labels(path_csv, path_txt):
+    """Generate the class_label file with all the labels"""
     class_label = []
     with open(path_csv, newline='') as f:
         reader = csv.DictReader(f)
@@ -12,8 +12,8 @@ def generate_labels(path_csv, path_txt):
                 class_label.append(row["class_name"])
 
 
-# Read line by line a .txt file
 def read_labels(file_path):
+    """Read line by line a .txt file"""
     class_label = []
     with open(file_path, 'r') as filehandle:
         for line in filehandle:
@@ -22,8 +22,8 @@ def read_labels(file_path):
     return class_label
 
 
-# Get all the infos from the csv file through our norm
 def get_infos(path_csv):
+    """Get all the infos from the csv file through our norm"""
     data = []
     with open(path_csv, newline='') as f:
         to_add = []

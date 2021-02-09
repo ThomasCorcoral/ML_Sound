@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 
+
 def create_loading():
+    """Create the loading bar by analysing the plot"""
     plt.ion()
     fig = plt.figure(num=None, figsize=(7, 2), dpi=80, facecolor='w', edgecolor='k')
     fig.canvas.set_window_title('Loading')
@@ -16,6 +18,7 @@ def create_loading():
 
 
 def update_loading(ax, name, percent):
+    """Update the percent of the progress bar"""
     actual = [percent]
     ax.clear()
     ax.barh(name, actual, align='center', color='orange')
@@ -27,4 +30,5 @@ def update_loading(ax, name, percent):
 
 
 def close_loading(fig):
+    """Just close the progress bar which is a figure"""
     plt.close(fig)

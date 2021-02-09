@@ -1,21 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue 29 Dec 2020
-
-@author: Pierre Barbat Maximilien Cetre Thomas Corcoral
-
-The purpose of this file is to create the window that will allow the user to use
-the project to identify, play, or see the different spectrograms of a sound 
-"""
-
-##########################################
-# Imports
-##########################################
-
-# from application.preparation_v1 import format_data as fd, prediction as pred
 from application.preparation_v2 import format_data as fd, prediction as pred, cnn_model as cnn, find_best_epoch as fbe
-import generate_csv as gc
-import get_model as gm
+from application import generate_csv as gc, get_model as gm
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -30,10 +14,6 @@ from pydub import AudioSegment
 import sys
 from shutil import copyfile
 
-
-##########################################
-# Globals variables
-##########################################
 
 WIDTH = 1300
 WIDTH_LINUX = 1500
@@ -52,18 +32,9 @@ global zip_data
 global zip_model
 global model
 
-##########################################
-# Classes definition
-##########################################
-
-"""
-This part is for the appearance of all the element inside the window, like the size of it, where the buttons are
-For instance, once the accuracy percentage reaches a certain threshold, it will change color to indicate ifyou should 
-trust or not the prediction
-"""
-
 
 class Menu:
+    """Main menu with all the buttons to manage the program"""
     def __init__(self, can, quit_pic, run_pic, folder_pic, open_but, run_but, quit_but, csv_pic, open_csv_but,
                  format_data_but, format_pic, generate_csv_but, save_csv_img, import_pic, import_model_but,
                  import_data_pic, import_data_but):
@@ -119,6 +90,7 @@ class Menu:
 
 
 class Header:
+    """Small part to display the program icon"""
     def __init__(self, can, icon):
         self.can = can
         self.icon = icon
@@ -132,6 +104,7 @@ class Header:
 
 
 class InfosMenu:
+    """Side Menu who display the informations about the preparation of the model and the saves"""
     def __init__(self, can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
                  label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data, name_data_entry,
                  best_epoch_but, val):
@@ -190,7 +163,7 @@ class InfosMenu:
 
     def display(self):
         if sys.platform.startswith('linux'):
-            self.can_menu.place(x=0, y=360)
+            self.can_menu.place(x=0, y=365)
             self.label.place(x=75, y=370)
             self.label_epoch.place(x=35, y=408)
             self.epoch.place(x=100, y=410)
@@ -220,6 +193,7 @@ class InfosMenu:
 
 
 class Footer:
+    """Small part who display the version num and the two help buttons"""
     def __init__(self, can, but, help_button):
         self.can = can
         self.but = but
@@ -242,6 +216,7 @@ class Footer:
 
 
 class AffichageSon:
+    """Display all the informations about the sounds"""
     def __init__(self, can, show_audio, show_spec, show_mfcc, play_btn, wav_pic, process_pic, open_test_but,
                  run_test_but):
         self.can = can
@@ -283,6 +258,7 @@ class AffichageSon:
 
 
 class AffichageRes:
+    """Show the results of the prediction"""
     def __init__(self, can, prediction_label, prediction, resultats, resultats_label):
         self.can = can
         self.prediction_label = prediction_label
@@ -302,6 +278,7 @@ class AffichageRes:
 
 
 class RecapSelect:
+    """Recap the choices for the csv path and the data path"""
     def __init__(self, can, data_path_label, data_path_var, csv_path_label, csv_path_var):
         self.can = can
         self.data_path_label = data_path_label
@@ -326,12 +303,8 @@ class RecapSelect:
             self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
 
-##########################################
-# Graphics functions
-##########################################
-
-# This function is used to initialize the window, and lock its size
 def init_window():
+    """This function is used to initialize the window, and lock its size"""
     w = tk.Tk()
     w.title("L3 project")
     if sys.platform.startswith('linux'):
@@ -342,26 +315,27 @@ def init_window():
         w.geometry(str(WIDTH) + "x" + str(HEIGHT))
         w.minsize(WIDTH, HEIGHT)
         w.maxsize(WIDTH, HEIGHT)
-    w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="../img/logo.png"))
+    w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="./img/logo.png"))
     return w
 
 
-# This function prints the current paths to the csv and data for the test
 def test():
+    """This function prints the current paths to the csv and data for the test"""
     print("path csv : " + path_csv)
     print("path data : " + data_path)
 
 
-# This function creates the buttons needed to indicate the paths of the different data needed / processing the data
 def init_menu():
-    folder_img = tk.PhotoImage(file='../img/folder.png').subsample(14, 14)
-    save_csv_img = tk.PhotoImage(file='../img/save_csv.png').subsample(14, 14)
-    run_pic = tk.PhotoImage(file='../img/funnel.png').subsample(14, 14)
-    csv_pic = tk.PhotoImage(file='../img/csv.png').subsample(14, 14)
-    format_pic = tk.PhotoImage(file='../img/format.png').subsample(14, 14)
-    import_data_pic = tk.PhotoImage(file='../img/import_data.png').subsample(14, 14)
-    import_pic = tk.PhotoImage(file='../img/import.png').subsample(14, 14)
-    quit_pic = tk.PhotoImage(file='../img/leave.png').subsample(14, 14)
+    """This function creates the buttons needed to indicate the paths of the
+    different data needed / processing the data"""
+    folder_img = tk.PhotoImage(file='./img/folder.png').subsample(14, 14)
+    save_csv_img = tk.PhotoImage(file='./img/save_csv.png').subsample(14, 14)
+    run_pic = tk.PhotoImage(file='./img/funnel.png').subsample(14, 14)
+    csv_pic = tk.PhotoImage(file='./img/csv.png').subsample(14, 14)
+    format_pic = tk.PhotoImage(file='./img/format.png').subsample(14, 14)
+    import_data_pic = tk.PhotoImage(file='./img/import_data.png').subsample(14, 14)
+    import_pic = tk.PhotoImage(file='./img/import.png').subsample(14, 14)
+    quit_pic = tk.PhotoImage(file='./img/leave.png').subsample(14, 14)
     can_menu = tk.Canvas(window, width=0, height=0)
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
                                compound='left', command=choose_dir_data)
@@ -385,9 +359,9 @@ def init_menu():
     return win_menu
 
 
-# This is used to initialize the header for the window
 def init_header():
-    icon = tk.PhotoImage(file="../img/logo.png").subsample(12, 12)
+    """This is used to initialize the header for the window"""
+    icon = tk.PhotoImage(file="./img/logo.png").subsample(12, 12)
     if sys.platform.startswith('linux'):
         can_head = tk.Canvas(window, width=WIDTH_BUT + 26, height=HEIGHT / 15 + 2, bd=0, highlightthickness=0,
                              relief='ridge', bg=BACKGROUND_TITLE)
@@ -398,10 +372,10 @@ def init_header():
     return win_header
 
 
-# This is used to indicate all the needed informations to write the text on the buttons
 def init_infos_menu():
+    """This is used to indicate all the needed informations to write the text on the buttons"""
     if sys.platform.startswith('linux'):
-        can_menu = tk.Canvas(window, width=200, height=400, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=200, height=435, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     else:
         can_menu = tk.Canvas(window, width=179, height=340, bg=BACKGROUND_TITLE, bd=0,
@@ -437,8 +411,8 @@ def init_infos_menu():
     return infos_menu
 
 
-# This is used to initialize the footer for the window
 def init_footer():
+    """This is used to initialize the footer for the window"""
     if sys.platform.startswith('linux'):
         can_footer = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=LENGTH_BUT + 15, bg=BACKGROUND_TITLE,
                                bd=0, highlightthickness=0, relief='ridge')
@@ -455,8 +429,8 @@ def init_footer():
     return foot
 
 
-# This is used to return the results of the prediction
 def init_resultats():
+    """This is used to return the results of the prediction"""
     if sys.platform.startswith('linux'):
         can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=HEIGHT / 2 - 50, bg=BACKGROUND_SOUND, bd=0,
                         highlightthickness=0, relief='ridge')
@@ -473,10 +447,10 @@ def init_resultats():
     return result
 
 
-# This is used to create the buttons used to see the graphic representations of a sound
 def init_sons():
-    wav_pic = tk.PhotoImage(file='../img/wav.png').subsample(14, 14)
-    process_pic = tk.PhotoImage(file='../img/process.png').subsample(14, 14)
+    """This is used to create the buttons used to see the graphic representations of a sound"""
+    wav_pic = tk.PhotoImage(file='./img/wav.png').subsample(14, 14)
+    process_pic = tk.PhotoImage(file='./img/process.png').subsample(14, 14)
     can = tk.Canvas(window, width=0, height=0, bg=BACKGROUND_SOUND, bd=0,
                     highlightthickness=0, relief='ridge')
     show_audio = tk.Button(window, text="Show audio", font=("Courrier", 14), fg='black',
@@ -495,12 +469,12 @@ def init_sons():
     return show_son
 
 
-# This is used to initialize the model using model.json and the obtained accuracy
 def init_model():
+    """This is used to initialize the model using model.json and the obtained accuracy"""
     try:
         # load json and create model
-        file = open("../local_saves/model/model.json", 'r')
-        file_acc = open("../local_saves/accuracy.txt", 'r')
+        file = open("./local_saves/model/model.json", 'r')
+        file_acc = open("./local_saves/accuracy.txt", 'r')
     except IOError:
         print("File not accessible")
         return None
@@ -512,12 +486,13 @@ def init_model():
         model_local = model_from_json(model_json)
         file.close()
         # load weights
-        model_local.load_weights("../local_saves/model/model.h5")
+        model_local.load_weights("./local_saves/model/model.h5")
         return model_local
     return None
 
 
 def init_recap_selec():
+    """Initialise the show data path and csv path section"""
     if sys.platform.startswith('linux'):
         can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 80, height=60, bg="white", bd=0, highlightthickness=0,
                         relief='ridge')
@@ -534,14 +509,9 @@ def init_recap_selec():
     return recapit
 
 
-##########################################
-# Intern functions
-##########################################
-
-
-# This is used to play the sound so you can hear it. If it's an mp3, it will use pygame to play it,
-# otherwise, it will use playsound
 def run_test_audio():
+    """This is used to play the sound so you can hear it. If it's an mp3, it will use pygame to play it,
+        otherwise, it will use playsound"""
     if test_path != '':
         # if test_path.endswith('.mp3'):
         mixer.init()
@@ -551,18 +521,18 @@ def run_test_audio():
         #     playsound(test_path)
 
 
-# This is used to quit the application
 def leave():
+    """This is used to quit the application"""
     window.destroy()
 
 
-# This allows the estimated accuracy to be changed using the value in parameters
 def change(new):
+    """This allows the estimated accuracy to be changed using the value in parameters"""
     menu_infos.change_percent(new)
 
 
-# This is used to indicate the path to the dataset
 def choose_dir_data():
+    """This is used to indicate the path to the dataset"""
     global data_path
     new = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
     if new != '':
@@ -570,8 +540,8 @@ def choose_dir_data():
         recap.update_data_path(data_path)
 
 
-# This is used to indicate the path to the .csv
 def choose_path_csv():
+    """This is used to indicate the path to the .csv"""
     global path_csv
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .csv",
                                      filetypes=(("csv  files", "*.csv"), ("all files", "*.*")))
@@ -580,8 +550,8 @@ def choose_path_csv():
         recap.update_csv_path(path_csv)
 
 
-# This is used to indicate the path to the tested file
 def choose_test_path():
+    """This is used to indicate the path to the tested file"""
     global test_path
     new = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier son",
                                      filetypes=[(".mp3", ".mp3"), (".wav", ".wav"), ("all files", ".*")])
@@ -589,8 +559,8 @@ def choose_test_path():
         test_path = new
 
 
-# This is used to clear the paths to the different
 def clear_folder(folder):
+    """This is used to clear the paths to the different"""
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -605,6 +575,10 @@ def clear_folder(folder):
 
 
 def copy_floder_content(origin, dest):
+    """Copy all the content of a repository (origin) to another one (dest)
+    :param origin: path of the original repository
+    :param dest: path of the destination repository
+    :return: 0 if everything ok -1 if error"""
     for filename in os.listdir(origin):
         file_path = os.path.join(origin, filename)
         try:
@@ -615,45 +589,45 @@ def copy_floder_content(origin, dest):
     return 0
 
 
-# This is used to format the data using the different paths indicated
 def format_data():
+    """This is used to format the data using the different paths indicated"""
     if data_path == "":
         print("Error : You need to specify th path to your data")
         return
     if path_csv == "":
         print("Error : You need to specify th path to your csv file")
         return
-    if not os.path.exists('../local_saves/data_format'):
-        os.mkdir('../local_saves/data_format')
-    elif clear_folder("../local_saves/data_format") == -1:
-        print("Error : Le directory ../local_saves could not be cleaned")
+    if not os.path.exists('./local_saves/data_format'):
+        os.mkdir('./local_saves/data_format')
+    elif clear_folder("./local_saves/data_format") == -1:
+        print("Error : Le directory ./local_saves could not be cleaned")
         return
     print("Start with data : " + data_path)
     print("And csv file : " + path_csv)
-    fd.get_the_data(data_path, path_csv, "../local_saves/class_label.txt")
+    fd.get_the_data(data_path, path_csv, "./local_saves/class_label.txt")
 
 
-# This is used to run the model using cnn_model.py after formatting the data
 def run_model():
+    """This is used to run the model using cnn_model.py after formatting the data"""
     global model
-    if not (os.path.isfile('../local_saves/data_format/test_audio.npy')):
+    if not (os.path.isfile('./local_saves/data_format/test_audio.npy')):
         print("The file test_audio.npy is missing try to format again")
         return
-    if not (os.path.isfile('../local_saves/data_format/train_audio.npy')):
+    if not (os.path.isfile('./local_saves/data_format/train_audio.npy')):
         print("The file fichier train_audio.npy is missing try to format again")
         return
-    if not (os.path.isfile('../local_saves/data_format/test_labels.npy')):
+    if not (os.path.isfile('./local_saves/data_format/test_labels.npy')):
         print("The file fichier test_labels.npy is missing try to format again")
         return
-    if not (os.path.isfile('../local_saves/data_format/train_labels.npy')):
+    if not (os.path.isfile('./local_saves/data_format/train_labels.npy')):
         print("The file fichier train_labels.npy is missing try to format again")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
     menu_infos.change_percent(accuracy)
 
 
-# This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it
 def predict():
+    """This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it"""
     global model, path_csv
     if test_path == "":
         print("Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
@@ -679,8 +653,8 @@ def predict():
     res.new_res(all_prob)
 
 
-# This is used to show the spectrogram corresponding to the sound that is being tested
 def show_spectrogramme():
+    """This is used to show the spectrogram corresponding to the sound that is being tested"""
     if not (os.path.isfile(test_path)):
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
@@ -694,8 +668,8 @@ def show_spectrogramme():
     plt.show()
 
 
-# This is used to show the mfcc corresponding to the sound that is being tested
 def show_mfccs():
+    """This is used to show the mfcc corresponding to the sound that is being tested"""
     if not (os.path.isfile(test_path)):
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
@@ -708,13 +682,13 @@ def show_mfccs():
     plt.show()
 
 
-# This is used to show the audio representation corresponding to the sound that is being tested
 def show_audio_representation():
+    """This is used to show the audio representation corresponding to the sound that is being tested"""
     if not (os.path.isfile(test_path)):
         return
     if test_path.endswith('.mp3'):
         sound = AudioSegment.from_mp3(test_path)
-        dst = '../local_saves/current.wav'
+        dst = './local_saves/current.wav'
         sound.export(dst, format="wav")
     else:
         dst = test_path
@@ -731,12 +705,12 @@ def show_audio_representation():
         print("Error : x and y must have same first dimension")
 
 
-# This is used save the current model in the "local save" folder to be able to use it later without re-creating every
-# step
 def save_as_model():
-    if not os.path.isdir("../local_saves/model"):
+    """This is used save the current model in the "local save" folder to be able to use it later without
+    re-creating every step"""
+    if not os.path.isdir("./local_saves/model"):
         return
-    if os.listdir('../local_saves/model') == 0:
+    if os.listdir('./local_saves/model') == 0:
         return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
@@ -744,17 +718,17 @@ def save_as_model():
     print(save_model_path)
     val_name = menu_infos.get_save_name()
     if val_name == '':
-        shutil.make_archive(save_model_path + "/my_model", "zip", "../local_saves/model")
+        shutil.make_archive(save_model_path + "/my_model", "zip", "./local_saves/model")
     else:
-        shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/model")
+        shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/model")
     print("Copy completed")
 
 
-# This is used to save the data for later
 def save_as_data_format():
-    if not os.path.isdir("../local_saves/data_format"):
+    """This is used to save the data for later"""
+    if not os.path.isdir("./local_saves/data_format"):
         return
-    if os.listdir('../local_saves/data_format') == 0:
+    if os.listdir('./local_saves/data_format') == 0:
         return
     print("save as")
     save_model_path = filedialog.askdirectory(initialdir="./",
@@ -762,14 +736,14 @@ def save_as_data_format():
     print(save_model_path)
     val_name = menu_infos.get_data_name()
     if val_name == '':
-        shutil.make_archive(save_model_path + "/my_data", "zip", "../local_saves/data_format")
+        shutil.make_archive(save_model_path + "/my_data", "zip", "./local_saves/data_format")
     else:
-        shutil.make_archive(save_model_path + "/" + val_name, "zip", "../local_saves/data_format")
+        shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/data_format")
     print("Copy completed")
 
 
-# This is used to generate a .csv (Spreadsheet) using the Data set indicated
 def generate_csv():
+    """This is used to generate a .csv (Spreadsheet) using the Data set indicated"""
     print("generate csv")
     if data_path == "":
         print("Error : You have to enter your data path")
@@ -778,34 +752,37 @@ def generate_csv():
 
 
 def set_zip_data(win):
+    """Get the data from a zip file"""
     win.destroy()
     global model_path, model
     zip_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .zip",
                                           filetypes=(("zip  files", "*.zip"), ("all files", "*.*")))
     if zip_path != '':
-        clear_folder("../local_saves/data_format")
-        os.mkdir("../local_unzip")
-        tmp_path = "../local_unzip"
+        clear_folder("./local_saves/data_format")
+        os.mkdir("./local_unzip")
+        tmp_path = "./local_unzip"
         gm.local_unzip(zip_path, tmp_path)
-        copy_floder_content("../local_unzip", "../local_saves/data_format")
+        copy_floder_content("./local_unzip", "./local_saves/data_format")
         shutil.rmtree(tmp_path)
 
 
 def set_rep_data(win):
+    """Get the data from a repository"""
     win.destroy()
     rep_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
     if rep_path != '':
-        clear_folder("../local_saves/data_format")
-        copy_floder_content(rep_path, "../local_saves/data_format")
+        clear_folder("./local_saves/data_format")
+        copy_floder_content(rep_path, "./local_saves/data_format")
 
 
 def import_data():
+    """Import the data by asking the user"""
     win = tk.Toplevel(window)
     win.title("Zip or Rep ?")
     win.geometry(str(150) + "x" + str(75))
     win.minsize(150, 75)
     win.maxsize(150, 75)
-    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="./img/logo.png"))
     zip_but = tk.Button(win, text="ZIP", font=("Courrier", 14), fg='black', compound='left',
                         command=lambda: set_zip_data(win))
     rep_but = tk.Button(win, text="REP", font=("Courrier", 14), fg='black', compound='left',
@@ -815,6 +792,7 @@ def import_data():
 
 
 def set_zip(win):
+    """Get the model from a zip file"""
     global model_path, model
     win.destroy()
     zip_path = filedialog.askopenfilename(initialdir="./", title="Selectionnez votre fichier .zip",
@@ -826,6 +804,7 @@ def set_zip(win):
 
 
 def set_rep(win):
+    """Get the model from a repository"""
     global model_path, model
     win.destroy()
     rep_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
@@ -836,12 +815,13 @@ def set_rep(win):
 
 
 def import_model():
+    """Import a model by asking the user """
     win = tk.Toplevel(window)
     win.title("Zip or Rep ?")
     win.geometry(str(150) + "x" + str(75))
     win.minsize(150, 75)
     win.maxsize(150, 75)
-    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="./img/logo.png"))
     zip_but = tk.Button(win, text="ZIP", font=("Courrier", 14), fg='black', compound='left',
                         command=lambda: set_zip(win))
     rep_but = tk.Button(win, text="REP", font=("Courrier", 14), fg='black', compound='left',
@@ -851,20 +831,15 @@ def import_model():
 
 
 def find_best_epoch():
+    """Call the function, aims at find best epochs"""
     best = fbe.get_best()
     menu_infos.define_epochs(best)
 
 
-##########################################
-# Help
-##########################################
-
-"""
-This class is used to print the help / instructions should the user press the help button in the bottom right corner
-"""
-
-
 class Aide:
+    """
+    This class is used to print the help / instructions should the user press the help button in the bottom right corner
+    """
     def __init__(self, main_can):
         self.main_can = main_can
 
@@ -880,8 +855,8 @@ class Aide:
         self.main_can.place(x=0, y=0)
 
 
-# Is used to create the help window
 def init_aide(win):
+    """Is used to create the help window"""
     if sys.platform.startswith('linux'):
         main_can = tk.Canvas(win, width=WIDTH_LINUX, height=HEIGHT_LINUX, bd=0, highlightthickness=0, relief='ridge')
     else:
@@ -891,6 +866,7 @@ def init_aide(win):
 
 
 def create_help(path_help):
+    """Aims to create the help section in english"""
     win = tk.Toplevel(window)
     win.title("Help L3 project")
     if sys.platform.startswith('linux'):
@@ -902,46 +878,38 @@ def create_help(path_help):
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
-    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="../img/logo.png"))
+    win.tk.call('wm', 'iconphoto', win, tk.PhotoImage(file="./img/logo.png"))
     aide = init_aide(win)
     aide.creation(path_help)
     aide.display()
 
 
-# Is used to show aide.txt
 def show_aide():
-    create_help("../aide.txt")
+    """Display the french version of the help"""
+    create_help("./resources/aide.txt")
 
 
 def show_help():
-    create_help("../aide_en.txt")
+    """Display the english version of the help"""
+    create_help("./resources/aide_en.txt")
 
 
-##########################################
-# Tests
-##########################################
-
-
-# this is used to load a pre-existing model into the application
 def load_model():
-    full_path = "../model.zip"
+    """Used to load a pre-existing model into the application"""
+    full_path = "./model.zip"
     return gm.get_model(full_path)
 
 
-##########################################
-# Main
-##########################################
-
-
-if __name__ == "__main__":
+def start():
+    global window, menu, header, menu_infos, footer, res, son, recap
     # Création de la fenêtre
     window = init_window()
 
     # Initialisation du fond d'écran de l'application
     if sys.platform.startswith('linux'):
-        background_image = tk.PhotoImage(file='../img/background_linux.png')
+        background_image = tk.PhotoImage(file='./img/background_linux.png')
     else:
-        background_image = tk.PhotoImage(file='../img/background.png')
+        background_image = tk.PhotoImage(file='./img/background.png')
     background_label = tk.Label(window, image=background_image)
     background_label.place(x=0, y=0)
 

@@ -2,13 +2,14 @@ import numpy as np
 from application.preparation_v2 import extraction_feature as ef, progress_bar as pb, extract_infos as ei
 from sklearn.model_selection import train_test_split
 from numpy import save
+import os
 
 
 SIZE_SEC = 43
 
 
-# Get the data from a specific path with a csv
 def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
+    """Get the data from a specific path with a csv"""
     infos = ei.get_infos(csv_path)
     res = []
     labels = []
@@ -33,9 +34,12 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
     ei.generate_labels(csv_path, label_text_path)
     train_audio, test_audio, train_labels, test_labels = train_test_split(res, labels,
                                                                           test_size=ratio, random_state=rs)
-    save('./data_format/train_audio.npy', train_audio)
-    save('./data_format/train_labels.npy', train_labels)
-    save('./data_format/test_audio.npy', test_audio)
-    save('./data_format/test_labels.npy', test_labels)
+    if not os.path.exists('local_saves/data_format'):
+        os.mkdir('local_saves/data_format')
+
+    save('local_saves/data_format/train_audio.npy', train_audio)
+    save('local_saves/data_format/train_labels.npy', train_labels)
+    save('local_saves/data_format/test_audio.npy', test_audio)
+    save('local_saves/data_format/test_labels.npy', test_labels)
 
     return train_audio, test_audio, train_labels, test_labels

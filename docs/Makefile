@@ -4,9 +4,9 @@
 # You can set these variables from the command line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
-SPHINXBUILD   ?= C:\Users\Nelimix\Desktop\Tests_travail\Projet_Deep_Learning\Projet_L3
-SOURCEDIR     = .
-BUILDDIR      = _build
+SPHINXBUILD   ?= sphinx-build
+SOURCEDIR     = source
+BUILDDIR      = build
 
 # Put it first so that "make" without argument is like "make help".
 help:

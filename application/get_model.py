@@ -4,14 +4,14 @@ from keras.models import model_from_json
 import zipfile as zf
 
 
-# Is used to un-zip a compressed folder in a tmp_folder
 def local_unzip(full_path, tmp_path):
+    """Is used to un-zip a compressed folder in a tmp_folder"""
     with zf.ZipFile(full_path, 'r') as zip_ref:
         return zip_ref.extractall(tmp_path)
 
 
-# Is used to get all the folders inside the indicated folder, to get the species of the animals
 def get_model(full_path):
+    """Is used to get all the folders inside the indicated folder, to get the species of the animals"""
     if zf.is_zipfile(full_path):
         os.mkdir("../local_unzip")
         tmp_path = "../local_unzip"

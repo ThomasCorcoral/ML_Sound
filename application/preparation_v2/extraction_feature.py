@@ -7,13 +7,13 @@ import noisereduce as nr
 NMFCC_MFCC = 50
 
 
-# Extract audio values and process noise reduction
 def preprocess_audio(audio_path):
+    """Extract audio values and process noise reduction"""
     try:
         dst = audio_path
         if audio_path.endswith('.mp3'):
             sound = AudioSegment.from_mp3(audio_path)
-            dst = '../local_saves/current.wav'
+            dst = './local_saves/current.wav'
             sound.export(dst, format="wav")
         audio_data, sample_rate = librosa.load(dst)
         noisy_part = audio_data[8000:10000]
@@ -25,8 +25,8 @@ def preprocess_audio(audio_path):
     return reduced_noise, audio_data, sample_rate
 
 
-# Get the mfccs, cut into 1 second length and select most noisy parts
 def process_audio(audio_path):
+    """Get the mfccs, cut into 1 second length and select most noisy parts"""
     reduced_noise, basic_noise, sample_rate = preprocess_audio(audio_path)
     if sample_rate == -1:
         return np.asarray([])
