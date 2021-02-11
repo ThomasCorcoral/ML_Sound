@@ -15,7 +15,7 @@ def run_model(epoch=10):
     print("train audi size : " + str(len(train_audio)))
     print("train labels size : " + str(len(train_labels)))
 
-    class_label = ei.read_labels('local_saves/class_label.txt')
+    class_label = ei.read_labels('local_saves/data_format/class_label.txt')
     class_label = list(dict.fromkeys(class_label))
 
     model = mb.builder(len(class_label))

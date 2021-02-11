@@ -15,7 +15,7 @@ def get_best():
     except FileNotFoundError:
         return 10
 
-    class_label = ei.read_labels('local_saves/class_label.txt')
+    class_label = ei.read_labels('local_saves/data_format/class_label.txt')
     class_label = list(dict.fromkeys(class_label))
 
     model = mb.builder(len(class_label))

@@ -17,3 +17,5 @@
 /test/data_format/
 ./SECU/*
 ./local_saves/*
+./application/preparation_v1/__pycache__
+./application/preparation_v2/__pycache__
