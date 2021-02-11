@@ -11,6 +11,8 @@
 ./dataset.zip
 ./application/__pycache__
 ./application/__pycache__/*
+./application/preparation_v2/__pycache__
+./application/preparation_v2/__pycache__/*
 ./local_saves/current.wav
 /test/data_format/
 ./SECU/*
