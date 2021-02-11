@@ -522,7 +522,7 @@ def run_test_audio():
         #     playsound(test_path)
 
 
-def leave():
+def leave(event=None):
     """This is used to quit the application"""
     window.destroy()
 
@@ -954,5 +954,7 @@ def start():
     zip_model = False
     init_model()
     print(model)
+
+    window.bind_all('<Control-q>', leave)
 
     window.mainloop()
