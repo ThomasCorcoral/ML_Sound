@@ -953,7 +953,6 @@ def start():
     model_path = ""
     zip_model = False
     init_model()
-    print(model)
 
     window.bind_all('<Control-q>', leave)
 
