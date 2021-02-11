@@ -26,7 +26,9 @@ You can manually select the number of epochs.
 The percentage you will see afterward is the estimated accuracy of the training.
 
 Ratio : Value between 0 and 1 and represent the proportion of the dataset to include in the train split (0 = nothing, 1 = everything)
-RS : Random State, controls the shuffling applied to the data before applying the split. Pass an precise int for reproducible output
+Ex: With a 10000 file dataset, a 0.2 ratio will give 2000 files to test
+RS : Random State, controls the shuffling applied to the data before applying the split. The test will take one folder amongst n folders, with n = RS.
+Ex : RS = 10, one folder amongst 10 is chosen for the test, every 10 folders.
 
 Save data / model : Can save the current data / model to use it later
 
