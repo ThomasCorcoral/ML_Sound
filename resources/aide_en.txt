@@ -1,6 +1,10 @@
-Data path : Pressing on this button will create a new window. From this window, select the folder containing your "dataset" (folder filled with .wav, or filled with folders of .wav).
+Data path : Opens a window from which you have to select the folder containing your "dataset" (folder filled with .wav, or filled with folders of .wav).
 
-CSV path : Pressing on this button will create a new window. From this window, select the folder containing the informations on your dataset (A spreadsheet, for example, an Excel .csv).
+Generate CSV : Will auto-generate a .csv using the indicated dataset in Data path. Dont forget to move the .csv from local_saves (Since it's cleared afterwards)
+WARNING : To properly generate the .csv, please be aware the bird / bat sounds need to be in a folder named after the species of the animal 
+(For instance, a folder "data" with a folder for each species, with the species sounds in it)
+
+CSV path : Opens a window from which you have to select the file containing the informations on your dataset (A spreadsheet, for example, an Excel .csv).
            Be careful that the content inside your folder contains these 4 informations in this order :
                 - name : The name of the sound file.
                 - folder : The folder in which is your file in the folder "data", if there is none, just put '.'
@@ -9,14 +13,21 @@ CSV path : Pressing on this button will create a new window. From this window, s
 
 Format data : Will prepare the data indicated by the paths, and will extract the files .npy while respecting the selected options.
 
+Import Data : Allows the user to directly import pre-formated data.
+
 Run Train : Will launch the training of the model. This will allow the model to get more accurate results dependding on the number of epochs.
 
+Import Model : Allows the user to directly import a folder containing the already existing model 
+
+Find best Epoch : Is used to get a number of Epoch considered optimal to be the most accurate without risking overfitting
 Epochs = Number of times the training is repeated. More epochs means more accuracy, but also a greater training time, and more importantly a risk of overfitting (overtraining). 
 Overfitting = When an analysis is too accurate, which means future analysis will not be able to adapt to any added data / will not be able to predict future analysis correctly.
-
 You can manually select the number of epochs.
-
 The percentage you will see afterward is the estimated accuracy of the training.
+
+Ratio : / RS :
+
+Save data / model : Can save the current data / model to use it later
 
 Test path : Path to the file you want to test by using the tarined model. it must be a .wav file.
 
@@ -25,10 +36,6 @@ Run test : Will launch the test on the selected file.
 Play Test File : Will play the sound indicated in Test Path
 
 Enregistrer sous : Allows the user to save the current model to be able to come back to it without doing all the steps again
-
-Generer CSV : Will auto-generate a .csv using the indicated dataset in Data path. Dont forget to move the .csv from local_saves (Since it's cleared afterwards)
-WARNING : To properly generate the .csv, please be aware the bird / bat sounds need to be in a folder named after the species of the animal 
-(For instance, a folder "data" with a folder for each species, with the species sounds in it)
 
 Voir audio: Will show the visual representation of the sound in the Test Path
 
