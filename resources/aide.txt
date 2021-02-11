@@ -37,10 +37,8 @@ Run test : Permet de lancer la reconnaissance du modele.
 
 Play Test File : Permet de jouer le son indique dans Test Path
 
-Enregistrer sous : Permet d'enregistrer le modele actuel afin de pouvoir revenir dessus sans refaire toutes les manipulations
+Show audio: Permet de visualiser la representation graphique du son de Test Path
 
-Voir audio: Permet de visualiser la representation graphique du son de Test Path
+Show Spectrogramme : Permet de visualiser le spectrogramme du son de Test Path
 
-Voir Spectrogramme : Permet de visualiser le spectrogramme du son de Test Path
-
-Voir MFCC: Permet de visualiser le mfcc du son de Test Path
+Show MFCC: Permet de visualiser le mfcc du son de Test Path

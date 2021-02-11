@@ -36,10 +36,8 @@ Run test : Will launch the test on the selected file.
 
 Play Test File : Will play the sound indicated in Test Path
 
-Enregistrer sous : Allows the user to save the current model to be able to come back to it without doing all the steps again
+Show audio: Will show the visual representation of the sound in the Test Path
 
-Voir audio: Will show the visual representation of the sound in the Test Path
+Show Spectrogramme : Will show the spectrogram of the sound in the Test Path
 
-Voir Spectrogramme : Will show the spectrogram of the sound in the Test Path
-
-Voir MFCC: Will show the mfcc of the sound in the Test Path
+Show MFCC: Will show the mfcc of the sound in the Test Path
