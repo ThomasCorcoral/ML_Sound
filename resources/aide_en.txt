@@ -25,7 +25,8 @@ Overfitting = When an analysis is too accurate, which means future analysis will
 You can manually select the number of epochs.
 The percentage you will see afterward is the estimated accuracy of the training.
 
-Ratio : / RS :
+Ratio : Value between 0 and 1 and represent the proportion of the dataset to include in the train split (0 = nothing, 1 = everything)
+RS : Random State, controls the shuffling applied to the data before applying the split. Pass an precise int for reproducible output
 
 Save data / model : Can save the current data / model to use it later
 

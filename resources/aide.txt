@@ -4,7 +4,7 @@ Generate CSV : Permet de generer le .csv du dataset indique de maniere automatiq
 ATTENTION : Pour generer le .csv, veuillez bien faire attention a ce que les sons de chaque oiseau / chauve-souris soit dans un fichier ayant pour nom l'espece de l'animal
 (Par exemple, in fichier "data" avec un fichier pour chaque espece, avec les sons de l'espece dedans)
 
-CSV path : Ouvre une fenetre qui permet de selectionner le votre fichier contenant les informations sur votre dataset (Un fichier tableur type Excel .csv).
+CSV path : Ouvre une fenetre qui permet de selectionner votre fichier contenant les informations sur votre dataset (Un fichier tableur type Excel .csv).
            Faites bien attention au contenu de votre fichier. Il doit contenir les 4 informations formatees dans cet ordre :
                 - name : Le nom du fichier sonore.
                 - folder : Le dossier dans lequel se trouve le fichier dans votre dossier "data", s'il n'y en a aucun, mettez '.'
@@ -14,19 +14,20 @@ CSV path : Ouvre une fenetre qui permet de selectionner le votre fichier contena
 
 Format data : Prepare les donnees indiquees par les paths, et en extrait des fichiers .npy en fonction des options selectionnees.
 
-Import Data : Permet d'importer directement des data deja formatee au lieu de refaire les etapes précédentes.
+Import Data : Permet d'importer directement des data deja formatee au lieu de refaire les etapes precedentes.
 
 Run Train : Lancez l'entrainement du modele, ce qui va permettre d'obtenir des resultats plus precis en fonction du nombre d'epochs 
 
-Import Model : Permet d'importer directement un fichier qui contient un modele cree precedemment?
+Import Model : Permet d'importer directement un fichier qui contient un modele cree precedemment
 
-Find best Epoch : Permet de prendre un nombre d'Epochs considere optimal afin d'être le plus precis sans riquer un surapprentissage
+Find best Epoch : Permet de prendre un nombre d'Epochs considere optimal afin d'etre le plus precis sans riquer un surapprentissage
 Epochs = Repetitions de l'entrainement. Plus d'epochs signifie une meilleure precision, mais aussi un plus grand temps d'entrainement et surtout un risque de surapprentissage. 
 Surapprentissage = Une analyse trop precise sur un modele, ce qui signifie que les futures analyses ne pourra pas prevoir correctement les observations dans le futur.
 Vous pouvez selectionner le nombre d'epochs manuellement.
 Le pourcentage que vous verrez apres est la precision estimee de l'entrainement.
 
-Ratio : / RS :
+Ratio : Valeur entre 0 et 1 qui represente la propotion du dataset a integrer dans les tests (0 = rien, 1 = tout)
+RS : Random State, sert a gerer le remaniement des donnes avant le test, permet de reproduire une condition de test en fonction de l'entier choisi
 
 Save data / model : Permet de sauvegarder le data / modele actif afin de pouvoir l'importer plus tard
 

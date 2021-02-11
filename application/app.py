@@ -846,10 +846,10 @@ class Aide:
     def creation(self, path_help):
         f = open(path_help, "r")
         if sys.platform.startswith('linux'):
-            self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 12), fill='black',
+            self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 10), fill='black',
                                       text=f.read())
         else:
-            self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 12), fill='black', text=f.read())
+            self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 10), fill='black', text=f.read())
 
     def display(self):
         self.main_can.place(x=0, y=0)
