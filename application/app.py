@@ -471,6 +471,7 @@ def init_sons():
 
 def init_model():
     """This is used to initialize the model using model.json and the obtained accuracy"""
+    global model
     try:
         # load json and create model
         file = open("./local_saves/model/model.json", 'r')
@@ -487,8 +488,8 @@ def init_model():
         file.close()
         # load weights
         model_local.load_weights("./local_saves/model/model.h5")
-        return model_local
-    return None
+        print("Model load")
+        model = model_local
 
 
 def init_recap_selec():
@@ -951,6 +952,7 @@ def start():
     test_path = ""
     model_path = ""
     zip_model = False
-    model = init_model()
+    init_model()
+    print(model)
 
     window.mainloop()

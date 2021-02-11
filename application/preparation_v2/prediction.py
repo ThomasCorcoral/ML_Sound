@@ -9,7 +9,7 @@ NMFCC_MFCC = 50
 def print_prediction(file_name, model):
     """Prints the estimated specie for the sound and the general percentages"""
     prediction_feature = ef.process_audio(file_name)
-    class_label = ei.read_labels("local_saves/class_label.txt")
+    class_label = ei.read_labels("local_saves/data_format/class_label.txt")
 
     class_label = list(dict.fromkeys(class_label))
     le = LabelEncoder()
