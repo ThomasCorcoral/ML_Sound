@@ -26,10 +26,8 @@ Surapprentissage = Une analyse trop precise sur un modele, ce qui signifie que l
 Vous pouvez selectionner le nombre d'epochs manuellement.
 Le pourcentage que vous verrez apres est la precision estimee de l'entrainement.
 
-Ratio : Valeur entre 0 et 1 qui represente la propotion du dataset a integrer dans les tests (0 = rien, 1 = tout) 
-Ex: Avec un dataset de 10000 fichiers, un ratio de 0.2 donnera 2000 fichiers à tester
-RS : Random State, sert a gerer le remaniement des donnes avant le test. Le test prendra un fichier parmi n fichiers, avec RS le nombre de fichier. 
-Ex : RS = 10, un fichier parmi 10 est choisi pour le test, tout les 10 fichiers.
+Ratio : Valeur entre 0 et 1 qui represente la propotion du dataset a integrer dans les tests (0 = rien, 1 = tout)
+RS : Random State, sert a gerer le remaniement des donnes avant le test, permet de reproduire une condition de test en fonction de l'entier choisi
 
 Save data / model : Permet de sauvegarder le data / modele actif afin de pouvoir l'importer plus tard
 
