@@ -33,8 +33,9 @@ def generate(path):
                 for name, path_rec in to_add_rec:
                     if not (name.lower().endswith('.mp3') or name.lower().endswith('.wav')):
                         print("Error : non .mp3 / .wav file found during deep-search, aborting the generation")
-                        return
+                        return False
                     spamwriter.writerow([name, path_rec, id_current, path_rec])
             else:
                 spamwriter.writerow([to_add_path, '.'])
             id_current = id_current + 1
+    return True

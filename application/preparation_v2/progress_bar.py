@@ -26,7 +26,11 @@ def update_loading(ax, name, percent):
     ax.set_yticks(name)
     ax.set_yticklabels(name)
     plt.draw()
-    plt.pause(0.1)  # is necessary for the plot to update for some reason
+    try:
+        plt.pause(0.1)  # is necessary for the plot to update for some reason
+    except:
+        return False
+    return True
 
 
 def close_loading(fig):

@@ -17,7 +17,8 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
     for i in range(len(infos)):
         file_path = data_path + "/" + str(infos[i][1]) + "/" + str(infos[i][0])
         percent = i / len(infos) * 100
-        pb.update_loading(ax, name, percent)
+        if not pb.update_loading(ax, name, percent):
+            return [], [], [], []
         current_label = infos[i][2]
         current_cut_audio = ef.process_audio(file_path)
         for cutted in current_cut_audio:

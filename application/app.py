@@ -24,13 +24,7 @@ BACKGROUND_TITLE = '#2f3d51'
 BACKGROUND_SOUND = '#59759c'
 LENGTH_BUT = 40
 WIDTH_BUT = 175
-global data_path
-global path_csv
-global test_path
-global model_path
-global zip_data
-global zip_model
-global model
+global data_path, path_csv, test_path, model_path, zip_data, zip_model, model
 
 
 class Menu:
@@ -107,7 +101,7 @@ class InfosMenu:
     """Side Menu who display the informations about the preparation of the model and the saves"""
     def __init__(self, can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
                  label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data, name_data_entry,
-                 best_epoch_but, val):
+                 best_epoch_but, val, accuracy_label):
         self.can_menu = can_menu
         self.text = text
         self.label = label
@@ -127,6 +121,7 @@ class InfosMenu:
         self.name_data_entry = name_data_entry
         self.best_epoch_but = best_epoch_but
         self.val = val
+        self.accuracy_label = accuracy_label
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -150,7 +145,7 @@ class InfosMenu:
         self.val.set(new_val)
 
     def get_rs(self):
-        return self.rs.get()
+        return int(self.rs.get())
 
     def get_ratio(self):
         return float(self.ratio.get())
@@ -164,7 +159,8 @@ class InfosMenu:
     def display(self):
         if sys.platform.startswith('linux'):
             self.can_menu.place(x=0, y=365)
-            self.label.place(x=75, y=370)
+            self.accuracy_label.place(x=20, y=375)
+            self.label.place(x=90, y=370)
             self.label_epoch.place(x=35, y=408)
             self.epoch.place(x=100, y=410)
             self.best_epoch_but.place(x=30, y=435)
@@ -178,7 +174,8 @@ class InfosMenu:
             self.name_data_entry.place(x=16, y=730)
         else:
             self.can_menu.place(x=2, y=355)
-            self.label.place(x=75, y=360)
+            self.accuracy_label.place(x=20, y=365)
+            self.label.place(x=90, y=360)
             self.label_epoch.place(x=35, y=398)
             self.epoch.place(x=100, y=400)
             self.best_epoch_but.place(x=20, y=435)
@@ -303,6 +300,28 @@ class RecapSelect:
             self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
 
+class Console:
+    """Print all the errors or the success done by the user"""
+    def __init__(self, can, initial_label, variable_label, variable):
+        self.can = can
+        self.initial_label = initial_label
+        self.variable_label = variable_label
+        self.variable = variable
+
+    def update_console(self, new):
+        self.variable.set("$> " + new)
+
+    def display(self):
+        if sys.platform.startswith('linux'):
+            self.can.place(x=WIDTH_BUT + 50, y=HEIGHT_LINUX / 2 + 100)
+            self.initial_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 110)
+            self.variable_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 130)
+        else:
+            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 65)
+            self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 75)
+            self.variable_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 95)
+
+
 def init_window():
     """This function is used to initialize the window, and lock its size"""
     w = tk.Tk()
@@ -317,12 +336,6 @@ def init_window():
         w.maxsize(WIDTH, HEIGHT)
     w.tk.call('wm', 'iconphoto', w, tk.PhotoImage(file="./img/logo.png"))
     return w
-
-
-def test():
-    """This function prints the current paths to the csv and data for the test"""
-    print("path csv : " + path_csv)
-    print("path data : " + data_path)
 
 
 def init_menu():
@@ -393,11 +406,11 @@ def init_infos_menu():
 
     label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     ratio = tk.StringVar()
-    ratio.set(10)
+    ratio.set(0.1)
     ratio_spinbox = tk.Spinbox(window, from_=0, to=1, increment=.05, textvariable=ratio, width=5)
     label_rs = tk.Label(window, text="RS ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     rs = tk.StringVar()
-    rs.set(10)
+    rs.set(42)
     rs_spinbox = tk.Spinbox(window, from_=0, to=100, increment=1, textvariable=rs, width=5)
     save_data_but = tk.Button(window, text="save data", font=("Courrier", 11), fg='black', command=save_as_data_format)
     name_data = tk.StringVar(value='data')
@@ -405,9 +418,10 @@ def init_infos_menu():
     save_model_but = tk.Button(window, text="save model", font=("Courrier", 11), fg='black', command=save_as_model)
     name_model = tk.StringVar(value='model')
     name_entry = tk.Entry(window, textvariable=name_model)
+    accuracy_label = tk.Label(window, text="Accuracy", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
                            label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data,
-                           name_data_entry, best_epoch_but, val)
+                           name_data_entry, best_epoch_but, val, accuracy_label)
     return infos_menu
 
 
@@ -510,6 +524,21 @@ def init_recap_selec():
     return recapit
 
 
+def init_console():
+    if sys.platform.startswith('linux'):
+        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 80, height=60, bg="black", bd=0, highlightthickness=0,
+                        relief='ridge')
+    else:
+        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="black", bd=0, highlightthickness=0,
+                        relief='ridge')
+    variable = tk.StringVar()
+    variable.set("$> ")
+    initial_label = tk.Label(window, text="Console", font=("Courrier", 11), fg='white', bg='black')
+    variable_label = tk.Label(window, textvariable=variable, font=("Courrier", 11), fg='white', bg='black')
+    cons = Console(can, initial_label, variable_label, variable)
+    return cons
+
+
 def run_test_audio():
     """This is used to play the sound so you can hear it. If it's an mp3, it will use pygame to play it,
         otherwise, it will use playsound"""
@@ -518,12 +547,14 @@ def run_test_audio():
         mixer.init()
         mixer.music.load(test_path)
         mixer.music.play()
+        cons.update_console("Play the sound : " + test_path)
         # else:
         #     playsound(test_path)
 
 
 def leave(event=None):
     """This is used to quit the application"""
+    cons.update_console("^c")
     window.destroy()
 
 
@@ -539,6 +570,7 @@ def choose_dir_data():
     if new != '':
         data_path = new
         recap.update_data_path(data_path)
+        cons.update_console("data path update : " + data_path)
 
 
 def choose_path_csv():
@@ -549,6 +581,7 @@ def choose_path_csv():
     if new != '':
         path_csv = new
         recap.update_csv_path(path_csv)
+        cons.update_console("csv path update : " + path_csv)
 
 
 def choose_test_path():
@@ -585,53 +618,57 @@ def copy_floder_content(origin, dest):
         try:
             copyfile(file_path, dest)
         except Exception as e:
-            print('Failed to copy %s. Reason: %s' % (file_path, e))
+            cons.update_console("Failed to copy " + str(file_path) + " Reason : " + str(e))
             return -1
     return 0
 
 
 def format_data():
     """This is used to format the data using the different paths indicated"""
+    global menu_infos
     if data_path == "":
-        print("Error : You need to specify th path to your data")
+        cons.update_console("Error : You need to specify th path to your data")
         return
     if path_csv == "":
-        print("Error : You need to specify th path to your csv file")
+        cons.update_console("Error : You need to specify th path to your csv file")
         return
     if not os.path.exists('./local_saves/data_format'):
         os.mkdir('./local_saves/data_format')
     elif clear_folder("./local_saves/data_format") == -1:
-        print("Error : Le directory ./local_saves could not be cleaned")
+        cons.update_console("Error : Le directory ./local_saves could not be cleaned")
         return
-    print("Start with data : " + data_path)
-    print("And csv file : " + path_csv)
-    fd.get_the_data(data_path, path_csv, "./local_saves/class_label.txt")
+    get_rs = menu_infos.get_rs()
+    get_ratio = menu_infos.get_ratio()
+    cons.update_console("Start with data : " + data_path + " / rs : " + str(get_rs) + " / ratio : " + str(get_ratio))
+    fd.get_the_data(data_path, path_csv, "./local_saves/data_format/class_label.txt", get_ratio, get_rs)
 
 
 def run_model():
     """This is used to run the model using cnn_model.py after formatting the data"""
     global model
     if not (os.path.isfile('./local_saves/data_format/test_audio.npy')):
-        print("The file test_audio.npy is missing try to format again")
+        cons.update_console("The file test_audio.npy is missing try to format again")
         return
     if not (os.path.isfile('./local_saves/data_format/train_audio.npy')):
-        print("The file fichier train_audio.npy is missing try to format again")
+        cons.update_console("The file train_audio.npy is missing try to format again")
         return
     if not (os.path.isfile('./local_saves/data_format/test_labels.npy')):
-        print("The file fichier test_labels.npy is missing try to format again")
+        cons.update_console("The file test_labels.npy is missing try to format again")
         return
     if not (os.path.isfile('./local_saves/data_format/train_labels.npy')):
-        print("The file fichier train_labels.npy is missing try to format again")
+        cons.update_console("The file train_labels.npy is missing try to format again")
         return
     accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
     menu_infos.change_percent(accuracy)
+    cons.update_console("Run finish, accuracy of : " + str(accuracy))
 
 
 def predict():
     """This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it"""
     global model, path_csv
     if test_path == "":
-        print("Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
+        cons.update_console(
+            "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
         return
     if not model:
         accuracy, model = cnn.run_model()
@@ -703,7 +740,7 @@ def show_audio_representation():
         plt.title('Audio representation')
         plt.show()
     except ValueError:
-        print("Error : x and y must have same first dimension")
+        cons.update_console("Error : x and y must have same first dimension")
 
 
 def save_as_model():
@@ -713,7 +750,7 @@ def save_as_model():
         return
     if os.listdir('./local_saves/model') == 0:
         return
-    print("save as")
+    cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your model")
     print(save_model_path)
@@ -722,7 +759,7 @@ def save_as_model():
         shutil.make_archive(save_model_path + "/my_model", "zip", "./local_saves/model")
     else:
         shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/model")
-    print("Copy completed")
+    cons.update_console("Model saved")
 
 
 def save_as_data_format():
@@ -731,7 +768,7 @@ def save_as_data_format():
         return
     if os.listdir('./local_saves/data_format') == 0:
         return
-    print("save as")
+    cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your data")
     print(save_model_path)
@@ -740,16 +777,20 @@ def save_as_data_format():
         shutil.make_archive(save_model_path + "/my_data", "zip", "./local_saves/data_format")
     else:
         shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/data_format")
-    print("Copy completed")
+    cons.update_console("Data saved")
 
 
 def generate_csv():
     """This is used to generate a .csv (Spreadsheet) using the Data set indicated"""
+    global data_path, path_csv
     print("generate csv")
     if data_path == "":
         print("Error : You have to enter your data path")
         return
-    gc.generate(data_path)
+    if gc.generate(data_path):
+        path_csv = './local_saves/auto_generate.csv'
+        recap.update_csv_path(path_csv)
+        cons.update_console("Csv generated and path updated")
 
 
 def set_zip_data(win):
@@ -765,6 +806,7 @@ def set_zip_data(win):
         gm.local_unzip(zip_path, tmp_path)
         copy_floder_content("./local_unzip", "./local_saves/data_format")
         shutil.rmtree(tmp_path)
+        cons.update_console("Data Load From : " + zip_path)
 
 
 def set_rep_data(win):
@@ -774,6 +816,7 @@ def set_rep_data(win):
     if rep_path != '':
         clear_folder("./local_saves/data_format")
         copy_floder_content(rep_path, "./local_saves/data_format")
+        cons.update_console("Data Load From : " + rep_path)
 
 
 def import_data():
@@ -802,6 +845,7 @@ def set_zip(win):
         model_path = zip_path
         model = gm.get_model(model_path)
         change(-1)
+        cons.update_console("Model Load From : " + zip_path)
 
 
 def set_rep(win):
@@ -813,6 +857,7 @@ def set_rep(win):
         model_path = rep_path
         model = gm.get_model(model_path)
         change(-1)
+        cons.update_console("Model Load From : " + rep_path)
 
 
 def import_model():
@@ -835,6 +880,8 @@ def find_best_epoch():
     """Call the function, aims at find best epochs"""
     best = fbe.get_best()
     menu_infos.define_epochs(best)
+    console_msg = "New best epoch find : " + str(best)
+    cons.update_console(console_msg)
 
 
 class Aide:
@@ -902,7 +949,7 @@ def load_model():
 
 
 def start():
-    global window, menu, header, menu_infos, footer, res, son, recap
+    global window, menu, header, menu_infos, footer, res, son, recap, cons
     # Création de la fenêtre
     window = init_window()
 
@@ -945,6 +992,9 @@ def start():
     # Création des informations concernant les chemins
     recap = init_recap_selec()
     recap.display()
+
+    cons = init_console()
+    cons.display()
 
     # Initialisation des variables
     data_path = ""
