@@ -2,7 +2,7 @@ Data path : Ouvre une fenetre qui permet de selectionner le dossier contenant vo
 
 Generate CSV : Permet de generer le .csv du dataset indique de maniere automatique. N'oubliez pas de deplacer le .csv hors du fichier local_saves (Car clear apres)
 ATTENTION : Pour generer le .csv, veuillez bien faire attention a ce que les sons de chaque oiseau / chauve-souris soit dans un fichier ayant pour nom l'espece de l'animal
-(Par exemple, in fichier "data" avec un fichier pour chaque espece, avec les sons de l'espece dedans)
+(Par exemple, un fichier "data" avec un fichier pour chaque espece nommé après elle, avec les sons de l'espece correspondate dedans)
 
 CSV path : Ouvre une fenetre qui permet de selectionner votre fichier contenant les informations sur votre dataset (Un fichier tableur type Excel .csv).
            Faites bien attention au contenu de votre fichier. Il doit contenir les 4 informations formatees dans cet ordre :

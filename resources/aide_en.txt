@@ -2,7 +2,7 @@ Data path : Opens a window from which you have to select the folder containing y
 
 Generate CSV : Will auto-generate a .csv using the indicated dataset in Data path. Dont forget to move the .csv from local_saves (Since it's cleared afterwards)
 WARNING : To properly generate the .csv, please be aware the bird / bat sounds need to be in a folder named after the species of the animal 
-(For instance, a folder "data" with a folder for each species, with the species sounds in it)
+(For instance, a folder "data" with a folder for each species and named after each, with the corresponding species sounds in it)
 
 CSV path : Opens a window from which you have to select the file containing the informations on your dataset (A spreadsheet, for example, an Excel .csv).
            Be careful that the content inside your folder contains these 4 informations in this order :
