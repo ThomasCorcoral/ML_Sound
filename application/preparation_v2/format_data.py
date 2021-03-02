@@ -8,7 +8,7 @@ import os
 SIZE_SEC = 43
 
 
-def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
+def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42, mfcc=True):
     """Get the data from a specific path with a csv"""
     infos = ei.get_infos(csv_path)
     res = []
@@ -20,7 +20,7 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42):
         if not pb.update_loading(ax, name, percent):
             return [], [], [], []
         current_label = infos[i][2]
-        current_cut_audio = ef.process_audio(file_path)
+        current_cut_audio = ef.process_audio(file_path, mfcc)
         for cutted in current_cut_audio:
             try:
                 if len(cutted[0]) == SIZE_SEC:

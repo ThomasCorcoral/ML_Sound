@@ -25,12 +25,16 @@ def preprocess_audio(audio_path):
     return reduced_noise, audio_data, sample_rate
 
 
-def process_audio(audio_path):
+def process_audio(audio_path, mfcc=True):
     """Get the mfccs, cut into 1 second length and select most noisy parts"""
     reduced_noise, basic_noise, sample_rate = preprocess_audio(audio_path)
     if sample_rate == -1:
         return np.asarray([])
-    mfccs = librosa.feature.mfcc(y=reduced_noise, sr=sample_rate, n_mfcc=NMFCC_MFCC)
+    if mfcc:
+        mfccs = librosa.feature.mfcc(y=reduced_noise, sr=sample_rate, n_mfcc=NMFCC_MFCC)
+    else:
+        mfccs = librosa.feature.melspectrogram(y=reduced_noise, sr=sample_rate, n_mels=NMFCC_MFCC, fmax=11000,
+                                               power=0.5)
     # values per second
     num_frame = len(mfccs[0])
 

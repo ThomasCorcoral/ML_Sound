@@ -6,9 +6,9 @@ from application.preparation_v2 import extract_infos as ei, extraction_feature a
 NMFCC_MFCC = 50
 
 
-def print_prediction(file_name, model):
+def print_prediction(file_name, model, mfcc):
     """Prints the estimated specie for the sound and the general percentages"""
-    prediction_feature = ef.process_audio(file_name)
+    prediction_feature = ef.process_audio(file_name, mfcc)
     class_label = ei.read_labels("local_saves/data_format/class_label.txt")
 
     class_label = list(dict.fromkeys(class_label))

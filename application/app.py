@@ -101,7 +101,7 @@ class InfosMenu:
     """Side Menu who display the informations about the preparation of the model and the saves"""
     def __init__(self, can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
                  label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data, name_data_entry,
-                 best_epoch_but, val, accuracy_label):
+                 best_epoch_but, val, accuracy_label, mfcc, choose_mfcc, choose_spec):
         self.can_menu = can_menu
         self.text = text
         self.label = label
@@ -122,6 +122,9 @@ class InfosMenu:
         self.best_epoch_but = best_epoch_but
         self.val = val
         self.accuracy_label = accuracy_label
+        self.mfcc = mfcc
+        self.choose_mfcc = choose_mfcc
+        self.choose_spec = choose_spec
 
     def change_percent(self, new):
         if type(new) is tuple:
@@ -156,6 +159,9 @@ class InfosMenu:
     def get_data_name(self):
         return self.name_data.get()
 
+    def get_mfcc(self):
+        return self.mfcc.get()
+
     def display(self):
         if sys.platform.startswith('linux'):
             self.can_menu.place(x=0, y=365)
@@ -163,11 +169,13 @@ class InfosMenu:
             self.label.place(x=90, y=370)
             self.label_epoch.place(x=35, y=408)
             self.epoch.place(x=100, y=410)
-            self.best_epoch_but.place(x=30, y=435)
-            self.label_ratio.place(x=35, y=495)
-            self.ratio_spinbox.place(x=100, y=495)
-            self.label_rs.place(x=35, y=525)
-            self.rs_spinbox.place(x=100, y=525)
+            self.best_epoch_but.place(x=35, y=435)
+            self.choose_mfcc.place(x=35, y=470)
+            self.choose_spec.place(x=35, y=490)
+            self.label_ratio.place(x=35, y=525)
+            self.ratio_spinbox.place(x=100, y=525)
+            self.label_rs.place(x=35, y=555)
+            self.rs_spinbox.place(x=100, y=555)
             self.name_entry.place(x=16, y=650)
             self.save_model_but.place(x=68, y=680)
             self.save_data_but.place(x=68, y=760)
@@ -178,11 +186,13 @@ class InfosMenu:
             self.label.place(x=90, y=360)
             self.label_epoch.place(x=35, y=398)
             self.epoch.place(x=100, y=400)
-            self.best_epoch_but.place(x=20, y=435)
-            self.label_ratio.place(x=35, y=495)
-            self.ratio_spinbox.place(x=100, y=495)
-            self.label_rs.place(x=35, y=515)
-            self.rs_spinbox.place(x=100, y=515)
+            self.best_epoch_but.place(x=35, y=435)
+            self.choose_mfcc.place(x=35, y=470)
+            self.choose_spec.place(x=35, y=490)
+            self.label_ratio.place(x=35, y=515)
+            self.ratio_spinbox.place(x=100, y=515)
+            self.label_rs.place(x=35, y=535)
+            self.rs_spinbox.place(x=100, y=535)
             self.save_data_but.place(x=52, y=590)
             self.name_data_entry.place(x=30, y=565)
             self.save_model_but.place(x=45, y=655)
@@ -400,14 +410,18 @@ def init_infos_menu():
     val = tk.StringVar()
     val.set(10)
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
-
     best_epoch_but = tk.Button(window, text="Find best Epoch", font=("Courrier", 11), fg='black',
                                command=find_best_epoch)
+
+    mfcc = tk.BooleanVar()
+    mfcc.set(True)
+    choose_spec = tk.Radiobutton(window, text="Spectrogram", variable=mfcc, value=False, bg=BACKGROUND_TITLE)
+    choose_mfcc = tk.Radiobutton(window, text="Mfcc", variable=mfcc, value=True, bg=BACKGROUND_TITLE)
 
     label_ratio = tk.Label(window, text="Ratio ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     ratio = tk.StringVar()
     ratio.set(0.1)
-    ratio_spinbox = tk.Spinbox(window, from_=0, to=1, increment=.05, textvariable=ratio, width=5)
+    ratio_spinbox = tk.Spinbox(window, from_=0, to=0.95, increment=.05, textvariable=ratio, width=5)
     label_rs = tk.Label(window, text="RS ", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     rs = tk.StringVar()
     rs.set(42)
@@ -421,7 +435,7 @@ def init_infos_menu():
     accuracy_label = tk.Label(window, text="Accuracy", font=("Courrier", 10), bg=BACKGROUND_TITLE)
     infos_menu = InfosMenu(can_menu, text, label, epoch, label_epoch, ratio, ratio_spinbox, rs, rs_spinbox, label_rs,
                            label_ratio, save_model_but, name_model, name_entry, save_data_but, name_data,
-                           name_data_entry, best_epoch_but, val, accuracy_label)
+                           name_data_entry, best_epoch_but, val, accuracy_label, mfcc, choose_mfcc, choose_spec)
     return infos_menu
 
 
@@ -639,8 +653,9 @@ def format_data():
         return
     get_rs = menu_infos.get_rs()
     get_ratio = menu_infos.get_ratio()
+    get_mfcc = menu_infos.get_mfcc()
     cons.update_console("Start with data : " + data_path + " / rs : " + str(get_rs) + " / ratio : " + str(get_ratio))
-    fd.get_the_data(data_path, path_csv, "./local_saves/data_format/class_label.txt", get_ratio, get_rs)
+    fd.get_the_data(data_path, path_csv, "./local_saves/data_format/class_label.txt", get_ratio, get_rs, get_mfcc)
 
 
 def run_model():
@@ -665,20 +680,15 @@ def run_model():
 
 def predict():
     """This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it"""
-    global model, path_csv
+    global model, path_csv, menu_infos
     if test_path == "":
         cons.update_console(
             "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
         return
     if not model:
         accuracy, model = cnn.run_model()
-    # pred.create_prediction()
-
-    # mfcc = True
-    # if menu_infos.get_spec() == 1:
-    #     mfcc = False
-
-    resultat, le, predicted_proba = pred.print_prediction(test_path, model)
+    get_mfcc = menu_infos.get_mfcc()
+    resultat, le, predicted_proba = pred.print_prediction(test_path, model, get_mfcc)
     res.new_prediction(resultat)
     all_prob = ""
     for i in range(len(predicted_proba)):
@@ -696,7 +706,7 @@ def show_spectrogramme():
     if not (os.path.isfile(test_path)):
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
-    spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=128,
+    spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=50,
                                           fmax=11000, power=0.5)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(spec, x_axis='time')
@@ -711,7 +721,7 @@ def show_mfccs():
     if not (os.path.isfile(test_path)):
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
-    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=100, hop_length=1024, htk=True)
+    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50, hop_length=1024, htk=True)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(mfccs, x_axis='time')
     plt.colorbar()

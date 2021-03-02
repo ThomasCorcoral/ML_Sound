@@ -6,7 +6,7 @@ import os
 def get_best():
     """Load the data, load the model and search the best number of epoch thanks to the test values (the model doesn't
     know them"""
-    epoch = 1
+    epoch = 3
     try:
         train_audio = load('local_saves/data_format/train_audio.npy')
         train_labels = load('local_saves/data_format/train_labels.npy')
@@ -32,5 +32,5 @@ def get_best():
         score = model.evaluate(test_audio, test_labels, verbose=1)
         accuracy = 100 * score[1]
         cmpt += 1
-    epoch = abs(cmpt - 2)
+    epoch = abs(epoch + cmpt - 1)
     return epoch
