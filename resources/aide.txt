@@ -8,8 +8,7 @@ CSV path : Ouvre une fenetre qui permet de selectionner votre fichier contenant 
            Faites bien attention au contenu de votre fichier. Il doit contenir les 4 informations formatees dans cet ordre :
                 - name : Le nom du fichier sonore.
                 - folder : Le dossier dans lequel se trouve le fichier dans votre dossier "data", s'il n'y en a aucun, mettez '.'
-                - class : La classe de votre enregistrement, c'est-a-dire la separation entre dossiers / noms de
-                chauves-souris dans notre cas (exemple : 0, 1, 2).
+                - class : La classe de votre enregistrement, c'est-a-dire la separation entre dossiers / noms de chauves-souris dans notre cas (exemple : 0, 1, 2).
                 - class_name : Les noms de la classe correspondante (exemple: Pipistrelle, Rhinolophe, etc...).
 
 Format data : Prepare les donnees indiquees par les paths, et en extrait des fichiers .npy en fonction des options selectionnees.
@@ -26,10 +25,10 @@ Surapprentissage = Une analyse trop precise sur un modele, ce qui signifie que l
 Vous pouvez selectionner le nombre d'epochs manuellement.
 Le pourcentage que vous verrez apres est la precision estimee de l'entrainement.
 
-Ratio : Valeur entre 0 et 1 qui represente la propotion du dataset a integrer dans les tests (0 = rien, 1 = tout)
-Ex: Avec un dataset de 10000 fichiers, un ratio de 0.2 donnera 2000 fichiers à tester
-RS : Random State, sert a gerer le remaniement des donnes avant le test. Le test prendra un fichier parmi n fichiers, avec RS le nombre de fichier. 
-Ex : RS = 10, un fichier parmi 10 est choisi pour le test, tout les 10 fichiers.
+Ratio : Valeur flotante (a virgule) entre 0 et 1 qui represente la propotion du dataset a integrer dans les tests (0 = 0%, 1 = 100%). Valeur par defaut : 0.1
+Exemple : Avec un dataset de 10000 fichiers, un ratio de 0.2 donnera 2000 fichiers a tester
+RS : Random State, sert a gerer le systeme de choix aleatoire de fichiers. Le test prendra un fichier a tester parmi n fichiers, avec RS le nombre de fichier. Valeur par defaut : 42
+Exemple : RS = 10, un fichier parmi 10 est choisi pour le test, tout les 10 fichiers (ce qui rends peu probable le fait d'avoir le meme test, et donc plus strict).
 
 Save data / model : Permet de sauvegarder le data / modele actif afin de pouvoir l'importer plus tard
 
