@@ -15,15 +15,19 @@ import sys
 from shutil import copyfile
 
 
-WIDTH = 1300
+WIDTH = 1600
 WIDTH_LINUX = 1500
 HEIGHT = 740
 HEIGHT_LINUX = 850
+TEXT_SIZE_LINUX = 14
+TEXT_SIZE_WIN = 12
+IMG_RESHAPE_LINUX = 14
+IMG_RESHAPE_WIN = 16
 BACKGROUND_MENU = '#445976'
 BACKGROUND_TITLE = '#2f3d51'
 BACKGROUND_SOUND = '#59759c'
 LENGTH_BUT = 40
-WIDTH_BUT = 175
+WIDTH_BUT = 200
 global data_path, path_csv, test_path, model_path, zip_data, zip_model, model
 
 
@@ -61,7 +65,7 @@ class Menu:
                                  relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.format_data_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
-        self.quit_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
+        self.quit_but.config(height=LENGTH_BUT+4, width=WIDTH_BUT-3, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                              relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
         self.import_model_but.config(height=LENGTH_BUT, width=WIDTH_BUT, bg=BACKGROUND_MENU, bd=1, highlightthickness=0,
                                      relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
@@ -69,13 +73,13 @@ class Menu:
                                     relief='ridge', activebackground=BACKGROUND_TITLE, activeforeground="white")
 
     def display(self):
-        self.open_but.place(x=2, y=52)
+        self.open_but.place(x=(WIDTH_BUT+4)/2, y=52)
         self.generate_csv_but.place(x=2, y=96)
-        self.open_csv_but.place(x=2, y=140)
-        self.format_data_but.place(x=2, y=184)
-        self.import_data_but.place(x=2, y=228)
-        self.run_but.place(x=2, y=272)
-        self.import_model_but.place(x=2, y=316)
+        self.open_csv_but.place(x=WIDTH_BUT+4, y=96) # 140 / 184 / 228 / 272 / 316
+        self.format_data_but.place(x=2, y=140)
+        self.import_data_but.place(x=WIDTH_BUT+4, y=140)
+        self.run_but.place(x=2, y=184)
+        self.import_model_but.place(x=WIDTH_BUT+4, y=184)
         if sys.platform.startswith('linux'):
             self.quit_but.place(x=0, y=HEIGHT_LINUX - 50)
         else:
@@ -181,22 +185,22 @@ class InfosMenu:
             self.save_data_but.place(x=35, y=760)
             self.name_data_entry.place(x=16, y=730)
         else:
-            self.can_menu.place(x=2, y=355)
-            self.accuracy_label.place(x=20, y=365)
-            self.label.place(x=90, y=360)
-            self.label_epoch.place(x=35, y=398)
-            self.epoch.place(x=100, y=400)
-            self.best_epoch_but.place(x=35, y=435)
-            self.choose_mfcc.place(x=35, y=470)
-            self.choose_spec.place(x=35, y=490)
-            self.label_ratio.place(x=35, y=515)
-            self.ratio_spinbox.place(x=100, y=515)
-            self.label_rs.place(x=35, y=535)
-            self.rs_spinbox.place(x=100, y=535)
-            self.save_data_but.place(x=52, y=590)
-            self.name_data_entry.place(x=30, y=565)
-            self.save_model_but.place(x=45, y=655)
-            self.name_entry.place(x=30, y=630)
+            self.can_menu.place(x=2, y=227)
+            self.accuracy_label.place(x=40, y=245)
+            self.label.place(x=125, y=240)
+            self.label_epoch.place(x=40, y=300)
+            self.epoch.place(x=110, y=300)
+            self.best_epoch_but.place(x=35, y=355)
+            self.choose_mfcc.place(x=35, y=400)
+            self.choose_spec.place(x=35, y=420)
+            self.label_ratio.place(x=35, y=465)
+            self.ratio_spinbox.place(x=100, y=465)
+            self.label_rs.place(x=35, y=495)
+            self.rs_spinbox.place(x=100, y=495)
+            self.save_data_but.place(x=58, y=585)
+            self.name_data_entry.place(x=20, y=555)
+            self.save_model_but.place(x=52, y=660)
+            self.name_entry.place(x=20, y=630)
 
 
 class Footer:
@@ -214,12 +218,12 @@ class Footer:
             self.but.place(x=WIDTH_LINUX - 75, y=HEIGHT_LINUX - 38)
             self.help_button.place(x=WIDTH_LINUX - 150, y=HEIGHT_LINUX - 38)
         else:
-            self.but.place(x=WIDTH - 40, y=HEIGHT - 33)
-            self.help_button.place(x=WIDTH - 110, y=HEIGHT - 33)
+            self.but.place(x=WIDTH - 60, y=HEIGHT - 33)
+            self.help_button.place(x=WIDTH - 130, y=HEIGHT - 33)
         if sys.platform.startswith('linux'):
             self.can.place(x=WIDTH_BUT + 25, y=HEIGHT_LINUX - LENGTH_BUT - 10)
         else:
-            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT - LENGTH_BUT - 2)
+            self.can.place(x=WIDTH_BUT, y=HEIGHT - LENGTH_BUT - 2)
 
 
 class AffichageSon:
@@ -255,13 +259,13 @@ class AffichageSon:
             self.open_test_but.place(x=440, y=HEIGHT_LINUX / 2 + 130)
             self.run_test_but.place(x=1050, y=HEIGHT_LINUX / 2 + 130)
         else:
-            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 + 10)
-            self.show_audio.place(x=300, y=HEIGHT / 2 + 210)
-            self.show_spec.place(x=650, y=HEIGHT / 2 + 210)
-            self.show_mfcc.place(x=1100, y=HEIGHT / 2 + 210)
-            self.play_btn.place(x=675, y=HEIGHT / 2 + 160)
-            self.open_test_but.place(x=440, y=HEIGHT / 2 + 130)
-            self.run_test_but.place(x=875, y=HEIGHT / 2 + 130)
+            self.can.place(x=WIDTH_BUT + 5, y=HEIGHT / 2 - 20)
+            self.show_audio.place(x=450, y=HEIGHT / 2 + 140)
+            self.show_spec.place(x=800, y=HEIGHT / 2 + 140)
+            self.show_mfcc.place(x=1250, y=HEIGHT / 2 + 140)
+            self.play_btn.place(x=825, y=HEIGHT / 2 + 80)
+            self.open_test_but.place(x=580, y=HEIGHT / 2 + 50)
+            self.run_test_but.place(x=1025, y=HEIGHT / 2 + 50)
 
 
 class AffichageRes:
@@ -305,7 +309,7 @@ class RecapSelect:
             self.data_path_label.place(x=WIDTH_BUT + 35, y=HEIGHT_LINUX / 2 + 320)
             self.csv_path_label.place(x=WIDTH_BUT + 35, y=HEIGHT_LINUX / 2 + 347)
         else:
-            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265)
+            self.can.place(x=WIDTH_BUT+2, y=HEIGHT / 2 + 268)
             self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
             self.csv_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 295)
 
@@ -327,9 +331,9 @@ class Console:
             self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT_LINUX / 2 + 265)
             self.variable_label.place(x=WIDTH_BUT + 40, y=HEIGHT_LINUX / 2 + 285)
         else:
-            self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 65)
-            self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 75)
-            self.variable_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 95)
+            self.can.place(x=WIDTH_BUT, y=HEIGHT / 2 + 208)
+            self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 218)
+            self.variable_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 238)
 
 
 def init_window():
@@ -351,30 +355,37 @@ def init_window():
 def init_menu():
     """This function creates the buttons needed to indicate the paths of the
     different data needed / processing the data"""
-    folder_img = tk.PhotoImage(file='./img/folder.png').subsample(14, 14)
-    save_csv_img = tk.PhotoImage(file='./img/save_csv.png').subsample(14, 14)
-    run_pic = tk.PhotoImage(file='./img/funnel.png').subsample(14, 14)
-    csv_pic = tk.PhotoImage(file='./img/csv.png').subsample(14, 14)
-    format_pic = tk.PhotoImage(file='./img/format.png').subsample(14, 14)
-    import_data_pic = tk.PhotoImage(file='./img/import_data.png').subsample(14, 14)
-    import_pic = tk.PhotoImage(file='./img/import.png').subsample(14, 14)
-    quit_pic = tk.PhotoImage(file='./img/leave.png').subsample(14, 14)
-    can_menu = tk.Canvas(window, width=0, height=0)
-    open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", 14), fg='black',
+    if sys.platform.startswith('linux'):
+        size_txt = TEXT_SIZE_LINUX
+        size_reshape = IMG_RESHAPE_LINUX
+    else:
+        size_txt = TEXT_SIZE_WIN
+        size_reshape = IMG_RESHAPE_WIN
+    folder_img = tk.PhotoImage(file='./img/folder.png').subsample(size_reshape, size_reshape)
+    save_csv_img = tk.PhotoImage(file='./img/save_csv.png').subsample(size_reshape, size_reshape)
+    run_pic = tk.PhotoImage(file='./img/funnel.png').subsample(size_reshape, size_reshape)
+    csv_pic = tk.PhotoImage(file='./img/csv.png').subsample(size_reshape, size_reshape)
+    format_pic = tk.PhotoImage(file='./img/format.png').subsample(size_reshape, size_reshape)
+    import_data_pic = tk.PhotoImage(file='./img/import_data.png').subsample(size_reshape, size_reshape)
+    import_pic = tk.PhotoImage(file='./img/import.png').subsample(size_reshape, size_reshape)
+    quit_pic = tk.PhotoImage(file='./img/leave.png').subsample(size_reshape, size_reshape)
+    can_menu = tk.Canvas(window, width=(WIDTH_BUT+4)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
+                         highlightthickness=0, relief='ridge')
+    open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", size_txt), fg='black',
                                compound='left', command=choose_dir_data)
-    generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generate .CSV", font=("Courrier", 14), fg='black',
+    generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generate .CSV", font=("Courrier", size_txt), fg='black',
                                  compound='left', command=generate_csv)
-    open_csv_but = tk.Button(window, image=csv_pic, text="  CSV Path", font=("Courrier", 14), fg='black',
+    open_csv_but = tk.Button(window, image=csv_pic, text="  CSV Path", font=("Courrier", size_txt), fg='black',
                              compound='left', command=choose_path_csv)
-    format_data_but = tk.Button(window, image=format_pic, text="  Format data", font=("Courrier", 14), fg='black',
+    format_data_but = tk.Button(window, image=format_pic, text="  Format data", font=("Courrier", size_txt), fg='black',
                                 compound='left', command=format_data)
-    run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", 14), fg='black',
+    run_train_but = tk.Button(window, image=run_pic, text="  Run Train", font=("Courrier", size_txt), fg='black',
                               compound='left', command=run_model)
-    import_data_but = tk.Button(window, image=import_data_pic, text="  Import Data", font=("Courrier", 14), fg='black',
+    import_data_but = tk.Button(window, image=import_data_pic, text="  Import Data", font=("Courrier", size_txt), fg='black',
                                 compound='left', command=import_data)
-    import_model_but = tk.Button(window, image=import_pic, text="  Import Model", font=("Courrier", 14), fg='black',
+    import_model_but = tk.Button(window, image=import_pic, text="  Import Model", font=("Courrier", size_txt), fg='black',
                                  compound='left', command=import_model)
-    quit_but = tk.Button(window, image=quit_pic, text="  Exit", font=("Courrier", 14), fg='black', compound='left',
+    quit_but = tk.Button(window, image=quit_pic, text="  Exit", font=("Courrier", size_txt), fg='black', compound='left',
                          command=leave)
     win_menu = Menu(can_menu, quit_pic, run_pic, folder_img, open_train_but, run_train_but, quit_but, csv_pic,
                     open_csv_but, format_data_but, format_pic, generate_csv_but, save_csv_img, import_pic,
@@ -389,7 +400,7 @@ def init_header():
         can_head = tk.Canvas(window, width=WIDTH_BUT + 26, height=HEIGHT / 15 + 2, bd=0, highlightthickness=0,
                              relief='ridge', bg=BACKGROUND_TITLE)
     else:
-        can_head = tk.Canvas(window, width=WIDTH_BUT + 4, height=HEIGHT / 15, bd=0, highlightthickness=0,
+        can_head = tk.Canvas(window, width=(WIDTH_BUT + 2)*2, height=HEIGHT / 15, bd=0, highlightthickness=0,
                              relief='ridge', bg=BACKGROUND_TITLE)
     win_header = Header(can_head, icon)
     return win_header
@@ -401,7 +412,7 @@ def init_infos_menu():
         can_menu = tk.Canvas(window, width=200, height=435, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     else:
-        can_menu = tk.Canvas(window, width=179, height=340, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=WIDTH_BUT, height=470, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     text = tk.StringVar()
     text.set("- %")
@@ -445,7 +456,7 @@ def init_footer():
         can_footer = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT, height=LENGTH_BUT + 15, bg=BACKGROUND_TITLE,
                                bd=0, highlightthickness=0, relief='ridge')
     else:
-        can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT, bg=BACKGROUND_TITLE, bd=0,
+        can_footer = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=LENGTH_BUT+4, bg=BACKGROUND_TITLE, bd=0,
                                highlightthickness=0, relief='ridge')
     aide_button = tk.Button(window, text="Aide", font=("Courrier", 10), bd=0, highlightthickness=0, relief='ridge',
                             command=show_aide)
@@ -505,7 +516,7 @@ def init_model():
         file = open("./local_saves/model/model.json", 'r')
         file_acc = open("./local_saves/accuracy.txt", 'r')
     except IOError:
-        print("File not accessible")
+        cons.update_console("Error : File not accessible")
         return None
     model_json = file.read()
     acc_str = file_acc.read()
@@ -516,7 +527,7 @@ def init_model():
         file.close()
         # load weights
         model_local.load_weights("./local_saves/model/model.h5")
-        print("Model load")
+        cons.update_console("Model load")
         model = model_local
 
 
@@ -526,7 +537,7 @@ def init_recap_selec():
         can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 20, height=60, bg="white", bd=0, highlightthickness=0,
                         relief='ridge')
     else:
-        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="white", bd=0, highlightthickness=0,
+        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=60, bg="white", bd=0, highlightthickness=0,
                         relief='ridge')
     data_path_var = tk.StringVar()
     data_path_var.set("Data path :")
@@ -543,7 +554,7 @@ def init_console():
         can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 20, height=60, bg="black", bd=0, highlightthickness=0,
                         relief='ridge')
     else:
-        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="black", bd=0, highlightthickness=0,
+        can = tk.Canvas(window, width=WIDTH - WIDTH_BUT, height=60, bg="black", bd=0, highlightthickness=0,
                         relief='ridge')
     variable = tk.StringVar()
     variable.set("$> ")
@@ -617,7 +628,7 @@ def clear_folder(folder):
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
         except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
+            cons.update_console('Failed to delete %s. Reason: %s' % (file_path, e))
             return -1
     return 0
 
@@ -703,7 +714,14 @@ def predict():
 
 def show_spectrogramme():
     """This is used to show the spectrogram corresponding to the sound that is being tested"""
+    if test_path == "":
+        cons.update_console(
+            "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
+        return
     if not (os.path.isfile(test_path)):
+        cons.update_console(
+            "Error : The file selected doesn't exists select an audio file .wav or .mp3 by clicking on the "
+            "'test path' button")
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
     spec = librosa.feature.melspectrogram(y=audio, sr=sample_rate, n_mels=50,
@@ -718,14 +736,17 @@ def show_spectrogramme():
 
 def show_mfccs():
     """This is used to show the mfcc corresponding to the sound that is being tested"""
+    if test_path == "":
+        cons.update_console(
+            "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
+        return
     if not (os.path.isfile(test_path)):
+        cons.update_console(
+            "Error : The file selected doesn't exists select an audio file .wav or .mp3 by clicking on the "
+            "'test path' button")
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
-    print(audio)
     m = np.mean(audio)
-    for i in range(len(audio)):
-        if audio[i]> m * 1.4:
-            print(audio[i])
     mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50, hop_length=1024, htk=True)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(mfccs, x_axis='time')
@@ -737,7 +758,14 @@ def show_mfccs():
 
 def show_audio_representation():
     """This is used to show the audio representation corresponding to the sound that is being tested"""
+    if test_path == "":
+        cons.update_console(
+            "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
+        return
     if not (os.path.isfile(test_path)):
+        cons.update_console(
+            "Error : The file selected doesn't exists select an audio file .wav or .mp3 by clicking on the "
+            "'test path' button")
         return
     if test_path.endswith('.mp3'):
         sound = AudioSegment.from_mp3(test_path)
@@ -768,7 +796,6 @@ def save_as_model():
     cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your model")
-    print(save_model_path)
     val_name = menu_infos.get_save_name()
     if val_name == '':
         shutil.make_archive(save_model_path + "/my_model", "zip", "./local_saves/model")
@@ -780,13 +807,14 @@ def save_as_model():
 def save_as_data_format():
     """This is used to save the data for later"""
     if not os.path.isdir("./local_saves/data_format"):
+        cons.update_console("Error : Try to reformat the data")
         return
     if os.listdir('./local_saves/data_format') == 0:
+        cons.update_console("Error : Try to reformat the data")
         return
     cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your data")
-    print(save_model_path)
     val_name = menu_infos.get_data_name()
     if val_name == '':
         shutil.make_archive(save_model_path + "/my_data", "zip", "./local_saves/data_format")
@@ -798,9 +826,9 @@ def save_as_data_format():
 def generate_csv():
     """This is used to generate a .csv (Spreadsheet) using the Data set indicated"""
     global data_path, path_csv
-    print("generate csv")
+    cons.update_console("Generate csv")
     if data_path == "":
-        print("Error : You have to enter your data path")
+        cons.update_console("Error : You have to enter your data path")
         return
     if gc.generate(data_path):
         path_csv = './local_saves/auto_generate.csv'
@@ -912,7 +940,7 @@ class Aide:
             self.main_can.create_text(WIDTH_LINUX / 2, HEIGHT_LINUX / 2, font=("Courrier", 10), fill='black',
                                       text=f.read())
         else:
-            self.main_can.create_text(WIDTH / 2, HEIGHT / 2, font=("Courrier", 10), fill='black', text=f.read())
+            self.main_can.create_text((WIDTH+100) / 2, HEIGHT / 2, font=("Courrier", 10), fill='black', text=f.read())
 
     def display(self):
         self.main_can.place(x=0, y=0)
@@ -923,7 +951,7 @@ def init_aide(win):
     if sys.platform.startswith('linux'):
         main_can = tk.Canvas(win, width=WIDTH_LINUX, height=HEIGHT_LINUX, bd=0, highlightthickness=0, relief='ridge')
     else:
-        main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT, bd=0, highlightthickness=0, relief='ridge')
+        main_can = tk.Canvas(win, width=WIDTH, height=HEIGHT+100, bd=0, highlightthickness=0, relief='ridge')
     aide = Aide(main_can)
     return aide
 
@@ -937,7 +965,7 @@ def create_help(path_help):
         local_height = HEIGHT_LINUX
     else:
         local_width = WIDTH
-        local_height = HEIGHT
+        local_height = HEIGHT+100
     win.geometry(str(local_width) + "x" + str(local_height))
     win.minsize(local_width, local_height)
     win.maxsize(local_width, local_height)
@@ -1012,11 +1040,11 @@ def start():
     cons.display()
 
     # Initialisation des variables
-    data_path = ""
-    path_csv = ""
-    test_path = ""
-    model_path = ""
-    zip_model = False
+    # data_path = ""
+    # path_csv = ""
+    # test_path = ""
+    # model_path = ""
+    # zip_model = False
     init_model()
 
     window.bind_all('<Control-q>', leave)
