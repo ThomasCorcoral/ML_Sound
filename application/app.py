@@ -721,6 +721,11 @@ def show_mfccs():
     if not (os.path.isfile(test_path)):
         return
     audio, sample_rate = librosa.load(test_path, res_type='kaiser_fast')
+    print(audio)
+    m = np.mean(audio)
+    for i in range(len(audio)):
+        if audio[i]> m * 1.4:
+            print(audio[i])
     mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=50, hop_length=1024, htk=True)
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(mfccs, x_axis='time')

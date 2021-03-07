@@ -82,6 +82,6 @@ def process_audio(audio_path, mfcc=True):
                     prepared_audio[len(prepared_audio) - 1][i].append(0)
     res = []
     for i in range(len(prepared_audio)):
-        if np.mean(prepared_audio[i]) > all_file_mean * 1.2:
+        if np.mean(prepared_audio[i]) > all_file_mean * 1.5:
             res.append(prepared_audio[i])
     return np.asarray(res)
