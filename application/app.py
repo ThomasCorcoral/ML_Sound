@@ -168,22 +168,22 @@ class InfosMenu:
 
     def display(self):
         if sys.platform.startswith('linux'):
-            self.can_menu.place(x=0, y=365)
-            self.accuracy_label.place(x=50, y=375)
-            self.label.place(x=120, y=370)
-            self.label_epoch.place(x=35, y=408)
-            self.epoch.place(x=100, y=410)
-            self.best_epoch_but.place(x=35, y=435)
-            self.choose_mfcc.place(x=35, y=480)
-            self.choose_spec.place(x=35, y=505)
-            self.label_ratio.place(x=35, y=545)
-            self.ratio_spinbox.place(x=100, y=545)
-            self.label_rs.place(x=35, y=575)
-            self.rs_spinbox.place(x=100, y=575)
-            self.name_entry.place(x=16, y=650)
-            self.save_model_but.place(x=35, y=680)
-            self.save_data_but.place(x=35, y=760)
-            self.name_data_entry.place(x=16, y=730)
+            self.can_menu.place(x=0, y=236)
+            self.accuracy_label.place(x=50, y=255)
+            self.label.place(x=120, y=250)
+            self.label_epoch.place(x=35, y=308)
+            self.epoch.place(x=100, y=310)
+            self.best_epoch_but.place(x=35, y=335)
+            self.choose_mfcc.place(x=35, y=400)
+            self.choose_spec.place(x=35, y=425)
+            self.label_ratio.place(x=35, y=475)
+            self.ratio_spinbox.place(x=100, y=475)
+            self.label_rs.place(x=35, y=505)
+            self.rs_spinbox.place(x=100, y=505)
+            self.name_entry.place(x=30, y=650)
+            self.save_model_but.place(x=55, y=680)
+            self.save_data_but.place(x=62, y=760)
+            self.name_data_entry.place(x=30, y=730)
         else:
             self.can_menu.place(x=2, y=227)
             self.accuracy_label.place(x=40, y=245)
@@ -369,8 +369,12 @@ def init_menu():
     import_data_pic = tk.PhotoImage(file='./img/import_data.png').subsample(size_reshape, size_reshape)
     import_pic = tk.PhotoImage(file='./img/import.png').subsample(size_reshape, size_reshape)
     quit_pic = tk.PhotoImage(file='./img/leave.png').subsample(size_reshape, size_reshape)
-    can_menu = tk.Canvas(window, width=(WIDTH_BUT+4)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
-                         highlightthickness=0, relief='ridge')
+    if sys.platform.startswith('linux'):
+        can_menu = tk.Canvas(window, width=(WIDTH_BUT+16)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
+                             highlightthickness=0, relief='ridge')
+    else:
+        can_menu = tk.Canvas(window, width=(WIDTH_BUT+4)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
+                             highlightthickness=0, relief='ridge')
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", size_txt), fg='black',
                                compound='left', command=choose_dir_data)
     generate_csv_but = tk.Button(window, image=save_csv_img, text="  Generate .CSV", font=("Courrier", size_txt), fg='black',
@@ -397,7 +401,7 @@ def init_header():
     """This is used to initialize the header for the window"""
     icon = tk.PhotoImage(file="./img/logo.png").subsample(12, 12)
     if sys.platform.startswith('linux'):
-        can_head = tk.Canvas(window, width=WIDTH_BUT + 26, height=HEIGHT / 15 + 2, bd=0, highlightthickness=0,
+        can_head = tk.Canvas(window, width=(WIDTH_BUT + 10) *2, height=HEIGHT / 15 + 2, bd=0, highlightthickness=0,
                              relief='ridge', bg=BACKGROUND_TITLE)
     else:
         can_head = tk.Canvas(window, width=(WIDTH_BUT + 2)*2, height=HEIGHT / 15, bd=0, highlightthickness=0,
@@ -409,7 +413,7 @@ def init_header():
 def init_infos_menu():
     """This is used to indicate all the needed informations to write the text on the buttons"""
     if sys.platform.startswith('linux'):
-        can_menu = tk.Canvas(window, width=200, height=435, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=225, height=570, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     else:
         can_menu = tk.Canvas(window, width=WIDTH_BUT, height=470, bg=BACKGROUND_TITLE, bd=0,
@@ -423,7 +427,6 @@ def init_infos_menu():
     epoch = tk.Spinbox(window, from_=10, to=1000, increment=5, textvariable=val, width=5)
     best_epoch_but = tk.Button(window, text="Find best Epoch", font=("Courrier", 11), fg='black',
                                command=find_best_epoch)
-
     mfcc = tk.BooleanVar()
     mfcc.set(True)
     choose_spec = tk.Radiobutton(window, text="Spectrogram", variable=mfcc, value=False, bg=BACKGROUND_TITLE)
