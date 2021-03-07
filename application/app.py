@@ -165,20 +165,20 @@ class InfosMenu:
     def display(self):
         if sys.platform.startswith('linux'):
             self.can_menu.place(x=0, y=365)
-            self.accuracy_label.place(x=20, y=375)
-            self.label.place(x=90, y=370)
+            self.accuracy_label.place(x=50, y=375)
+            self.label.place(x=120, y=370)
             self.label_epoch.place(x=35, y=408)
             self.epoch.place(x=100, y=410)
             self.best_epoch_but.place(x=35, y=435)
-            self.choose_mfcc.place(x=35, y=470)
-            self.choose_spec.place(x=35, y=490)
-            self.label_ratio.place(x=35, y=525)
-            self.ratio_spinbox.place(x=100, y=525)
-            self.label_rs.place(x=35, y=555)
-            self.rs_spinbox.place(x=100, y=555)
+            self.choose_mfcc.place(x=35, y=480)
+            self.choose_spec.place(x=35, y=505)
+            self.label_ratio.place(x=35, y=545)
+            self.ratio_spinbox.place(x=100, y=545)
+            self.label_rs.place(x=35, y=575)
+            self.rs_spinbox.place(x=100, y=575)
             self.name_entry.place(x=16, y=650)
-            self.save_model_but.place(x=68, y=680)
-            self.save_data_but.place(x=68, y=760)
+            self.save_model_but.place(x=35, y=680)
+            self.save_data_but.place(x=35, y=760)
             self.name_data_entry.place(x=16, y=730)
         else:
             self.can_menu.place(x=2, y=355)
@@ -301,9 +301,9 @@ class RecapSelect:
 
     def display(self):
         if sys.platform.startswith('linux'):
-            self.can.place(x=WIDTH_BUT + 50, y=HEIGHT_LINUX / 2 + 300)
-            self.data_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 305)
-            self.csv_path_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 332)
+            self.can.place(x=WIDTH_BUT + 25, y=HEIGHT_LINUX / 2 + 315)
+            self.data_path_label.place(x=WIDTH_BUT + 35, y=HEIGHT_LINUX / 2 + 320)
+            self.csv_path_label.place(x=WIDTH_BUT + 35, y=HEIGHT_LINUX / 2 + 347)
         else:
             self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 265)
             self.data_path_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 270)
@@ -323,9 +323,9 @@ class Console:
 
     def display(self):
         if sys.platform.startswith('linux'):
-            self.can.place(x=WIDTH_BUT + 50, y=HEIGHT_LINUX / 2 + 100)
-            self.initial_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 110)
-            self.variable_label.place(x=WIDTH_BUT + 60, y=HEIGHT_LINUX / 2 + 130)
+            self.can.place(x=WIDTH_BUT + 25, y=HEIGHT_LINUX / 2 + 255)
+            self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT_LINUX / 2 + 265)
+            self.variable_label.place(x=WIDTH_BUT + 40, y=HEIGHT_LINUX / 2 + 285)
         else:
             self.can.place(x=WIDTH_BUT + 20, y=HEIGHT / 2 + 65)
             self.initial_label.place(x=WIDTH_BUT + 40, y=HEIGHT / 2 + 75)
@@ -523,7 +523,7 @@ def init_model():
 def init_recap_selec():
     """Initialise the show data path and csv path section"""
     if sys.platform.startswith('linux'):
-        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 80, height=60, bg="white", bd=0, highlightthickness=0,
+        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 20, height=60, bg="white", bd=0, highlightthickness=0,
                         relief='ridge')
     else:
         can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="white", bd=0, highlightthickness=0,
@@ -540,7 +540,7 @@ def init_recap_selec():
 
 def init_console():
     if sys.platform.startswith('linux'):
-        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 80, height=60, bg="black", bd=0, highlightthickness=0,
+        can = tk.Canvas(window, width=WIDTH_LINUX - WIDTH_BUT - 20, height=60, bg="black", bd=0, highlightthickness=0,
                         relief='ridge')
     else:
         can = tk.Canvas(window, width=WIDTH - WIDTH_BUT - 40, height=60, bg="black", bd=0, highlightthickness=0,
