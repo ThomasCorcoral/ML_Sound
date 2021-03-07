@@ -3,15 +3,21 @@ from application.preparation_v2 import model_builder as mb, extract_infos as ei
 import os
 
 
-def get_best():
+def get_best(mfcc):
     """Load the data, load the model and search the best number of epoch thanks to the test values (the model doesn't
     know them"""
     epoch = 3
     try:
-        train_audio = load('local_saves/data_format/train_audio.npy')
-        train_labels = load('local_saves/data_format/train_labels.npy')
-        test_audio = load('local_saves/data_format/test_audio.npy')
-        test_labels = load('local_saves/data_format/test_labels.npy')
+        if mfcc:
+            train_audio = load('local_saves/data_format/train_audio_mfcc.npy')
+            train_labels = load('local_saves/data_format/train_labels_mfcc.npy')
+            test_audio = load('local_saves/data_format/test_audio_mfcc.npy')
+            test_labels = load('local_saves/data_format/test_labels_mfcc.npy')
+        else:
+            train_audio = load('local_saves/data_format/train_audio_spec.npy')
+            train_labels = load('local_saves/data_format/train_labels_spec.npy')
+            test_audio = load('local_saves/data_format/test_audio_spec.npy')
+            test_labels = load('local_saves/data_format/test_labels_spec.npy')
     except FileNotFoundError:
         return 10
 

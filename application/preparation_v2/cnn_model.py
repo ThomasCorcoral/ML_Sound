@@ -3,13 +3,19 @@ import os as os
 from application.preparation_v2 import extract_infos as ei, model_builder as mb
 
 
-def run_model(epoch=10):
+def run_model(epoch=10, mfcc=True):
     """Load all the data from local saves, read the labels of the prepared audio, then build the model, fit and
     evaluate it. Finaly the function save the model in local files"""
-    train_audio = load('local_saves/data_format/train_audio.npy')
-    train_labels = load('local_saves/data_format/train_labels.npy')
-    test_audio = load('local_saves/data_format/test_audio.npy')
-    test_labels = load('local_saves/data_format/test_labels.npy')
+    if mfcc:
+        train_audio = load('local_saves/data_format/train_audio_mfcc.npy')
+        train_labels = load('local_saves/data_format/train_labels_mfcc.npy')
+        test_audio = load('local_saves/data_format/test_audio_mfcc.npy')
+        test_labels = load('local_saves/data_format/test_labels_mfcc.npy')
+    else:
+        train_audio = load('local_saves/data_format/train_audio_spec.npy')
+        train_labels = load('local_saves/data_format/train_labels_spec.npy')
+        test_audio = load('local_saves/data_format/test_audio_spec.npy')
+        test_labels = load('local_saves/data_format/test_labels_spec.npy')
     print("test audio size : " + str(len(test_audio)))
     print("test labels size : " + str(len(test_labels)))
     print("train audi size : " + str(len(train_audio)))

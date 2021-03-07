@@ -675,19 +675,19 @@ def format_data():
 def run_model():
     """This is used to run the model using cnn_model.py after formatting the data"""
     global model
-    if not (os.path.isfile('./local_saves/data_format/test_audio.npy')):
-        cons.update_console("The file test_audio.npy is missing try to format again")
+    if not (os.path.isfile('./local_saves/data_format/test_audio_mfcc.npy')):
+        cons.update_console("The file test_audio is missing try to format again")
         return
-    if not (os.path.isfile('./local_saves/data_format/train_audio.npy')):
-        cons.update_console("The file train_audio.npy is missing try to format again")
+    if not (os.path.isfile('./local_saves/data_format/train_audio_mfcc.npy')):
+        cons.update_console("The file train_audio is missing try to format again")
         return
-    if not (os.path.isfile('./local_saves/data_format/test_labels.npy')):
-        cons.update_console("The file test_labels.npy is missing try to format again")
+    if not (os.path.isfile('./local_saves/data_format/test_labels_mfcc.npy')):
+        cons.update_console("The file test_labels is missing try to format again")
         return
-    if not (os.path.isfile('./local_saves/data_format/train_labels.npy')):
-        cons.update_console("The file train_labels.npy is missing try to format again")
+    if not (os.path.isfile('./local_saves/data_format/train_labels_mfcc.npy')):
+        cons.update_console("The file train_labels is missing try to format again")
         return
-    accuracy, model = cnn.run_model(int(menu_infos.get_epochs()))
+    accuracy, model = cnn.run_model(int(menu_infos.get_epochs()), menu_infos.get_mfcc())
     menu_infos.change_percent(accuracy)
     cons.update_console("Run finish, accuracy of : " + str(accuracy))
 
@@ -700,7 +700,7 @@ def predict():
             "Error : You have to select an audio file .wav or .mp3 by clicking on the 'test path' button")
         return
     if not model:
-        accuracy, model = cnn.run_model()
+        accuracy, model = cnn.run_model(int(menu_infos.get_epochs()), menu_infos.get_mfcc())
     get_mfcc = menu_infos.get_mfcc()
     resultat, le, predicted_proba = pred.print_prediction(test_path, model, get_mfcc)
     res.new_prediction(resultat)
@@ -924,7 +924,7 @@ def import_model():
 
 def find_best_epoch():
     """Call the function, aims at find best epochs"""
-    best = fbe.get_best()
+    best = fbe.get_best(menu_infos.get_mfcc())
     menu_infos.define_epochs(best)
     console_msg = "New best epoch find : " + str(best)
     cons.update_console(console_msg)
