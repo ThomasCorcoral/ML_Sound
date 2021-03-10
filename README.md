@@ -1,13 +1,9 @@
 # Wildlife Identification Learning Tools
 #### Audio Recording Classification by Machine Learning
 
-#### Link to download UrbanSound8K to test the program : https://goo.gl/8hY5ER
-
-#### Link to download bird dataset (under construction) : https://mega.nz/file/ong2nBYY#FMvn2lxBZrS7bBD0sABSQ9z6Q5GOcYF0agXG_Y4t52Y
-
 ## Train
 
-To use .mp3 please: <br>
+To use .mp3 please follow those steps: <br>
 <br>
 WINDOWS :
 <ul>
@@ -20,29 +16,25 @@ WINDOWS :
   <li>Install ffmpeg throught sudo apt install ffmpeg </li>
 </ul>
 
-`cnn.py` This file contains the model and will automatically perform the training with the paths entered in the `convert_data.py` file
-
-`app.py` GUI application that makes it easy and easy to use deeplearning to detect an unknown record from a database
+`main.py` Start the UI application, you can use your own data to train your model. Select your data path by clicking the button. Then generate the CSV file or use your own (be careful to respect the rules write in the help section). Then you will need to format your data (This step can take a long time to complete). When your data is format, you can train your model.
 
 ## Test
 
-`prediction.py` This file allows you to make a prediction using a pre-trained model
-
-`app.py` The GUI app allows you once your data is prepared and your model is trained to classify audio recording
+`main.py` The UI app allows you once your data is prepared and your model is trained to classify audio recording. Click on the button to choose your your test file and then you can do a prediction with your pretrain model. 
 
 ## GUI application
 
-In the directory `./application` you'll find `app.py` which will allow you to launch the application that will allow you to prepare your data and train the model. It is also possible to view (audio, spectrogram and mfcc) the file you want to classify.
+In the main directory you'll find `main.py` which will allow you to launch the application that will allow you to prepare your data and train the model. It is also possible to view (audio, spectrogram and mfcc) the file you want to classify.
 
 ## Misc
 
 ### Organisation
 
-In order to organize our project we first created this github as well as a <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>. A website followed in order to be able to access easily and at any time a lot of information (see below).
+In order to organize our project we first created this github as well as a Trello. A website followed in order to be able to access easily and at any time a lot of information (see below).
 
 ### Usage
 
-To be able to use the application, install python 3.8 and the dependencies present in the file requirements.txt. Once this is done, launch the app.py file, for more information click on the "Help" button at the bottom right of the application
+To be able to use the application, install python 3.8 and the dependencies present in the file requirements.txt. Once this is done, launch the main.py file, for more information click on the "Help" button at the bottom right of the application
 
 ### Application
 
@@ -59,7 +51,6 @@ The application developed in python uses the tkinter library to perform the foll
 <ul>
   <li>A training section to learn the basics to contribute to the project</li>
   <li>Different resources + meeting minutes</li>
-  <li>Reminder of links to <a target="_blank" href="https://trello.com/b/n5JMlDKU/conduite-de-projet" title="Site">Trello</a>, Github and <a target="_blank" href="https://docs.google.com/document/d/1nI-bLGr7N6MVG3OC4NAJBIDIE_Ea6VqnJSBD6i3UwQ4/edit" title="Site">Google Doc</a></li>
 </ul>
   
 ### Dependencies 
@@ -73,11 +64,11 @@ The application developed in python uses the tkinter library to perform the foll
 `scikit-learn~=0.23.2`<br>
 `Keras~=2.4.3`<br>
 `pandas~=1.1.5`<br>
-pydub~=0.24.1<br>
-future~=0.18.2<br>
-pygame~=2.0.1<br>
-PyAudio~=0.2.11<br>
-noisereduce~=1.1.0<br>
+`pydub~=0.24.1`<br>
+`future~=0.18.2`<br>
+`pygame~=2.0.1`<br>
+`PyAudio~=0.2.11`<br>
+`noisereduce~=1.1.0`<br>
 
 ### References
 
