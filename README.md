@@ -1,6 +1,8 @@
 # Wildlife Identification Learning Tools
 #### Audio Recording Classification by Machine Learning
 
+The documentation is available here : <a target="_blank" href="https://projet.xnh.fr/docs/index.html" title="Documentation">Documentation</a> 
+
 ## Train
 
 To use .mp3 please follow those steps: <br>
