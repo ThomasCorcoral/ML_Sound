@@ -5,6 +5,24 @@ The windows installer is now available <a target="_blank" href="https://mega.nz/
 
 The documentation is available here : <a target="_blank" href="https://projet.xnh.fr/docs/index.html" title="Documentation">Documentation</a> 
 
+## Installation 
+
+WINDOWS : 
+<ul>
+  <li>Download the installer <a target="_blank" href="https://mega.nz/file/lqpgRLwT#Kgre21TEQT5eKwIenWsLX7IjMV0vtbWxzVcISG-gyrk">here</a></li>
+  <li>Install the program</li>
+  <li>Start the program with admin rights</li>
+  <li>If you have a problem with .mp3 files, try to add ffmpeg path to PATH environment variable </li>
+</ul>
+
+LINUX : 
+<ul>
+  <li>Clone the project</li>
+  <li>Install the dependencies requirements.txt</li>
+  <li>start the main.py file with a python 3 interpreter</li>
+</ul>
+
+
 ## Train
 
 To use .mp3 please follow those steps: <br>
