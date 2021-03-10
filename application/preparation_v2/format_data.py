@@ -56,5 +56,4 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42, mfcc=Tr
     save('local_saves/data_format/test_audio_spec.npy', test_audio_spec)
     save('local_saves/data_format/test_labels_spec.npy', test_labels_spec)
 
-    return train_audio_mfcc, train_labels_mfcc, test_audio_mfcc, test_labels_mfcc, train_audio_spec, *\
-        train_labels_spec, test_audio_spec, test_audio_spec, test_labels_spec
+    return train_audio_mfcc, train_labels_mfcc, test_audio_mfcc, test_labels_mfcc, train_audio_spec, train_labels_spec, test_audio_spec, test_audio_spec, test_labels_spec

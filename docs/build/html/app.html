@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>app module &mdash; ML Sound 0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="generate_csv module" href="generate_csv.html" />
+    <link rel="prev" title="application" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ML Sound
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">application</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate_csv.html">generate_csv module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_model.html">get_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_expansion.html">time_expansion module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#preparation">preparation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ML Sound</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">application</a> &raquo;</li>
+        
+      <li>app module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/app.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-application.app">
+<span id="app-module"></span><h1>app module<a class="headerlink" href="#module-application.app" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="application.app.AffichageRes">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">AffichageRes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">prediction_label</span></em>, <em class="sig-param"><span class="n">prediction</span></em>, <em class="sig-param"><span class="n">results</span></em>, <em class="sig-param"><span class="n">res_lab</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageRes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Show the results of the prediction</p>
+<dl class="py method">
+<dt id="application.app.AffichageRes.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageRes.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.AffichageRes.new_prediction">
+<code class="sig-name descname">new_prediction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageRes.new_prediction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.AffichageRes.new_res">
+<code class="sig-name descname">new_res</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageRes.new_res" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.AffichageSon">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">AffichageSon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">show_audio</span></em>, <em class="sig-param"><span class="n">show_spec</span></em>, <em class="sig-param"><span class="n">show_mfcc</span></em>, <em class="sig-param"><span class="n">play_btn</span></em>, <em class="sig-param"><span class="n">wav_pic</span></em>, <em class="sig-param"><span class="n">process_pic</span></em>, <em class="sig-param"><span class="n">open_test_but</span></em>, <em class="sig-param"><span class="n">run_test_but</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageSon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Display all the informations about the sounds</p>
+<dl class="py method">
+<dt id="application.app.AffichageSon.config">
+<code class="sig-name descname">config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageSon.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.AffichageSon.creation">
+<code class="sig-name descname">creation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageSon.creation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.AffichageSon.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.AffichageSon.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.Aide">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">Aide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">main_can</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Aide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to print the help / instructions should the user press the help button in the bottom right corner</p>
+<dl class="py method">
+<dt id="application.app.Aide.creation">
+<code class="sig-name descname">creation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_help</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Aide.creation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.Aide.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Aide.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.Console">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">Console</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">initial_label</span></em>, <em class="sig-param"><span class="n">variable_label</span></em>, <em class="sig-param"><span class="n">variable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Console" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Print all the errors or the success done by the user</p>
+<dl class="py method">
+<dt id="application.app.Console.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Console.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.Console.update_console">
+<code class="sig-name descname">update_console</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Console.update_console" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.Footer">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">Footer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">but</span></em>, <em class="sig-param"><span class="n">help_button</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Footer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Small part who display the version num and the two help buttons</p>
+<dl class="py method">
+<dt id="application.app.Footer.creation">
+<code class="sig-name descname">creation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Footer.creation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.Footer.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Footer.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.Header">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">Header</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">icon</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Small part to display the program icon</p>
+<dl class="py method">
+<dt id="application.app.Header.creation">
+<code class="sig-name descname">creation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Header.creation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.Header.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Header.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.InfosMenu">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">InfosMenu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can_menu</span></em>, <em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">epoch</span></em>, <em class="sig-param"><span class="n">label_epoch</span></em>, <em class="sig-param"><span class="n">ratio</span></em>, <em class="sig-param"><span class="n">ratio_spinbox</span></em>, <em class="sig-param"><span class="n">rs</span></em>, <em class="sig-param"><span class="n">rs_spinbox</span></em>, <em class="sig-param"><span class="n">label_rs</span></em>, <em class="sig-param"><span class="n">label_ratio</span></em>, <em class="sig-param"><span class="n">save_model_but</span></em>, <em class="sig-param"><span class="n">name_model</span></em>, <em class="sig-param"><span class="n">name_entry</span></em>, <em class="sig-param"><span class="n">save_data_but</span></em>, <em class="sig-param"><span class="n">name_data</span></em>, <em class="sig-param"><span class="n">name_data_entry</span></em>, <em class="sig-param"><span class="n">best_epoch_but</span></em>, <em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">accuracy_label</span></em>, <em class="sig-param"><span class="n">mfcc</span></em>, <em class="sig-param"><span class="n">choose_mfcc</span></em>, <em class="sig-param"><span class="n">choose_spec</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Side Menu who display the informations about the preparation of the model and the saves</p>
+<dl class="py method">
+<dt id="application.app.InfosMenu.change_percent">
+<code class="sig-name descname">change_percent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.change_percent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.define_epochs">
+<code class="sig-name descname">define_epochs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_val</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.define_epochs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_data_name">
+<code class="sig-name descname">get_data_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_data_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_epochs">
+<code class="sig-name descname">get_epochs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_epochs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_mfcc">
+<code class="sig-name descname">get_mfcc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_mfcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_ratio">
+<code class="sig-name descname">get_ratio</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_ratio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_rs">
+<code class="sig-name descname">get_rs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_rs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.InfosMenu.get_save_name">
+<code class="sig-name descname">get_save_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.InfosMenu.get_save_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.Menu">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">Menu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">quit_pic</span></em>, <em class="sig-param"><span class="n">run_pic</span></em>, <em class="sig-param"><span class="n">folder_pic</span></em>, <em class="sig-param"><span class="n">open_but</span></em>, <em class="sig-param"><span class="n">run_but</span></em>, <em class="sig-param"><span class="n">quit_but</span></em>, <em class="sig-param"><span class="n">csv_pic</span></em>, <em class="sig-param"><span class="n">open_csv_but</span></em>, <em class="sig-param"><span class="n">format_data_but</span></em>, <em class="sig-param"><span class="n">format_pic</span></em>, <em class="sig-param"><span class="n">generate_csv_but</span></em>, <em class="sig-param"><span class="n">save_csv_img</span></em>, <em class="sig-param"><span class="n">import_pic</span></em>, <em class="sig-param"><span class="n">import_model_but</span></em>, <em class="sig-param"><span class="n">import_data_pic</span></em>, <em class="sig-param"><span class="n">import_data_but</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Main menu with all the buttons to manage the program</p>
+<dl class="py method">
+<dt id="application.app.Menu.config">
+<code class="sig-name descname">config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Menu.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.Menu.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.Menu.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="application.app.RecapSelect">
+<em class="property">class </em><code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">RecapSelect</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">can</span></em>, <em class="sig-param"><span class="n">data_path_label</span></em>, <em class="sig-param"><span class="n">data_path_var</span></em>, <em class="sig-param"><span class="n">csv_path_label</span></em>, <em class="sig-param"><span class="n">csv_path_var</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.RecapSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Recap the choices for the csv path and the data path</p>
+<dl class="py method">
+<dt id="application.app.RecapSelect.display">
+<code class="sig-name descname">display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.RecapSelect.display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.RecapSelect.update_csv_path">
+<code class="sig-name descname">update_csv_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.RecapSelect.update_csv_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="application.app.RecapSelect.update_data_path">
+<code class="sig-name descname">update_data_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.RecapSelect.update_data_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.change">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">change</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.change" title="Permalink to this definition">¶</a></dt>
+<dd><p>This allows the estimated accuracy to be changed using the value in parameters</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.choose_dir_data">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">choose_dir_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.choose_dir_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to indicate the path to the dataset</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.choose_path_csv">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">choose_path_csv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.choose_path_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to indicate the path to the .csv</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.choose_test_path">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">choose_test_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.choose_test_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to indicate the path to the tested file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.clear_folder">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">clear_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">folder</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.clear_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to clear the paths to the different</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.copy_floder_content">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">copy_floder_content</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span></em>, <em class="sig-param"><span class="n">dest</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.copy_floder_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy all the content of a repository (origin) to another one (dest)
+:param origin: path of the original repository
+:param dest: path of the destination repository
+:return: 0 if everything ok -1 if error</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.create_help">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">create_help</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_help</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.create_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aims to create the help section in english</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.find_best_epoch">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">find_best_epoch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.find_best_epoch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the function, aims at find best epochs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.format_data">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">format_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.format_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to format the data using the different paths indicated</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.generate_csv">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">generate_csv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.generate_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to generate a .csv (Spreadsheet) using the Data set indicated</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.import_data">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">import_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the data by asking the user</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.import_model">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">import_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.import_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a model by asking the user</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_aide">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_aide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_aide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is used to create the help window</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_console">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_console</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_console" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_footer">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_footer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_footer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to initialize the footer for the window</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_header">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to initialize the header for the window</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_infos_menu">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_infos_menu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_infos_menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to indicate all the needed informations to write the text on the buttons</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_menu">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_menu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function creates the buttons needed to indicate the paths of the
+different data needed / processing the data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_model">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to initialize the model using model.json and the obtained accuracy</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_recap_selec">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_recap_selec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_recap_selec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise the show data path and csv path section</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_resultats">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_resultats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_resultats" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to return the results of the prediction</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_sons">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_sons</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_sons" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to create the buttons used to see the graphic representations of a sound</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.init_window">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">init_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.init_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is used to initialize the window, and lock its size</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.leave">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">leave</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to quit the application</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.load_model">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">load_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to load a pre-existing model into the application</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.predict">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">predict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to get the prediction of what bird / bat species the test sound corresponds to, and then print it</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.run_model">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">run_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.run_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to run the model using cnn_model.py after formatting the data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.run_test_audio">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">run_test_audio</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.run_test_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to play the sound so you can hear it. If it’s an mp3, it will use pygame to play it,
+otherwise, it will use playsound</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.save_as_data_format">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">save_as_data_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.save_as_data_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to save the data for later</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.save_as_model">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">save_as_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.save_as_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used save the current model in the “local save” folder to be able to use it later without
+re-creating every step</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.set_rep">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">set_rep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.set_rep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the model from a repository</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.set_rep_data">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">set_rep_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.set_rep_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data from a repository</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.set_zip">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">set_zip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.set_zip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the model from a zip file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.set_zip_data">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">set_zip_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win</span></em><span class="sig-paren">)</span><a class="headerlink" href="#application.app.set_zip_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data from a zip file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.show_aide">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">show_aide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.show_aide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the french version of the help</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.show_audio_representation">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">show_audio_representation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.show_audio_representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to show the audio representation corresponding to the sound that is being tested</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.show_help">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">show_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.show_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the english version of the help</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.show_mfccs">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">show_mfccs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.show_mfccs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to show the mfcc corresponding to the sound that is being tested</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.show_spectrogramme">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">show_spectrogramme</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.show_spectrogramme" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used to show the spectrogram corresponding to the sound that is being tested</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="application.app.start">
+<code class="sig-prename descclassname">application.app.</code><code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.app.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="generate_csv.html" class="btn btn-neutral float-right" title="generate_csv module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Corcoral Cetre Barbat.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -95,7 +95,7 @@ class Header:
 
     def creation(self):
         self.can.create_image(30, 25, image=self.icon)
-        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="   L3 project")
+        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="   ML Sound")
 
     def display(self):
         self.can.place(x=2, y=2)
@@ -270,22 +270,26 @@ class AffichageSon:
 
 class AffichageRes:
     """Show the results of the prediction"""
-    def __init__(self, can, prediction_label, prediction, resultats, resultats_label):
+    def __init__(self, can, prediction_label, prediction, results, res_lab):
         self.can = can
         self.prediction_label = prediction_label
         self.prediction = prediction
-        self.resultats = resultats
-        self.resultats_label = resultats_label
+        self.results = results
+        self.res_lab = res_lab
 
     def new_prediction(self, new):
         self.prediction.set("Le modèle pense qu'il s'agit de : " + new)
 
     def new_res(self, new):
-        self.resultats.set(new)
+        for i in range(len(new)):
+            if i > 3:
+                break
+            self.results[i].set(new[i])
 
     def display(self):
-        self.prediction_label.place(x=450, y=HEIGHT / 2 - 300)
-        self.resultats_label.place(x=450, y=HEIGHT / 2 - 250)
+        self.prediction_label.place(x=425, y=HEIGHT / 2 - 300)
+        for i in range(len(self.res_lab)):
+            self.res_lab[i].place(x=425+i*350, y=HEIGHT / 2 - 250)
 
 
 class RecapSelect:
@@ -339,7 +343,7 @@ class Console:
 def init_window():
     """This function is used to initialize the window, and lock its size"""
     w = tk.Tk()
-    w.title("L3 project")
+    w.title("ML Sound")
     if sys.platform.startswith('linux'):
         w.geometry(str(WIDTH_LINUX) + "x" + str(HEIGHT_LINUX))
         w.minsize(WIDTH_LINUX, HEIGHT_LINUX)
@@ -482,10 +486,18 @@ def init_resultats():
     prediction = tk.StringVar()
     prediction.set("")
     prediction_label = tk.Label(window, textvariable=prediction, font=("Courrier", 16), bg=BACKGROUND_SOUND)
-    resultats = tk.StringVar()
-    resultats.set("")
-    resultats_label = tk.Label(window, textvariable=resultats, font=("Courrier", 14), bg=BACKGROUND_SOUND)
-    result = AffichageRes(can, prediction_label, prediction, resultats, resultats_label)
+
+    results = []
+    res_lab = []
+
+    for i in range(3):
+        res_curr = tk.StringVar()
+        res_curr.set("")
+        results_label = tk.Label(window, textvariable=res_curr, font=("Courrier", 14), bg=BACKGROUND_SOUND)
+        results.append(res_curr)
+        res_lab.append(results_label)
+
+    result = AffichageRes(can, prediction_label, prediction, results, res_lab)
     return result
 
 
@@ -704,6 +716,7 @@ def predict():
     get_mfcc = menu_infos.get_mfcc()
     resultat, le, predicted_proba = pred.print_prediction(test_path, model, get_mfcc)
     res.new_prediction(resultat)
+    list_prob, cmpt, curr = [], 0, 0
     all_prob = ""
     for i in range(len(predicted_proba)):
         category = le.inverse_transform(np.array([i]))
@@ -711,8 +724,18 @@ def predict():
         if type(current_classe) is tuple:
             current_classe = str(current_classe[0])
         prob = int(float(predicted_proba[i]) * 100)
-        all_prob += current_classe + " : " + str(prob) + " %\n"
-    res.new_res(all_prob)
+        if cmpt%10 == 0 and cmpt != 0 and cmpt < 30:
+            list_prob.append(all_prob)
+            all_prob = ""
+            all_prob = current_classe + " : " + str(prob) + " %\n"
+        else:
+            if (cmpt+1)%10 == 0 and cmpt < 20:
+                all_prob += current_classe + " : " + str(prob)
+            else:
+                all_prob += current_classe + " : " + str(prob) + " %\n"
+        cmpt = cmpt + 1
+    list_prob.append(all_prob)
+    res.new_res(list_prob)
 
 
 def show_spectrogramme():
@@ -962,7 +985,7 @@ def init_aide(win):
 def create_help(path_help):
     """Aims to create the help section in english"""
     win = tk.Toplevel(window)
-    win.title("Help L3 project")
+    win.title("Help ML Sound")
     if sys.platform.startswith('linux'):
         local_width = WIDTH_LINUX
         local_height = HEIGHT_LINUX
@@ -996,10 +1019,10 @@ def load_model():
 
 def start():
     global window, menu, header, menu_infos, footer, res, son, recap, cons
-    # Création de la fenêtre
+    # Creation of the window
     window = init_window()
 
-    # Initialisation du fond d'écran de l'application
+    # Initialisation of the application background
     if sys.platform.startswith('linux'):
         background_image = tk.PhotoImage(file='./img/background_linux.png')
     else:
@@ -1007,35 +1030,35 @@ def start():
     background_label = tk.Label(window, image=background_image)
     background_label.place(x=0, y=0)
 
-    # Création du menu
+    # Creation of the menu
     menu = init_menu()
     menu.config()
     menu.display()
 
-    # Création du Header
+    # Creation of the header
     header = init_header()
     header.creation()
     header.display()
 
-    # Création de l'emplacement pour les options
+    # Creation of the options place
     menu_infos = init_infos_menu()
     menu_infos.display()
 
-    # Création du footer
+    # Creation of the footer
     footer = init_footer()
     footer.creation()
     footer.display()
 
-    # Création de l'affichage du résultat
+    # Creation of the results display part
     res = init_resultats()
     res.display()
 
-    # Création de l'affichage du son
+    # Creation of the sound display part
     son = init_sons()
     son.config()
     son.display()
 
-    # Création des informations concernant les chemins
+    # creation of the parts to recap informations for the user
     recap = init_recap_selec()
     recap.display()
 
