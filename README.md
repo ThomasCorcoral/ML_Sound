@@ -1,4 +1,4 @@
-# Wildlife Identification Learning Tools
+# Wildlife Identification Learning Tools - ML Sound
 ### Audio Recording Classification by Machine Learning
 
 The windows installer is now available <a target="_blank" href="https://mega.nz/file/lqpgRLwT#Kgre21TEQT5eKwIenWsLX7IjMV0vtbWxzVcISG-gyrk">here</a>
