@@ -84,7 +84,7 @@ class Menu:
             self.quit_but.place(x=0, y=HEIGHT_LINUX - 50)
         else:
             self.quit_but.place(x=2, y=HEIGHT - 45)
-        self.can.place(x=-1, y=0)
+        self.can.place(x=2, y=2)
 
 
 class Header:
@@ -95,7 +95,7 @@ class Header:
 
     def creation(self):
         self.can.create_image(30, 25, image=self.icon)
-        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="   ML Sound")
+        self.can.create_text(100, 25, font=("Courrier", 16), fill='white', text="      ML Sound")
 
     def display(self):
         self.can.place(x=2, y=2)
@@ -211,7 +211,7 @@ class Footer:
         self.help_button = help_button
 
     def creation(self):
-        self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 0.4")
+        self.can.create_text(25, 25, font=("Courrier", 12), fill='white', text="v 1.0")
 
     def display(self):
         if sys.platform.startswith('linux'):
@@ -377,7 +377,7 @@ def init_menu():
         can_menu = tk.Canvas(window, width=(WIDTH_BUT+16)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     else:
-        can_menu = tk.Canvas(window, width=(WIDTH_BUT+4)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
+        can_menu = tk.Canvas(window, width=(WIDTH_BUT+3)*2, height=LENGTH_BUT*5, bg=BACKGROUND_TITLE, bd=0,
                              highlightthickness=0, relief='ridge')
     open_train_but = tk.Button(window, image=folder_img, text="  Data Path", font=("Courrier", size_txt), fg='black',
                                compound='left', command=choose_dir_data)
@@ -822,12 +822,15 @@ def save_as_model():
     cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your model")
-    val_name = menu_infos.get_save_name()
-    if val_name == '':
-        shutil.make_archive(save_model_path + "/my_model", "zip", "./local_saves/model")
+    if save_model_path != "":
+        val_name = menu_infos.get_save_name()
+        if val_name == '':
+            shutil.make_archive(save_model_path + "/my_model", "zip", "./local_saves/model")
+        else:
+            shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/model")
+        cons.update_console("Model saved")
     else:
-        shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/model")
-    cons.update_console("Model saved")
+        cons.update_console("Error : You need to choose a path")
 
 
 def save_as_data_format():
@@ -841,12 +844,16 @@ def save_as_data_format():
     cons.update_console("Save as ...")
     save_model_path = filedialog.askdirectory(initialdir="./",
                                               title="Choose a path to save your data")
-    val_name = menu_infos.get_data_name()
-    if val_name == '':
-        shutil.make_archive(save_model_path + "/my_data", "zip", "./local_saves/data_format")
+    print(save_model_path)
+    if save_model_path != "":
+        val_name = menu_infos.get_data_name()
+        if val_name == '':
+            shutil.make_archive(save_model_path + "/my_data", "zip", "./local_saves/data_format")
+        else:
+            shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/data_format")
+        cons.update_console("Data saved")
     else:
-        shutil.make_archive(save_model_path + "/" + val_name, "zip", "./local_saves/data_format")
-    cons.update_console("Data saved")
+        cons.update_console("Error : You need to choose a path")
 
 
 def generate_csv():
@@ -1018,7 +1025,7 @@ def load_model():
 
 
 def start():
-    global window, menu, header, menu_infos, footer, res, son, recap, cons
+    global window, menu, header, menu_infos, footer, res, son, recap, cons, test_path, data_path, zip_model, zip_data, model_path
     # Creation of the window
     window = init_window()
 
@@ -1066,11 +1073,11 @@ def start():
     cons.display()
 
     # Initialisation des variables
-    # data_path = ""
-    # path_csv = ""
-    # test_path = ""
-    # model_path = ""
-    # zip_model = False
+    data_path = ""
+    path_csv = ""
+    test_path = ""
+    model_path = ""
+    zip_model = False
     init_model()
 
     window.bind_all('<Control-q>', leave)
