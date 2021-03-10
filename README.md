@@ -73,6 +73,7 @@ The application developed in python uses the tkinter library to perform the foll
 <ul>
   <li>A training section to learn the basics to contribute to the project</li>
   <li>Different resources + meeting minutes</li>
+  <li>Project documentation</li>
 </ul>
   
 ### Dependencies 
