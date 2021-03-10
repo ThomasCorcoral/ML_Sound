@@ -73,6 +73,11 @@ The application developed in python uses the tkinter library to perform the foll
 `scikit-learn~=0.23.2`<br>
 `Keras~=2.4.3`<br>
 `pandas~=1.1.5`<br>
+pydub~=0.24.1<br>
+future~=0.18.2<br>
+pygame~=2.0.1<br>
+PyAudio~=0.2.11<br>
+noisereduce~=1.1.0<br>
 
 ### References
 
