@@ -53,7 +53,7 @@ def run_model(epoch=10):
         os.mkdir('../../local_saves/model')
     with open("../../local_saves/model/model.json", "w") as file:
         file.write(json_file)
-    with open("../../local_saves/accuracy.txt", "w") as file:
+    with open("../../local_saves/model/accuracy.txt", "w") as file:
         file.write(str(accuracy))
     model.save_weights("../local_saves/model/model.h5")
 

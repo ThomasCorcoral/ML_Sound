@@ -23,7 +23,6 @@ def generate(path):
         os.mkdir('./local_saves')
     with open('./local_saves/auto_generate.csv', 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile)
-        # spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
         spamwriter.writerow(['name', 'folder', 'class', 'class_name'])
         list_of_dir = os.listdir(path)
         id_current = 0

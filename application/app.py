@@ -529,7 +529,7 @@ def init_model():
     try:
         # load json and create model
         file = open("./local_saves/model/model.json", 'r')
-        file_acc = open("./local_saves/accuracy.txt", 'r')
+        file_acc = open("./local_saves/model/accuracy.txt", 'r')
     except IOError:
         cons.update_console("Error : File not accessible")
         return None
@@ -635,16 +635,19 @@ def choose_test_path():
 
 def clear_folder(folder):
     """This is used to clear the paths to the different"""
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            cons.update_console('Failed to delete %s. Reason: %s' % (file_path, e))
-            return -1
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+    else:
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                cons.update_console('Failed to delete %s. Reason: %s' % (file_path, e))
+                return -1
     return 0
 
 
@@ -654,11 +657,15 @@ def copy_floder_content(origin, dest):
     :param dest: path of the destination repository
     :return: 0 if everything ok -1 if error"""
     for filename in os.listdir(origin):
-        file_path = os.path.join(origin, filename)
+        print(filename)
+        print(origin)
+        file_path = origin + "/" + filename
         try:
+            print("copy : " + file_path + " / to : " + dest)
             copyfile(file_path, dest)
         except Exception as e:
             cons.update_console("Failed to copy " + str(file_path) + " Reason : " + str(e))
+            print("Failed to copy " + str(file_path) + " Reason : " + str(e))
             return -1
     return 0
 
@@ -877,11 +884,12 @@ def set_zip_data(win):
                                           filetypes=(("zip  files", "*.zip"), ("all files", "*.*")))
     if zip_path != '':
         clear_folder("./local_saves/data_format")
-        os.mkdir("./local_unzip")
-        tmp_path = "./local_unzip"
+        # os.mkdir("./local_unzip")
+        tmp_path = "./local_saves/data_format"
+        print("start with : " + zip_path + " et : " + tmp_path)
         gm.local_unzip(zip_path, tmp_path)
-        copy_floder_content("./local_unzip", "./local_saves/data_format")
-        shutil.rmtree(tmp_path)
+        # copy_floder_content("./local_unzip", "./local_saves/data_format")
+        # shutil.rmtree(tmp_path)
         cons.update_console("Data Load From : " + zip_path)
 
 
@@ -919,8 +927,8 @@ def set_zip(win):
                                           filetypes=(("zip  files", "*.zip"), ("all files", "*.*")))
     if zip_path != '':
         model_path = zip_path
-        model = gm.get_model(model_path)
-        change(-1)
+        model, acc = gm.get_model(model_path)
+        change(acc)
         cons.update_console("Model Load From : " + zip_path)
 
 
@@ -931,8 +939,8 @@ def set_rep(win):
     rep_path = filedialog.askdirectory(initialdir="./", title="Selectionnez votre dataset")
     if rep_path != '':
         model_path = rep_path
-        model = gm.get_model(model_path)
-        change(-1)
+        model, acc = gm.get_model(model_path)
+        change(acc)
         cons.update_console("Model Load From : " + rep_path)
 
 
@@ -1016,12 +1024,6 @@ def show_aide():
 def show_help():
     """Display the english version of the help"""
     create_help("./resources/aide_en.txt")
-
-
-def load_model():
-    """Used to load a pre-existing model into the application"""
-    full_path = "./model.zip"
-    return gm.get_model(full_path)
 
 
 def start():

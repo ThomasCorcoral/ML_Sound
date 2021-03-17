@@ -41,6 +41,7 @@ def get_the_data(data_path, csv_path, label_text_path, ratio=0.1, rs=42, mfcc=Tr
     ei.generate_labels(csv_path, label_text_path)
     train_audio_mfcc, test_audio_mfcc, train_labels_mfcc, test_labels_mfcc = train_test_split(res, labels,
                                                                                 test_size=ratio, random_state=rs)
+
     train_audio_spec, test_audio_spec, train_labels_spec, test_labels_spec = train_test_split(res_spec, labels_spec,
                                                                                 test_size=ratio, random_state=rs)
     if not os.path.exists('local_saves/data_format'):
