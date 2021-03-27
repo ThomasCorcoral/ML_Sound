@@ -19,7 +19,7 @@ WIDTH = 1600
 WIDTH_LINUX = 1500
 HEIGHT = 740
 HEIGHT_LINUX = 850
-TEXT_SIZE_LINUX = 14
+TEXT_SIZE_LINUX = 12
 TEXT_SIZE_WIN = 12
 IMG_RESHAPE_LINUX = 14
 IMG_RESHAPE_WIN = 16
@@ -287,9 +287,13 @@ class AffichageRes:
             self.results[i].set(new[i])
 
     def display(self):
-        self.prediction_label.place(x=425, y=HEIGHT / 2 - 300)
+        if sys.platform.startswith('linux'):
+            init = 475
+        else :
+            init = 425
+        self.prediction_label.place(x=init, y=HEIGHT / 2 - 300)
         for i in range(len(self.res_lab)):
-            self.res_lab[i].place(x=425+i*350, y=HEIGHT / 2 - 250)
+            self.res_lab[i].place(x=init+i*350, y=HEIGHT / 2 - 250)
 
 
 class RecapSelect:
